@@ -4,6 +4,7 @@ import '../../models/player_model.dart';
 import '../../services/sound_service.dart';
 import '../../theme/game_theme.dart';
 import '../tactile_button.dart';
+import '../modals/card_showcase_modal.dart';
 
 class SidebarPanel extends StatefulWidget {
   final PlayerModel player;
@@ -212,8 +213,11 @@ class _SidebarPanelState extends State<SidebarPanel> {
 
         return GestureDetector(
           onTap: () {
-            SoundService.instance.playCashRegister();
-            widget.onPawnCard(card);
+            CardShowcaseModal.show(
+              context,
+              card,
+              onPawnAction: () => widget.onPawnCard(card),
+            );
           },
           child: Container(
             decoration: BoxDecoration(

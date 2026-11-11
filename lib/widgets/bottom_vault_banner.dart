@@ -31,9 +31,9 @@ class _BottomVaultBannerState extends State<BottomVaultBanner> {
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          height: 76,
-          margin: const EdgeInsets.symmetric(horizontal: 160),
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+          height: 64,
+          margin: const EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [
@@ -42,10 +42,10 @@ class _BottomVaultBannerState extends State<BottomVaultBanner> {
                 Color(0xFF381502),
               ],
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: _isHovered ? GameColors.goldBright : GameColors.goldOrange,
-              width: 3.5,
+              width: 3.0,
             ),
             boxShadow: [
               BoxShadow(
@@ -61,8 +61,8 @@ class _BottomVaultBannerState extends State<BottomVaultBanner> {
             children: [
               // Left: Illustrated Treasure Chest / Velvet Bag of Gold Coins
               Container(
-                width: 66,
-                height: 56,
+                width: 52,
+                height: 44,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: GameColors.goldBright, width: 2),
@@ -77,64 +77,67 @@ class _BottomVaultBannerState extends State<BottomVaultBanner> {
                 ),
               ),
 
-              const SizedBox(width: 14),
+              const SizedBox(width: 12),
 
-              // Center: Banner Text
+              // Center: Banner Text (FittedBox scales down cleanly)
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.auto_stories_rounded,
-                          color: GameColors.goldBright,
-                          size: 22,
-                        ),
-                        const SizedBox(width: 8),
-                        ShaderMask(
-                          shaderCallback: (bounds) => const LinearGradient(
-                            colors: [Color(0xFFFFFBEB), GameColors.goldBright],
-                          ).createShader(bounds),
-                          child: const Text(
-                            'VAULT & CARD COMPENDIUM (111 CARDS)',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 1.5,
-                              shadows: [
-                                Shadow(
-                                  color: GameColors.inkBorder,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.auto_stories_rounded,
+                            color: GameColors.goldBright,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          ShaderMask(
+                            shaderCallback: (bounds) => const LinearGradient(
+                              colors: [Color(0xFFFFFBEB), GameColors.goldBright],
+                            ).createShader(bounds),
+                            child: const Text(
+                              'VAULT & CARD COMPENDIUM (111 CARDS)',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.4,
+                                shadows: [
+                                  Shadow(
+                                    color: GameColors.inkBorder,
+                                    offset: Offset(2, 2),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'TAP TO INSPECT HIGH-VALUE ASSETS • TOXIC HAZARDS • SPECIAL OPS',
-                      style: TextStyle(
-                        color: Colors.amber.shade200,
-                        fontSize: 10.5,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.0,
+                        ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 2),
+                      Text(
+                        'TAP TO INSPECT HIGH-VALUE ASSETS • TOXIC HAZARDS • SPECIAL OPS',
+                        style: TextStyle(
+                          color: Colors.amber.shade200,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
 
-              const SizedBox(width: 14),
+              const SizedBox(width: 12),
 
               // Right: Real Illustrated Cherry-Red Muscle Car
               Container(
-                width: 76,
-                height: 56,
+                width: 52,
+                height: 44,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: GameColors.goldBright, width: 2),

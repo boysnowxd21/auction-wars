@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../models/card_data.dart';
 import '../../models/player_model.dart';
-import '../../services/sound_service.dart';
 import '../../theme/game_theme.dart';
 import '../card_view.dart';
 import '../cel_character_painter.dart';
+import '../modals/card_showcase_modal.dart';
 
 class BottomPlayerDock extends StatelessWidget {
   final PlayerModel player;
@@ -234,12 +234,16 @@ class BottomPlayerDock extends StatelessWidget {
                           card: c,
                           width: 95,
                           height: 118,
-                          onTap: onPlayOpsCard != null
-                              ? () {
-                                  SoundService.instance.playClick();
-                                  onPlayOpsCard!(c);
-                                }
-                              : null,
+                          onTap: () {
+                            CardShowcaseModal.show(
+                              context,
+                              c,
+                              onPlayAction: onPlayOpsCard != null
+                                  ? () => onPlayOpsCard!(c)
+                                  : null,
+                              playActionLabel: 'ACTIVATE SPECIAL OPS',
+                            );
+                          },
                         ),
                       );
                     }).toList(),

@@ -7,6 +7,7 @@ import '../../theme/game_theme.dart';
 import '../card_view.dart';
 import '../cel_character_painter.dart';
 import '../tactile_button.dart';
+import 'card_showcase_modal.dart';
 
 /// Modal base wrapper with thick dark oak plaque, gold rivets, and cartoon border
 class WoodenPlaqueModal extends StatelessWidget {
@@ -988,7 +989,7 @@ class _CardCompendiumModalState extends State<CardCompendiumModal> {
                         return GestureDetector(
                           onTap: () {
                             setState(() => inspectedCard = c);
-                            SoundService.instance.playClick();
+                            CardShowcaseModal.show(context, c);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -1034,16 +1035,40 @@ class _CardCompendiumModalState extends State<CardCompendiumModal> {
                         AuctionCardWidget(
                           card: inspectedCard!,
                           width: 200,
-                          height: 290,
+                          height: 270,
                           isSelected: true,
+                          onTap: () => CardShowcaseModal.show(context, inspectedCard!),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 8),
                         Text(
                           'ID: ${inspectedCard!.id}  •  ${inspectedCard!.tag}',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w900,
                             color: GameColors.oakDark,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TactileButton(
+                          onTap: () => CardShowcaseModal.show(context, inspectedCard!),
+                          baseColor: GameColors.goldBright,
+                          shadowColor: GameColors.brassShadow,
+                          height: 38,
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          child: const Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.fullscreen_rounded, color: GameColors.inkBorder, size: 20),
+                              SizedBox(width: 4),
+                              Text(
+                                'FULL SCREEN SHOWCASE',
+                                style: TextStyle(
+                                  color: GameColors.inkBorder,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

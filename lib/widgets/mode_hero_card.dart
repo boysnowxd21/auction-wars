@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import '../services/sound_service.dart';
 import '../theme/game_theme.dart';
@@ -10,6 +9,7 @@ enum ModeCardType {
   vsBotsArena,
 }
 
+/// Mode Hero Card with Full-Bleed Edge-to-Edge 3D Cartoon Cover Art
 class ModeHeroCard extends StatefulWidget {
   final ModeCardType modeType;
   final VoidCallback onTap;
@@ -51,8 +51,8 @@ class _ModeHeroCardState extends State<ModeHeroCard>
     String buttonText;
     String tagBadge;
     String imageAsset;
-    List<Color> gradientColors;
-    Color borderHighlight;
+    Color themeColor;
+    Color themeDark;
 
     switch (widget.modeType) {
       case ModeCardType.onlinePlay:
@@ -61,13 +61,8 @@ class _ModeHeroCardState extends State<ModeHeroCard>
         buttonText = 'PLAY ONLINE';
         tagBadge = '⚡ INSTANT QUEUE';
         imageAsset = 'assets/modes/art_online.jpg';
-        gradientColors = const [
-          Color(0xFF38BDF8),
-          Color(0xFF0284C7),
-          Color(0xFF0C4A6E),
-          Color(0xFF082F49),
-        ];
-        borderHighlight = const Color(0xFF7DD3FC);
+        themeColor = const Color(0xFF0284C7);
+        themeDark = const Color(0xFF082F49);
         break;
 
       case ModeCardType.localParty:
@@ -76,13 +71,8 @@ class _ModeHeroCardState extends State<ModeHeroCard>
         buttonText = 'HOST OR JOIN PARTY';
         tagBadge = '📶 NO INTERNET NEEDED';
         imageAsset = 'assets/modes/art_local.jpg';
-        gradientColors = const [
-          Color(0xFF4ADE80),
-          Color(0xFF16A34A),
-          Color(0xFF14532D),
-          Color(0xFF052E16),
-        ];
-        borderHighlight = const Color(0xFF86EFAC);
+        themeColor = const Color(0xFF16A34A);
+        themeDark = const Color(0xFF052E16);
         break;
 
       case ModeCardType.vsBotsArena:
@@ -91,13 +81,8 @@ class _ModeHeroCardState extends State<ModeHeroCard>
         buttonText = 'CHOOSE BOTS & PLAY';
         tagBadge = '👑 KINGPIN ARENA';
         imageAsset = 'assets/modes/art_bots.jpg';
-        gradientColors = const [
-          Color(0xFFFB7185),
-          Color(0xFFDC2626),
-          Color(0xFF991B1B),
-          Color(0xFF450A0A),
-        ];
-        borderHighlight = const Color(0xFFFECDD3);
+        themeColor = const Color(0xFFDC2626);
+        themeDark = const Color(0xFF450A0A);
         break;
     }
 
@@ -119,12 +104,7 @@ class _ModeHeroCardState extends State<ModeHeroCard>
               vertical: _isHovered ? 2 : 6,
             ),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: gradientColors,
-                stops: const [0.0, 0.35, 0.75, 1.0],
-              ),
+              color: themeDark,
               borderRadius: BorderRadius.circular(26),
               border: Border.all(
                 color: _isHovered ? GameColors.goldBright : GameColors.inkBorder,
@@ -133,218 +113,172 @@ class _ModeHeroCardState extends State<ModeHeroCard>
               boxShadow: [
                 BoxShadow(
                   color: (_isHovered ? GameColors.goldBright : Colors.black)
-                      .withValues(alpha: _isHovered ? 0.45 : 0.60),
-                  blurRadius: _isHovered ? 24 : 14,
+                      .withValues(alpha: _isHovered ? 0.60 : 0.65),
+                  blurRadius: _isHovered ? 26 : 14,
                   offset: Offset(0, _isHovered ? 10 : 6),
                 ),
                 BoxShadow(
-                  color: borderHighlight.withValues(alpha: 0.35),
-                  blurRadius: 3,
+                  color: themeColor.withValues(alpha: 0.45),
+                  blurRadius: 6,
                   offset: const Offset(0, 2),
                 ),
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(21),
               child: Stack(
+                fit: StackFit.expand,
                 children: [
-                  // Comic Sunburst Background Rays
-                  Positioned.fill(
-                    child: CustomPaint(
-                      painter: _ComicRaysPainter(
-                        color: Colors.white.withValues(alpha: 0.08),
+                  // 1. FULL-BLEED 3D CARTOON COVER ARTWORK
+                  AnimatedScale(
+                    scale: _isHovered ? 1.05 : 1.0,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeOutCubic,
+                    child: Image.asset(
+                      imageAsset,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        color: themeDark,
+                        child: const Center(
+                          child: Icon(Icons.broken_image_rounded, size: 40, color: Colors.white54),
+                        ),
                       ),
                     ),
                   ),
 
-                  // Top Glass Gloss Highlight Sweep
-                  Positioned(
-                    top: 8,
-                    left: 16,
-                    right: 16,
-                    height: 20,
-                    child: Container(
+                  // 2. GRADIENT SCRIM OVERLAYS (Ensures 100% crystal-clear readability for headers & buttons)
+                  Positioned.fill(
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.white.withValues(alpha: 0.35),
-                            Colors.white.withValues(alpha: 0.05),
+                            themeDark.withValues(alpha: 0.92),
+                            themeDark.withValues(alpha: 0.35),
+                            Colors.transparent,
+                            Colors.black.withValues(alpha: 0.45),
+                            themeDark.withValues(alpha: 0.95),
                           ],
+                          stops: const [0.0, 0.22, 0.45, 0.75, 1.0],
                         ),
-                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
 
-                  // Upper Corner Feature Pill
+                  // 3. DIAGONAL GLASS GLARE SHEEN
+                  Positioned.fill(
+                    child: CustomPaint(
+                      painter: _GlassGlarePainter(),
+                    ),
+                  ),
+
+                  // 4. UPPER CORNER FEATURE PILL
                   Positioned(
                     top: 12,
-                    right: 16,
+                    right: 14,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3.5),
                       decoration: BoxDecoration(
-                        color: GameColors.inkBorder.withValues(alpha: 0.75),
-                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.black.withValues(alpha: 0.70),
+                        borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: GameColors.goldBright.withValues(alpha: 0.8),
+                          color: GameColors.goldBright,
                           width: 1.5,
                         ),
+                        boxShadow: const [
+                          BoxShadow(color: Colors.black45, blurRadius: 4, offset: Offset(0, 2)),
+                        ],
                       ),
                       child: Text(
                         tagBadge,
                         style: const TextStyle(
                           color: GameColors.goldBright,
-                          fontSize: 9.5,
+                          fontSize: 10,
                           fontWeight: FontWeight.w900,
-                          letterSpacing: 0.7,
+                          letterSpacing: 0.6,
                         ),
                       ),
                     ),
                   ),
 
-                  // Main Content Column
+                  // 5. MAIN CONTENT COLUMN (Overlaid stylishly on top of full-bleed art)
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 6),
 
-                        // Title
-                        Text(
-                          title,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 1.3,
-                            shadows: [
-                              Shadow(color: GameColors.inkBorder, offset: Offset(2, 2)),
-                              Shadow(color: GameColors.inkBorder, offset: Offset(-1, -1)),
-                              Shadow(color: GameColors.inkBorder, offset: Offset(1, -1)),
-                              Shadow(color: GameColors.inkBorder, offset: Offset(-1, 1)),
-                              Shadow(color: Colors.black54, offset: Offset(0, 3), blurRadius: 4),
-                            ],
-                          ),
-                        ),
-
-                        const SizedBox(height: 2),
-
-                        // Subtext
-                        Text(
-                          subtext,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.95),
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        // High-Impact Cel-Shaded Cartoon Artwork Window (Real Cartoon Art - No Stick Figures!)
-                        Expanded(
-                          child: Center(
-                            child: AnimatedBuilder(
-                              animation: _pulseController,
-                              builder: (context, child) {
-                                final scale = _isHovered ? 1.03 : 1.0;
-                                return Transform.scale(
-                                  scale: scale,
-                                  child: child,
-                                );
-                              },
-                              child: Container(
-                                constraints: const BoxConstraints(
-                                  maxWidth: 320,
-                                  maxHeight: 250,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(18),
-                                  border: Border.all(
-                                    color: GameColors.inkBorder,
-                                    width: 4.5,
-                                  ),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x88000000),
-                                      blurRadius: 14,
-                                      offset: Offset(0, 6),
-                                    ),
-                                    BoxShadow(
-                                      color: Color(0x33FFFFFF),
-                                      blurRadius: 2,
-                                      offset: Offset(0, -1),
-                                    ),
-                                  ],
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(13),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      // Real Cel-Shaded Cartoon Hero Illustration
-                                      Image.asset(
-                                        imageAsset,
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (context, error, stackTrace) =>
-                                            const Center(
-                                          child: Icon(Icons.broken_image_rounded, size: 40),
-                                        ),
-                                      ),
-
-                                      // Inner Corner Vignette / Shadow
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.black.withValues(alpha: 0.25),
-                                            width: 1.5,
-                                          ),
-                                          borderRadius: BorderRadius.circular(13),
-                                        ),
-                                      ),
-
-                                      // Top Glass Glare Triangle
-                                      Positioned(
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        height: 35,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.white.withValues(alpha: 0.25),
-                                                Colors.transparent,
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                        // Big 3D Bold Mode Title
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: ShaderMask(
+                            shaderCallback: (bounds) => const LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.white,
+                                Color(0xFFFFFBEB),
+                                Color(0xFFFDE047),
+                              ],
+                            ).createShader(bounds),
+                            child: Text(
+                              title,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.4,
+                                shadows: [
+                                  Shadow(color: GameColors.inkBorder, offset: Offset(2, 2)),
+                                  Shadow(color: GameColors.inkBorder, offset: Offset(-1, -1)),
+                                  Shadow(color: GameColors.inkBorder, offset: Offset(1, -1)),
+                                  Shadow(color: GameColors.inkBorder, offset: Offset(-1, 1)),
+                                  Shadow(color: Colors.black87, offset: Offset(0, 4), blurRadius: 6),
+                                ],
                               ),
                             ),
                           ),
                         ),
 
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 3),
 
-                        // Bottom Tag: Chunky Tactile Yellow Pill Button
+                        // Subtext pill
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.60),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.white24, width: 1),
+                            ),
+                            child: Text(
+                              subtext,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.4,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // Expanded area keeps the beautiful 3D artwork visible
+                        const Spacer(),
+
+                        // 6. BOTTOM TAG: CHUNKY TACTILE YELLOW PILL BUTTON
                         TactileButton(
                           onTap: widget.onTap,
                           baseColor: GameColors.goldBright,
                           shadowColor: GameColors.brassShadow,
-                          height: 50,
-                          borderRadius: 22,
+                          height: 48,
+                          borderRadius: 20,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Padding(
@@ -359,14 +293,14 @@ class _ModeHeroCardState extends State<ModeHeroCard>
                                             ? Icons.wifi_tethering_rounded
                                             : Icons.sports_kabaddi_rounded,
                                     color: GameColors.inkBorder,
-                                    size: 20,
+                                    size: 22,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
                                     buttonText,
                                     style: const TextStyle(
                                       color: GameColors.inkBorder,
-                                      fontSize: 14.5,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.w900,
                                       letterSpacing: 1.1,
                                     ),
@@ -377,7 +311,7 @@ class _ModeHeroCardState extends State<ModeHeroCard>
                           ),
                         ),
 
-                        const SizedBox(height: 4),
+                        const SizedBox(height: 2),
                       ],
                     ),
                   ),
@@ -391,35 +325,33 @@ class _ModeHeroCardState extends State<ModeHeroCard>
   }
 }
 
-/// Dynamic Comic Background Sunburst Rays
-class _ComicRaysPainter extends CustomPainter {
-  final Color color;
-
-  _ComicRaysPainter({required this.color});
-
+/// Diagonal Glass Sheen Glare Effect
+class _GlassGlarePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final cx = size.width / 2;
-    final cy = size.height * 0.45;
     final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
+      ..shader = LinearGradient(
+        begin: const Alignment(-0.8, -1.0),
+        end: const Alignment(0.8, 1.0),
+        colors: [
+          Colors.white.withValues(alpha: 0.18),
+          Colors.white.withValues(alpha: 0.04),
+          Colors.transparent,
+          Colors.transparent,
+        ],
+        stops: const [0.0, 0.35, 0.45, 1.0],
+      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
-    const numRays = 16;
-    const angleStep = 2 * pi / numRays;
-    final radius = max(size.width, size.height);
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo(size.width * 0.70, 0)
+      ..lineTo(size.width * 0.15, size.height)
+      ..lineTo(0, size.height)
+      ..close();
 
-    for (int i = 0; i < numRays; i += 2) {
-      final startAngle = i * angleStep;
-      final path = Path()
-        ..moveTo(cx, cy)
-        ..lineTo(cx + cos(startAngle) * radius, cy + sin(startAngle) * radius)
-        ..lineTo(cx + cos(startAngle + angleStep) * radius, cy + sin(startAngle + angleStep) * radius)
-        ..close();
-      canvas.drawPath(path, paint);
-    }
+    canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(covariant _ComicRaysPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

@@ -205,4 +205,38 @@ void main() {
     }
     tester.view.resetPhysicalSize();
   });
+
+  testWidgets('Tapping card thumbnail opens Full-Screen Card Showcase Modal with complete stats',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1920, 1080);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(const AuctionWarsApp());
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Tap Vault Banner
+    await tester.tap(find.text('VAULT & CARD COMPENDIUM (111 CARDS)'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Tap first card inside GridView
+    final firstCard = find.descendant(
+      of: find.byType(GridView),
+      matching: find.byType(GestureDetector),
+    ).first;
+    await tester.tap(firstCard);
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify Full Screen Card Showcase Opened
+    expect(find.text('SPECIAL RULES & APPRAISAL'), findsOneWidget);
+    expect(find.text('AUCTION WAR TACTICS'), findsOneWidget);
+    expect(find.text('CLOSE SHOWCASE'), findsOneWidget);
+
+    // Tap CLOSE SHOWCASE
+    await tester.tap(find.text('CLOSE SHOWCASE'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify back to compendium
+    expect(find.text('ALL (111)'), findsOneWidget);
+  });
 }

@@ -51,9 +51,15 @@ class TopNavStrip extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
-        children: [
-          // Left: Compact Game Badge (Round Progress & Venue)
+      child: Center(
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.center,
+          child: SizedBox(
+            width: 1350,
+            child: Row(
+              children: [
+                // Left: Compact Game Badge (Round Progress & Venue)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
             decoration: BoxDecoration(
@@ -241,6 +247,9 @@ class TopNavStrip extends StatelessWidget {
             ],
           ),
         ],
+      ),
+      ),
+      ),
       ),
     );
   }

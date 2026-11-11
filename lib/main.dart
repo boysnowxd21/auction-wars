@@ -74,8 +74,8 @@ class _LandscapeViewportContainerState extends State<LandscapeViewportContainer>
         child: FittedBox(
           fit: BoxFit.fill,
           child: SizedBox(
-            width: 1920,
-            height: 1080,
+            width: 1280,
+            height: 720,
             child: _isInGame
                 ? GameScreen(
                     playerCount: _playerCount,

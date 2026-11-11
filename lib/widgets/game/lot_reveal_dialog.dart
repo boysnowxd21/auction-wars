@@ -5,6 +5,7 @@ import '../../services/sound_service.dart';
 import '../../theme/game_theme.dart';
 import '../card_view.dart';
 import '../tactile_button.dart';
+import '../modals/card_showcase_modal.dart';
 
 class LotRevealDialog extends StatelessWidget {
   final CrateLot lot;
@@ -146,6 +147,7 @@ class LotRevealDialog extends StatelessWidget {
                             card: c,
                             width: 155,
                             height: 235,
+                            onTap: () => CardShowcaseModal.show(context, c),
                           ),
                         );
                       }).toList(),
