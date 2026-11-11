@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="650" viewBox="0 0 1600 650">
+  <defs>
+    <linearGradient id="feltGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#849b78"/>
+      <stop offset="100%" stop-color="#68805c"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="1580" height="630" rx="220" fill="url(#feltGrad)" stroke="#a86e3b" stroke-width="24"/>
+  <rect x="70" y="60" width="1460" height="530" rx="180" fill="none" stroke="#fef08a" stroke-width="4" stroke-dasharray="14 10" opacity="0.8"/>
+  <rect x="120" y="140" width="50" height="30" rx="4" fill="#fde047" stroke="#1e293b" stroke-width="2" transform="rotate(-12 145 155)"/>
+  <rect x="1420" y="130" width="50" height="30" rx="4" fill="#86efac" stroke="#1e293b" stroke-width="2" transform="rotate(12 1445 145)"/>
+  <rect x="140" y="480" width="50" height="30" rx="4" fill="#86efac" stroke="#1e293b" stroke-width="2" transform="rotate(6 165 495)"/>
+</svg>

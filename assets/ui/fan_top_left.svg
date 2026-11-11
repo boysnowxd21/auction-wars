@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="100" viewBox="0 0 120 100">
+  <g transform="translate(10, 10)">
+    <g transform="rotate(-12 30 50)">
+      <rect x="0" y="0" width="45" height="68" rx="8" fill="#c88a4b" stroke="#3d230d" stroke-width="3" />
+      <rect x="8" y="12" width="29" height="44" rx="4" fill="#b47131" stroke="#5c340e" stroke-width="2" />
+    </g>
+    <g transform="translate(20, 0) rotate(-3 30 50)">
+      <rect x="0" y="0" width="45" height="68" rx="8" fill="#fde047" stroke="#3d230d" stroke-width="3" />
+      <text x="22" y="60" text-anchor="middle" font-size="10" font-weight="900" fill="#3d230d">BID!</text>
+    </g>
+    <g transform="translate(42, 5) rotate(12 30 50)">
+      <rect x="0" y="0" width="40" height="58" rx="8" fill="#86efac" stroke="#3d230d" stroke-width="3" />
+      <text x="20" y="34" text-anchor="middle" font-size="9" font-weight="900" fill="#052e16">$500</text>
+    </g>
+  </g>
+</svg>

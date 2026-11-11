@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 180" width="560" height="360">
+  <defs>
+    <linearGradient id="synBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#18181b"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="272" height="172" rx="16" fill="url(#synBg)" stroke="#e11d48" stroke-width="5"/>
+  <circle cx="140" cy="95" r="40" fill="none" stroke="#f43f5e" stroke-width="4" stroke-dasharray="6 4"/>
+  <rect x="110" y="75" width="30" height="44" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2.5" transform="rotate(-12 125 97)"/>
+  <rect x="136" y="72" width="30" height="44" rx="4" fill="#fb7185" stroke="#0f172a" stroke-width="2.5" transform="rotate(14 151 94)"/>
+  <text x="122" y="102" font-size="20" fill="#e11d48" font-weight="bold" transform="rotate(-12 125 97)">♠</text>
+  <text x="148" y="100" font-size="20" fill="#ffffff" font-weight="bold" transform="rotate(14 151 94)">♦</text>
+  <text x="140" y="32" text-anchor="middle" font-size="18" font-weight="900" fill="#ffffff" stroke="#0f172a" stroke-width="3.5">BLACK MARKET</text>
+  <text x="140" y="32" text-anchor="middle" font-size="18" font-weight="900" fill="#fb7185">BLACK MARKET</text>
+</svg>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 155" width="300" height="310">
+  <ellipse cx="75" cy="144" rx="56" ry="9" fill="rgba(0,0,0,0.35)" />
+  <polygon points="75,10 135,34 75,58 15,34" fill="#d99b52" stroke="#271507" stroke-width="3.5" stroke-linejoin="round" />
+  <line x1="35" y1="26" x2="95" y2="50" stroke="#783f12" stroke-width="2.5" />
+  <line x1="55" y1="18" x2="115" y2="42" stroke="#783f12" stroke-width="2.5" />
+  <polygon points="15,34 75,58 75,134 15,106" fill="#b47131" stroke="#271507" stroke-width="3.5" stroke-linejoin="round" />
+  <line x1="35" y1="42" x2="35" y2="115" stroke="#653710" stroke-width="2" />
+  <line x1="55" y1="50" x2="55" y2="124" stroke="#653710" stroke-width="2" />
+  <line x1="15" y1="54" x2="75" y2="118" stroke="#8c5119" stroke-width="5" />
+  <polygon points="75,58 135,34 135,106 75,134" fill="#8f531d" stroke="#271507" stroke-width="3.5" stroke-linejoin="round" />
+  <line x1="95" y1="50" x2="95" y2="124" stroke="#522a0a" stroke-width="2" />
+  <line x1="115" y1="42" x2="115" y2="115" stroke="#522a0a" stroke-width="2" />
+  <line x1="75" y1="118" x2="135" y2="54" stroke="#6e3c11" stroke-width="5" />
+  <path d="M14,64 Q45,78 75,86 Q105,78 136,64" fill="none" stroke="#1e293b" stroke-width="9" stroke-linecap="round" />
+  <path d="M14,64 Q45,78 75,86 Q105,78 136,64" fill="none" stroke="#94a3b8" stroke-width="5" stroke-dasharray="7 6" stroke-linecap="round" />
+  <path d="M16,86 Q45,98 75,104 Q105,98 134,86" fill="none" stroke="#1e293b" stroke-width="8" stroke-linecap="round" />
+  <path d="M16,86 Q45,98 75,104 Q105,98 134,86" fill="none" stroke="#cbd5e1" stroke-width="4" stroke-dasharray="6 6" stroke-linecap="round" />
+  <g transform="translate(61, 74)">
+    <path d="M6,10 L6,4 C6,-2 22,-2 22,4 L22,10" fill="none" stroke="#cbd5e1" stroke-width="4.5" />
+    <rect x="1" y="9" width="26" height="24" rx="4" fill="#64748b" stroke="#0f172a" stroke-width="3" />
+    <circle cx="14" cy="19" r="3" fill="#0f172a" />
+    <rect x="12.5" y="19" width="3" height="7" fill="#0f172a" />
+  </g>
+  <g transform="translate(96, 84) rotate(-10)">
+    <rect x="0" y="0" width="46" height="28" rx="3" fill="#fef08a" stroke="#271507" stroke-width="2.5" />
+    <circle cx="6" cy="14" r="2.2" fill="#271507" />
+    <text x="25" y="12" text-anchor="middle" font-size="7" font-weight="900" fill="#271507">TAG:</text>
+    <text x="25" y="22" text-anchor="middle" font-size="7.5" font-weight="900" fill="#b91c1c">HEAVY</text>
+  </g>
+</svg>

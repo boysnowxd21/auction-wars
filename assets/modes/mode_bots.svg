@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 155" width="520" height="310">
+  <defs>
+    <linearGradient id="robotBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="55%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#475569" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(22, 46) rotate(-14)">
+    <rect x="0" y="0" width="46" height="62" rx="8" fill="#86efac" stroke="#0f172a" stroke-width="3.5" />
+    <circle cx="23" cy="26" r="11" fill="#22c55e" stroke="#0f172a" stroke-width="2.5" />
+    <text x="23" y="52" text-anchor="middle" font-size="8.5" font-weight="900" fill="#0f172a">EASY</text>
+  </g>
+  <g transform="translate(192, 46) rotate(14)">
+    <rect x="0" y="0" width="46" height="62" rx="8" fill="#fde047" stroke="#0f172a" stroke-width="3.5" />
+    <polygon points="23,12 27,22 37,22 29,28 32,38 23,32 14,38 17,28 9,22 19,22" fill="#f59e0b" stroke="#0f172a" stroke-width="2" />
+    <text x="23" y="52" text-anchor="middle" font-size="8" font-weight="900" fill="#0f172a">KINGPIN</text>
+  </g>
+  <line x1="130" y1="8" x2="130" y2="24" stroke="#0f172a" stroke-width="4.5" />
+  <circle cx="130" cy="8" r="7" fill="#38bdf8" stroke="#0f172a" stroke-width="3.5" />
+  <polygon points="108,26 114,12 123,20 130,10 137,20 146,12 152,26" fill="#fde047" stroke="#0f172a" stroke-width="3" />
+  <rect x="88" y="25" width="84" height="62" rx="18" fill="url(#robotBodyGrad)" stroke="#0f172a" stroke-width="4.5" />
+  <rect x="100" y="36" width="60" height="32" rx="9" fill="#0f172a" stroke="#1e293b" stroke-width="3" />
+  <circle cx="116" cy="49" r="5.5" fill="#38bdf8" />
+  <circle cx="114" cy="47" r="2" fill="#ffffff" />
+  <circle cx="144" cy="49" r="5.5" fill="#38bdf8" />
+  <circle cx="142" cy="47" r="2" fill="#ffffff" />
+  <path d="M120 58 Q130 65 140 58" fill="none" stroke="#4ade80" stroke-width="3.5" stroke-linecap="round" />
+  <path d="M84 134 Q130 92 176 134 Z" fill="url(#robotBodyGrad)" stroke="#0f172a" stroke-width="4.5" />
+  <rect x="112" y="104" width="36" height="20" rx="5" fill="#fef08a" stroke="#0f172a" stroke-width="3" />
+  <path d="M118 120 A12 12 0 0 1 142 120" fill="none" stroke="#ef4444" stroke-width="2.5" />
+  <line x1="130" y1="120" x2="137" y2="110" stroke="#0f172a" stroke-width="2.5" />
+  <g transform="translate(166, 68) rotate(22)">
+    <rect x="14" y="14" width="8" height="34" rx="3" fill="#b47131" stroke="#0f172a" stroke-width="3" />
+    <rect x="0" y="0" width="36" height="17" rx="5" fill="#fbbf24" stroke="#0f172a" stroke-width="3.5" />
+  </g>
+</svg>

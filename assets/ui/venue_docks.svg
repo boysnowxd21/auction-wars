@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 180" width="560" height="360">
+  <defs>
+    <linearGradient id="skyDocks" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdba74"/>
+      <stop offset="50%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="272" height="172" rx="16" fill="url(#skyDocks)" stroke="#1e293b" stroke-width="5"/>
+  <polygon points="20,130 70,60 120,130" fill="#64748b" stroke="#0f172a" stroke-width="3"/>
+  <line x1="70" y1="60" x2="130" y2="60" stroke="#f59e0b" stroke-width="4"/>
+  <line x1="115" y1="60" x2="115" y2="95" stroke="#334155" stroke-width="2"/>
+  <rect x="30" y="110" width="60" height="35" rx="3" fill="#ef4444" stroke="#0f172a" stroke-width="2.5"/>
+  <rect x="80" y="95" width="60" height="35" rx="3" fill="#3b82f6" stroke="#0f172a" stroke-width="2.5"/>
+  <rect x="130" y="118" width="55" height="32" rx="3" fill="#22c55e" stroke="#0f172a" stroke-width="2.5"/>
+  <rect x="10" y="140" width="260" height="32" rx="4" fill="#78350f" stroke="#0f172a" stroke-width="3"/>
+  <text x="140" y="32" text-anchor="middle" font-size="18" font-weight="900" fill="#ffffff" stroke="#0f172a" stroke-width="3.5">WHARF DISTRICT</text>
+  <text x="140" y="32" text-anchor="middle" font-size="18" font-weight="900" fill="#fef08a">WHARF DISTRICT</text>
+</svg>
