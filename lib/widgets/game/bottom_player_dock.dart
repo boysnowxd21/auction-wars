@@ -21,8 +21,8 @@ class BottomPlayerDock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 168,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      height: 196,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
@@ -48,14 +48,14 @@ class BottomPlayerDock extends StatelessWidget {
           // Left: Circular Avatar Frame with YOU Badge & Dual Prominent Metric Pills
           _buildPlayerProfile(),
 
-          const SizedBox(width: 16),
+          const SizedBox(width: 14),
 
           // Center: Upright Wooden Card Tray holding hand of Special Ops Cards (max 6)
           Expanded(
             child: _buildOpsCardTray(context),
           ),
 
-          const SizedBox(width: 16),
+          const SizedBox(width: 14),
 
           // Right: Floating Comic Toast Bubble providing Live Turn Narratives
           _buildLiveToastBubble(),
@@ -66,7 +66,8 @@ class BottomPlayerDock extends StatelessWidget {
 
   Widget _buildPlayerProfile() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      width: 215,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: const Color(0xFF1E1005),
         borderRadius: BorderRadius.circular(18),
@@ -80,9 +81,9 @@ class BottomPlayerDock extends StatelessWidget {
             children: [
               const CartoonAvatarWidget(
                 avatarKey: 'you',
-                radius: 26,
+                radius: 28,
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -108,7 +109,7 @@ class BottomPlayerDock extends StatelessWidget {
                     player.name,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
@@ -117,33 +118,38 @@ class BottomPlayerDock extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
 
           // Metric Pill 1: BID MONEY: $X,XXX (Bright green pill)
           Container(
-            width: 195,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: GameTheme.greenMoneyPillDeco,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'BID MONEY:',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
+                const Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'BID MONEY:',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                   ),
                 ),
-                Text(
-                  '\$${player.bidMoney}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w900,
-                    shadows: [
-                      Shadow(color: GameColors.inkBorder, offset: Offset(1, 1)),
-                    ],
+                const SizedBox(width: 4),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    '\$${player.bidMoney}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
               ],
@@ -154,26 +160,34 @@ class BottomPlayerDock extends StatelessWidget {
 
           // Metric Pill 2: ITEM MONEY: +$X,XXX (Warm gold pill)
           Container(
-            width: 195,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: GameTheme.goldMoneyPillDeco,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'ITEM MONEY:',
-                  style: TextStyle(
-                    color: GameColors.inkBorder,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
+                const Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'ITEM MONEY:',
+                      style: TextStyle(
+                        color: GameColors.inkBorder,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                   ),
                 ),
-                Text(
-                  '+\$${player.itemMoney}',
-                  style: const TextStyle(
-                    color: GameColors.inkBorder,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w900,
+                const SizedBox(width: 4),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    '+\$${player.itemMoney}',
+                    style: const TextStyle(
+                      color: GameColors.inkBorder,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
               ],
@@ -197,24 +211,24 @@ class BottomPlayerDock extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.style_rounded, color: GameColors.blueOps, size: 16),
+              const Icon(Icons.style_rounded, color: GameColors.blueOps, size: 18),
               const SizedBox(width: 6),
               Text(
                 'SPECIAL OPS CARD TRAY (${player.opsHand.length} / 6)',
                 style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 11,
+                  color: Colors.white,
+                  fontSize: 12,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.0,
                 ),
               ),
               const Spacer(),
               const Text(
-                'TAP CARD TO TRIGGER TACTICAL ACTION',
+                'TAP CARD TO INSPECT & ACTIVATE',
                 style: TextStyle(
                   color: GameColors.goldBright,
-                  fontSize: 9.5,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ],
@@ -222,36 +236,39 @@ class BottomPlayerDock extends StatelessWidget {
 
           const SizedBox(height: 6),
 
-          // Cards Row (Side-by-side with full cartoon art, action window labels)
+          // Cards Row (Large, visible, high-impact cards with full art)
           Expanded(
             child: player.opsHand.isNotEmpty
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: player.opsHand.map((c) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: AuctionCardWidget(
-                          card: c,
-                          width: 95,
-                          height: 118,
-                          onTap: () {
-                            CardShowcaseModal.show(
-                              context,
-                              c,
-                              onPlayAction: onPlayOpsCard != null
-                                  ? () => onPlayOpsCard!(c)
-                                  : null,
-                              playActionLabel: 'ACTIVATE SPECIAL OPS',
-                            );
-                          },
-                        ),
-                      );
-                    }).toList(),
+                ? SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: player.opsHand.map((c) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: AuctionCardWidget(
+                            card: c,
+                            width: 125,
+                            height: 148,
+                            onTap: () {
+                              CardShowcaseModal.show(
+                                context,
+                                c,
+                                onPlayAction: onPlayOpsCard != null
+                                    ? () => onPlayOpsCard!(c)
+                                    : null,
+                                playActionLabel: 'ACTIVATE SPECIAL OPS',
+                              );
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   )
                 : const Center(
                     child: Text(
                       'No Special Ops cards in dock. Buy cards from the shop!',
-                      style: TextStyle(color: Colors.white54, fontSize: 12),
+                      style: TextStyle(color: Colors.white54, fontSize: 13, fontWeight: FontWeight.bold),
                     ),
                   ),
           ),
@@ -262,7 +279,7 @@ class BottomPlayerDock extends StatelessWidget {
 
   Widget _buildLiveToastBubble() {
     return Container(
-      width: 210,
+      width: 215,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -282,13 +299,13 @@ class BottomPlayerDock extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.campaign_rounded, color: GameColors.redHazard, size: 20),
+              Icon(Icons.campaign_rounded, color: GameColors.redHazard, size: 22),
               SizedBox(width: 6),
               Text(
                 'AUCTION DESK',
                 style: TextStyle(
                   color: GameColors.redDark,
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.8,
                 ),

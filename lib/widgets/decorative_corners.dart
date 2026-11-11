@@ -24,18 +24,18 @@ class DecorativeCorners extends StatelessWidget {
             child: _buildTopRightTickets(),
           ),
 
-          // Bottom-Left: Cheerful Cartoon Bidders with Cash Fans
+          // Bottom-Left: Cheerful Cartoon Bidders with Cash Fans (Compact corner placement - never covers cards!)
           const Positioned(
-            left: 12,
-            bottom: 6,
-            child: CheerfulBiddersWidget(width: 210, height: 220),
+            left: 10,
+            bottom: 4,
+            child: CheerfulBiddersWidget(width: 95, height: 95),
           ),
 
-          // Bottom-Right: Smiling Tuxedo Auctioneer with Gavel
+          // Bottom-Right: Smiling Tuxedo Auctioneer with Gavel (Compact corner placement - never covers cards!)
           const Positioned(
-            right: 12,
-            bottom: 6,
-            child: TuxedoAuctioneerWidget(width: 210, height: 220),
+            right: 10,
+            bottom: 4,
+            child: TuxedoAuctioneerWidget(width: 95, height: 95),
           ),
         ],
       ),

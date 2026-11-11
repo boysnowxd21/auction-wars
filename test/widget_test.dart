@@ -239,4 +239,138 @@ void main() {
     // Verify back to compendium
     expect(find.text('ALL (111)'), findsOneWidget);
   });
+
+  testWidgets('Tapping Settings button opens GameSettingsModal with audio & gameplay switches',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1920, 1080);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(const AuctionWarsApp());
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Tap Settings Button
+    await tester.tap(find.byIcon(Icons.settings_rounded));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify Game Settings Modal is displayed
+    expect(find.text('GAME & AUDIO SETTINGS'), findsOneWidget);
+    expect(find.text('Master Sound & SFX'), findsOneWidget);
+    expect(find.text('Fast AI Turns'), findsOneWidget);
+    expect(find.text('Screen Shake & Confetti'), findsOneWidget);
+    expect(find.text('SAVE & CLOSE SETTINGS'), findsOneWidget);
+
+    // Tap Save button to close modal (or close button)
+    await tester.ensureVisible(find.text('SAVE & CLOSE SETTINGS'));
+    await tester.tap(find.text('SAVE & CLOSE SETTINGS'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify back to Home Screen
+    expect(find.text('AUCTION WARS'), findsOneWidget);
+  });
+
+  testWidgets('In-Game Special Ops cards are large, tappable, and can be activated via Card Showcase',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1920, 1080);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(const AuctionWarsApp());
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Start Arena Match
+    await tester.tap(find.text('CHOOSE BOTS & PLAY'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.text('START ARENA MATCH'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify Game Screen loaded and Ops Card Tray is present
+    expect(find.textContaining('SPECIAL OPS CARD TRAY'), findsOneWidget);
+    expect(find.text('TAP CARD TO INSPECT & ACTIVATE'), findsOneWidget);
+
+    // Tap the first Special Ops card in the tray
+    final opsCardFinder = find.descendant(
+      of: find.byType(SingleChildScrollView),
+      matching: find.byType(GestureDetector),
+    ).first;
+    await tester.tap(opsCardFinder);
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify Card Showcase Modal opened with ACTIVATE SPECIAL OPS button
+    expect(find.text('ACTIVATE SPECIAL OPS'), findsOneWidget);
+    expect(find.text('SPECIAL RULES & APPRAISAL'), findsOneWidget);
+
+    // Tap ACTIVATE SPECIAL OPS
+    await tester.tap(find.text('ACTIVATE SPECIAL OPS'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify returned to game screen
+    expect(find.textContaining('ROUND: 1'), findsOneWidget);
+  });
+
+  testWidgets('Shark Loan borrow and repay operations update live debt on navigation strip',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1920, 1080);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(const AuctionWarsApp());
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Start Arena Match
+    await tester.tap(find.text('CHOOSE BOTS & PLAY'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.text('START ARENA MATCH'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify loan buttons are present
+    expect(find.text('+SHARK LOAN (\$1,000)'), findsOneWidget);
+    expect(find.text('REPAY NOW'), findsOneWidget);
+
+    // Tap borrow Shark Loan
+    await tester.tap(find.text('+SHARK LOAN (\$1,000)'));
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Verify debt updated with 25% shark interest to -$1,250
+    expect(find.text('DEBT: -\$1250'), findsOneWidget);
+
+    // Tap repay loan
+    await tester.tap(find.text('REPAY NOW'));
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Verify debt returned to $0
+    expect(find.text('DEBT: \$0'), findsOneWidget);
+  });
+
+  testWidgets('Right Sidebar Pawn Shop and Quick-Turn Controls display correctly in-game',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1920, 1080);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(const AuctionWarsApp());
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Start Arena Match
+    await tester.tap(find.text('CHOOSE BOTS & PLAY'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.text('START ARENA MATCH'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify Pawn Shop Section
+    expect(find.text('PAWN SHOP: 50% CASH'), findsOneWidget);
+    expect(find.text('STASH EMPTY (\$0)'), findsOneWidget);
+
+    // Verify Quick-Turn Controls
+    expect(find.text('RAISE +\$200'), findsOneWidget);
+    expect(find.text('RAISE +\$500'), findsOneWidget);
+    expect(find.text('PASS / FOLD'), findsOneWidget);
+
+    // Tap Pass / Fold
+    await tester.tap(find.text('PASS / FOLD'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify game continues with player folded
+    expect(find.textContaining('ROUND: 1'), findsOneWidget);
+  });
 }

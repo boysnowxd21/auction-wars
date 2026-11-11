@@ -807,108 +807,465 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
   }
 }
 
-/// 4. Top 100 Leaderboard Modal
-class LeaderboardModal extends StatelessWidget {
+/// 4. Top 100 Leaderboard Modal (AAA Mobile Game Style)
+class LeaderboardModal extends StatefulWidget {
   const LeaderboardModal({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> ranks = [
-      {'rank': 1, 'name': 'Kingpin Victor', 'worth': '\$184,500', 'streak': '28 Wins', 'avatar': 'bot_kingpin'},
-      {'rank': 2, 'name': 'Sarah Spark', 'worth': '\$142,000', 'streak': '19 Wins', 'avatar': 'sarah'},
-      {'rank': 3, 'name': 'Marcus Vance', 'worth': '\$129,500', 'streak': '14 Wins', 'avatar': 'marcus'},
-      {'rank': 4, 'name': 'Diamond Dave', 'worth': '\$115,000', 'streak': '11 Wins', 'avatar': 'dave'},
-      {'rank': 5, 'name': 'YOU (Champion)', 'worth': '\$98,500', 'streak': '8 Wins', 'avatar': 'you'},
-      {'rank': 6, 'name': 'Elena Rust', 'worth': '\$85,000', 'streak': '6 Wins', 'avatar': 'sarah'},
-      {'rank': 7, 'name': 'Baron Von Flip', 'worth': '\$72,500', 'streak': '5 Wins', 'avatar': 'dave'},
-    ];
+  State<LeaderboardModal> createState() => _LeaderboardModalState();
+}
 
+class _LeaderboardModalState extends State<LeaderboardModal> {
+  int _activeTab = 0; // 0=Global, 1=Weekly, 2=Friends
+
+  final List<Map<String, dynamic>> ranks = [
+    {'rank': 1, 'name': 'Kingpin Victor', 'worth': '\$184,500', 'streak': '28 Wins', 'avatar': 'bot_kingpin', 'badge': 'VIP KINGPIN'},
+    {'rank': 2, 'name': 'Sarah Spark', 'worth': '\$142,000', 'streak': '19 Wins', 'avatar': 'sarah', 'badge': 'ELITE BIDDER'},
+    {'rank': 3, 'name': 'Marcus Vance', 'worth': '\$129,500', 'streak': '14 Wins', 'avatar': 'marcus', 'badge': 'HIGH ROLLER'},
+    {'rank': 4, 'name': 'Diamond Dave', 'worth': '\$115,000', 'streak': '11 Wins', 'avatar': 'dave', 'badge': 'SHARK LOANER'},
+    {'rank': 5, 'name': 'YOU (Champion)', 'worth': '\$98,500', 'streak': '8 Wins', 'avatar': 'you', 'badge': 'RISING STAR'},
+    {'rank': 6, 'name': 'Elena Rust', 'worth': '\$85,000', 'streak': '6 Wins', 'avatar': 'sarah', 'badge': 'PRO FLIPPER'},
+    {'rank': 7, 'name': 'Baron Von Flip', 'worth': '\$72,500', 'streak': '5 Wins', 'avatar': 'dave', 'badge': 'COLLECTOR'},
+    {'rank': 8, 'name': 'Speedy Sam', 'worth': '\$61,000', 'streak': '4 Wins', 'avatar': 'marcus', 'badge': 'SNIPER'},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
     return WoodenPlaqueModal(
       title: 'TOP 100 AUCTION LEADERBOARD',
-      width: 720,
-      height: 520,
+      width: 740,
+      height: 530,
       onClose: () => Navigator.of(context).pop(),
-      content: ListView.separated(
-        itemCount: ranks.length,
-        separatorBuilder: (_, _) => const SizedBox(height: 8),
-        itemBuilder: (context, i) {
-          final item = ranks[i];
-          final isUser = item['avatar'] == 'you';
+      content: Column(
+        children: [
+          // Filter Tabs (Global All-Time, Weekly Tournament, Friends League)
+          Row(
+            children: [
+              _buildTab(0, 'GLOBAL ALL-TIME', Icons.public_rounded),
+              const SizedBox(width: 8),
+              _buildTab(1, 'WEEKLY CUP', Icons.emoji_events_rounded),
+              const SizedBox(width: 8),
+              _buildTab(2, 'FRIENDS LEAGUE', Icons.groups_rounded),
+            ],
+          ),
 
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: BoxDecoration(
-              color: isUser ? const Color(0xFFFEF08A) : Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: isUser ? GameColors.goldOrange : GameColors.inkBorder,
-                width: isUser ? 3.0 : 2.0,
+          const SizedBox(height: 10),
+
+          // Scrollable Rankings List
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.25),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.white12, width: 2),
+              ),
+              child: ListView.separated(
+                itemCount: ranks.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 6),
+                itemBuilder: (context, i) {
+                  final item = ranks[i];
+                  final isUser = item['avatar'] == 'you';
+                  final rankNum = item['rank'] as int;
+
+                  Color rankBadgeColor = Colors.grey.shade400;
+                  Color rankBorderColor = Colors.grey.shade600;
+                  if (rankNum == 1) {
+                    rankBadgeColor = GameColors.goldBright;
+                    rankBorderColor = GameColors.goldOrange;
+                  } else if (rankNum == 2) {
+                    rankBadgeColor = const Color(0xFFE2E8F0);
+                    rankBorderColor = const Color(0xFF94A3B8);
+                  } else if (rankNum == 3) {
+                    rankBadgeColor = const Color(0xFFF97316);
+                    rankBorderColor = const Color(0xFFC2410C);
+                  }
+
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      gradient: isUser
+                          ? const LinearGradient(colors: [Color(0xFFFEF9C3), Color(0xFFFEF08A)])
+                          : const LinearGradient(colors: [Colors.white, Color(0xFFF8FAFC)]),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: isUser ? GameColors.goldBright : GameColors.inkBorder,
+                        width: isUser ? 3.5 : 2.0,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: isUser ? GameColors.goldBright.withValues(alpha: 0.45) : Colors.black12,
+                          blurRadius: isUser ? 8 : 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        // Rank Badge with Trophy / Crown Icon for top 3
+                        Container(
+                          width: 36,
+                          height: 36,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: rankBadgeColor,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: rankBorderColor, width: 2),
+                            boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 2, offset: Offset(0, 1))],
+                          ),
+                          child: Text(
+                            '#$rankNum',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w900,
+                              color: GameColors.inkBorder,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(width: 12),
+
+                        // Avatar
+                        CartoonAvatarWidget(avatarKey: item['avatar'], radius: 20),
+
+                        const SizedBox(width: 12),
+
+                        // Name & Tag
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['name'],
+                              style: TextStyle(
+                                fontSize: 14.5,
+                                fontWeight: FontWeight.w900,
+                                color: isUser ? GameColors.redDark : GameColors.inkBorder,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                              decoration: BoxDecoration(
+                                color: isUser ? GameColors.redHazard : const Color(0xFF0284C7),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                item['badge'],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 8.5,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const Spacer(),
+
+                        // Net Worth & Streak
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                              decoration: GameTheme.greenMoneyPillDeco,
+                              child: Text(
+                                'NET WORTH: ${item['worth']}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '🔥 ${item['streak']}',
+                              style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: GameColors.oakDark,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
-            child: Row(
+          ),
+
+          const SizedBox(height: 8),
+
+          // Pinned Bottom Bar for Player's Position
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2B1408),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: GameColors.goldBright, width: 2),
+            ),
+            child: const Row(
               children: [
-                // Rank Badge
-                Container(
-                  width: 34,
-                  height: 34,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: i == 0
-                        ? GameColors.goldBright
-                        : i == 1
-                            ? const Color(0xFFE2E8F0)
-                            : i == 2
-                                ? const Color(0xFFD97706)
-                                : Colors.grey.shade300,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: GameColors.inkBorder, width: 2),
-                  ),
-                  child: Text(
-                    '#${item['rank']}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w900,
-                      color: GameColors.inkBorder,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 14),
-                CartoonAvatarWidget(avatarKey: item['avatar'], radius: 18),
-                const SizedBox(width: 14),
+                Icon(Icons.workspace_premium_rounded, color: GameColors.goldBright, size: 22),
+                SizedBox(width: 8),
                 Text(
-                  item['name'],
+                  'YOUR STANDING: #5 • TOP 5% ELITE AUCTIONEER',
                   style: TextStyle(
-                    fontSize: 14,
+                    color: Colors.white,
+                    fontSize: 12,
                     fontWeight: FontWeight.w900,
-                    color: isUser ? GameColors.redDark : GameColors.inkBorder,
+                    letterSpacing: 0.6,
                   ),
                 ),
-                const Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'NET WORTH: ${item['worth']}',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w900,
-                        color: GameColors.greenDark,
-                      ),
-                    ),
-                    Text(
-                      item['streak'],
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
+                Spacer(),
+                Text(
+                  'NEXT REWARD AT RANK #3 (+500 GEMS)',
+                  style: TextStyle(
+                    color: GameColors.goldBright,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
-          );
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTab(int tabIndex, String label, IconData icon) {
+    final isSelected = _activeTab == tabIndex;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() => _activeTab = tabIndex);
+          SoundService.instance.playClick();
         },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? GameColors.goldBright : const Color(0xFF26140B),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: isSelected ? GameColors.inkBorder : Colors.white24,
+              width: isSelected ? 2.5 : 1.5,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: isSelected ? GameColors.inkBorder : Colors.white70,
+              ),
+              const SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  color: isSelected ? GameColors.inkBorder : Colors.white70,
+                  fontSize: 11.5,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.6,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// 4b. Dedicated Game Settings Modal
+class GameSettingsModal extends StatefulWidget {
+  const GameSettingsModal({super.key});
+
+  @override
+  State<GameSettingsModal> createState() => _GameSettingsModalState();
+}
+
+class _GameSettingsModalState extends State<GameSettingsModal> {
+  bool _fastAiTurns = false;
+  bool _vibration = true;
+  bool _screenShake = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return WoodenPlaqueModal(
+      title: 'GAME & AUDIO SETTINGS',
+      width: 620,
+      height: 480,
+      onClose: () => Navigator.of(context).pop(),
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Section 1: Audio Controls
+            _buildSectionHeader('AUDIO & HAPTICS', Icons.volume_up_rounded),
+            const SizedBox(height: 6),
+            _buildSettingRow(
+              'Master Sound & SFX',
+              'Auction gavels, cash register & bid clicks',
+              !SoundService.instance.isMuted,
+              (val) {
+                setState(() => SoundService.instance.toggleSound());
+              },
+            ),
+            const SizedBox(height: 6),
+            _buildSettingRow(
+              'Haptic Touch Vibration',
+              'Tactile button click feedback on mobile',
+              _vibration,
+              (val) => setState(() => _vibration = val),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Section 2: Gameplay Speed
+            _buildSectionHeader('GAMEPLAY SPEED & VISUALS', Icons.speed_rounded),
+            const SizedBox(height: 6),
+            _buildSettingRow(
+              'Fast AI Turns',
+              'Skip bot thinking deliberation for high-speed matches',
+              _fastAiTurns,
+              (val) => setState(() => _fastAiTurns = val),
+            ),
+            const SizedBox(height: 6),
+            _buildSettingRow(
+              'Screen Shake & Confetti',
+              'Dynamic celebrations upon winning crates',
+              _screenShake,
+              (val) => setState(() => _screenShake = val),
+            ),
+
+            const SizedBox(height: 14),
+
+            // Display Info Badge
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1E1005),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: GameColors.goldOrange, width: 2),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.stay_current_landscape_rounded, color: GameColors.goldBright, size: 24),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'LANDSCAPE HD MOBILE EDITION',
+                          style: TextStyle(
+                            color: GameColors.goldBright,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        Text(
+                          '1280x720 Native • Cel-Shaded AAA Graphics • Zero Scroll',
+                          style: TextStyle(color: Colors.white70, fontSize: 10.5),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 14),
+
+            // Close Button
+            TactileButton(
+              onTap: () => Navigator.of(context).pop(),
+              baseColor: GameColors.goldBright,
+              shadowColor: GameColors.brassShadow,
+              height: 48,
+              width: double.infinity,
+              borderRadius: 16,
+              child: const Text(
+                'SAVE & CLOSE SETTINGS',
+                style: TextStyle(
+                  color: GameColors.inkBorder,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 1.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title, IconData icon) {
+    return Row(
+      children: [
+        Icon(icon, color: GameColors.goldBright, size: 18),
+        const SizedBox(width: 6),
+        Text(
+          title,
+          style: const TextStyle(
+            color: GameColors.oakDark,
+            fontSize: 12,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 0.8,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSettingRow(String title, String subtitle, bool value, Function(bool) onChanged) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: GameColors.inkBorder, width: 2),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: GameColors.inkBorder,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Switch(
+            value: value,
+            activeTrackColor: GameColors.greenMoney,
+            activeThumbColor: Colors.white,
+            onChanged: (val) {
+              onChanged(val);
+              SoundService.instance.playClick();
+            },
+          ),
+        ],
       ),
     );
   }

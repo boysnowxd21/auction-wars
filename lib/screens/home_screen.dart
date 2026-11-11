@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/player_model.dart';
-import '../services/sound_service.dart';
-import '../theme/game_theme.dart';
 import '../widgets/bottom_vault_banner.dart';
 import '../widgets/cartoon_frame.dart';
 import '../widgets/decorative_corners.dart';
@@ -22,9 +20,12 @@ class HomeScreen extends StatelessWidget {
     return CartoonPictureFrame(
       child: Stack(
         children: [
-          // 1. Main 16:9 Content Layout
+          // 1. Decorative Corners (Positioned in background - never covers the cards!)
+          const DecorativeCorners(),
+
+          // 2. Main 16:9 Content Layout
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             child: Column(
               children: [
                 // 1.1 Top Header Bar
@@ -33,12 +34,12 @@ class HomeScreen extends StatelessWidget {
                   onSettingsTap: () => _openSettings(context),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 // 1.2 Center Mode Selection (Three Large Illustrated Hero Cards)
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 48),
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -64,20 +65,17 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 14),
+                const SizedBox(height: 10),
 
                 // 1.3 Bottom Banner: VAULT & CARD COMPENDIUM (111 CARDS)
                 BottomVaultBanner(
                   onTap: () => _openCardCompendium(context),
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
               ],
             ),
           ),
-
-          // 2. Decorative Corners (Fanned Decks top-left/right, Bidders bottom-left, Auctioneer bottom-right)
-          const DecorativeCorners(),
         ],
       ),
     );
@@ -133,60 +131,7 @@ class HomeScreen extends StatelessWidget {
     showDialog(
       context: context,
       barrierColor: Colors.black54,
-      builder: (_) => WoodenPlaqueModal(
-        title: 'AUDIO & GAME SETTINGS',
-        width: 520,
-        height: 380,
-        onClose: () => Navigator.of(context).pop(),
-        content: Column(
-          children: [
-            const SizedBox(height: 20),
-            ListTile(
-              leading: const Icon(Icons.volume_up_rounded, color: GameColors.goldDeep, size: 30),
-              title: const Text(
-                'Sound & SFX',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
-              ),
-              trailing: StatefulBuilder(
-                builder: (context, setState) {
-                  return Switch(
-                    value: !SoundService.instance.isMuted,
-                    activeThumbColor: GameColors.greenMoney,
-                    onChanged: (val) {
-                      setState(() {
-                        SoundService.instance.toggleSound();
-                      });
-                    },
-                  );
-                },
-              ),
-            ),
-            const Divider(color: GameColors.oakBorder, thickness: 1.5),
-            const ListTile(
-              leading: Icon(Icons.aspect_ratio_rounded, color: GameColors.blueOps, size: 30),
-              title: Text(
-                'Native Display',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
-              ),
-              subtitle: Text(
-                '1920x1080 Landscape Locked • Zero Scroll',
-                style: TextStyle(fontSize: 12),
-              ),
-            ),
-            const Divider(color: GameColors.oakBorder, thickness: 1.5),
-            const Spacer(),
-            const Text(
-              'AUCTION WARS v1.0 • CEL-SHADED CARTOON EDITION',
-              style: TextStyle(
-                color: Colors.black45,
-                fontWeight: FontWeight.bold,
-                fontSize: 11,
-              ),
-            ),
-            const SizedBox(height: 10),
-          ],
-        ),
-      ),
+      builder: (_) => const GameSettingsModal(),
     );
   }
 }
