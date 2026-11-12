@@ -30,7 +30,7 @@ class CenterCratesView extends StatelessWidget {
       children: [
         // Directional Turn Indicator
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
           decoration: BoxDecoration(
             color: const Color(0xCC0F172A),
             borderRadius: BorderRadius.circular(12),
@@ -43,7 +43,7 @@ class CenterCratesView extends StatelessWidget {
                 turnDirection == 'Clockwise' ? '↻ Clockwise Bidding' : '↺ Counter-Clockwise Bidding',
                 style: const TextStyle(
                   color: GameColors.goldBright,
-                  fontSize: 12,
+                  fontSize: 16,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.8,
                 ),
@@ -83,10 +83,10 @@ class CenterCratesView extends StatelessWidget {
       children: [
         // Hanging Manila Stencil Hint Tag
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           decoration: BoxDecoration(
             color: const Color(0xFFFDE68A),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(6),
             border: Border.all(color: GameColors.inkBorder, width: 2),
             boxShadow: const [
               BoxShadow(color: Colors.black26, offset: Offset(0, 2), blurRadius: 2),
@@ -98,7 +98,7 @@ class CenterCratesView extends StatelessWidget {
                 : crate.hintTag,
             style: TextStyle(
               color: crate.isXRayed ? GameColors.blueDark : const Color(0xFF78350F),
-              fontSize: 10,
+              fontSize: 15,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.5,
             ),
@@ -160,7 +160,7 @@ class CenterCratesView extends StatelessWidget {
                 'CURRENT BID: \$$currentBid',
                 style: const TextStyle(
                   color: GameColors.goldBright,
-                  fontSize: 22,
+                  fontSize: 34,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.5,
                   shadows: [
@@ -173,7 +173,7 @@ class CenterCratesView extends StatelessWidget {
                 'HIGH BIDDER: ${highestBidderName.toUpperCase()}',
                 style: TextStyle(
                   color: highestBidderName == 'You' ? GameColors.greenMoney : Colors.amber.shade200,
-                  fontSize: 11,
+                  fontSize: 18,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.0,
                 ),
@@ -183,7 +183,7 @@ class CenterCratesView extends StatelessWidget {
               if (hammerCount > 0) ...[
                 const SizedBox(height: 4),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                   decoration: BoxDecoration(
                     color: _getHammerColor(hammerCount),
                     borderRadius: BorderRadius.circular(6),
@@ -193,7 +193,7 @@ class CenterCratesView extends StatelessWidget {
                     _getHammerText(hammerCount),
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 11,
+                      fontSize: 16,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.2,
                     ),
@@ -501,7 +501,7 @@ class _DollarBillsFanPainter extends CustomPainter {
           text: label,
           style: const TextStyle(
             color: GameColors.inkBorder,
-            fontSize: 9,
+            fontSize: 14,
             fontWeight: FontWeight.w900,
           ),
         ),

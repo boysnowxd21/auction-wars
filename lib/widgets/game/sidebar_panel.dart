@@ -140,13 +140,13 @@ class _SidebarPanelState extends State<SidebarPanel> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.currency_exchange_rounded, color: GameColors.goldBright, size: 15),
-            SizedBox(width: 4),
+            Icon(Icons.currency_exchange_rounded, color: GameColors.goldBright, size: 18),
+            SizedBox(width: 6),
             Text(
               'PAWN SHOP: 50% CASH',
               style: TextStyle(
                 color: GameColors.goldBright,
-                fontSize: 10.5,
+                fontSize: 15,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 0.6,
               ),
@@ -181,7 +181,7 @@ class _SidebarPanelState extends State<SidebarPanel> {
                   'STASH EMPTY (\$0)',
                   style: TextStyle(
                     color: Colors.white54,
-                    fontSize: 12,
+                    fontSize: 16,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1.0,
                   ),
@@ -190,7 +190,7 @@ class _SidebarPanelState extends State<SidebarPanel> {
                 Text(
                   'Won positive assets appear here and can be pawned instantly for 50% cash.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white30, fontSize: 10),
+                  style: TextStyle(color: Colors.white30, fontSize: 13),
                 ),
               ],
             ),
@@ -290,7 +290,7 @@ class _SidebarPanelState extends State<SidebarPanel> {
             enabled ? 'YOUR TURN TO BID!' : 'WAITING FOR OPPONENTS...',
             style: TextStyle(
               color: enabled ? GameColors.goldBright : Colors.white38,
-              fontSize: 11,
+              fontSize: 16,
               fontWeight: FontWeight.w900,
               letterSpacing: 1.0,
             ),
@@ -304,20 +304,20 @@ class _SidebarPanelState extends State<SidebarPanel> {
           onTap: enabled ? widget.onRaise200 : null,
           baseColor: GameColors.greenMoney,
           shadowColor: GameColors.greenDark,
-          height: 42,
+          height: 46,
           borderRadius: 12,
           padding: const EdgeInsets.symmetric(horizontal: 8),
           enabled: enabled,
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.trending_up_rounded, color: Colors.white, size: 18),
+              Icon(Icons.trending_up_rounded, color: Colors.white, size: 20),
               SizedBox(width: 4),
               Text(
                 'RAISE +\$200',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 13,
+                  fontSize: 17,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.8,
                 ),
@@ -333,20 +333,20 @@ class _SidebarPanelState extends State<SidebarPanel> {
           onTap: enabled ? widget.onRaise500 : null,
           baseColor: GameColors.greenMoney,
           shadowColor: GameColors.greenDark,
-          height: 42,
+          height: 46,
           borderRadius: 12,
           padding: const EdgeInsets.symmetric(horizontal: 8),
           enabled: enabled,
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.rocket_launch_rounded, color: Colors.white, size: 18),
+              Icon(Icons.rocket_launch_rounded, color: Colors.white, size: 20),
               SizedBox(width: 4),
               Text(
                 'RAISE +\$500',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 13,
+                  fontSize: 17,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.8,
                 ),
@@ -362,20 +362,20 @@ class _SidebarPanelState extends State<SidebarPanel> {
           onTap: enabled ? widget.onPassFold : null,
           baseColor: GameColors.redHazard,
           shadowColor: GameColors.redDark,
-          height: 42,
+          height: 46,
           borderRadius: 12,
           padding: const EdgeInsets.symmetric(horizontal: 8),
           enabled: enabled,
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.back_hand_rounded, color: Colors.white, size: 18),
+              Icon(Icons.back_hand_rounded, color: Colors.white, size: 20),
               SizedBox(width: 4),
               Text(
                 'PASS / FOLD',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 13,
+                  fontSize: 18,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.8,
                 ),

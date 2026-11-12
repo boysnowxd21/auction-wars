@@ -95,7 +95,7 @@ class _HomeHeaderBarState extends State<HomeHeaderBar>
                         'TOP 100 LEADERBOARD',
                         style: TextStyle(
                           color: GameColors.inkBorder,
-                          fontSize: 14,
+                          fontSize: 18,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.1,
                         ),
@@ -222,7 +222,7 @@ class _HomeHeaderBarState extends State<HomeHeaderBar>
               child: const Text(
                 'AUCTION WARS',
                 style: TextStyle(
-                  fontSize: 36,
+                  fontSize: 42,
                   fontWeight: FontWeight.w900,
                   fontFamily: 'sans-serif-black',
                   letterSpacing: 2.2,
@@ -254,7 +254,7 @@ class _HomeHeaderBarState extends State<HomeHeaderBar>
             'HIGH BIDS • SEALED CRATES • QUICK FLIPS',
             style: TextStyle(
               color: GameColors.goldBright,
-              fontSize: 11,
+              fontSize: 15,
               fontWeight: FontWeight.w900,
               letterSpacing: 2.2,
             ),

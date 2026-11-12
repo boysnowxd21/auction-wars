@@ -98,7 +98,7 @@ class WoodenPlaqueModal extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.stars_rounded, color: GameColors.goldBright, size: 24),
+                          const Icon(Icons.stars_rounded, color: GameColors.goldBright, size: 28),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
@@ -106,7 +106,7 @@ class WoodenPlaqueModal extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 24,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 1.2,
                                 shadows: [
@@ -118,13 +118,13 @@ class WoodenPlaqueModal extends StatelessWidget {
                           const SizedBox(width: 10),
                           TactileButton(
                             onTap: onClose,
-                            width: 38,
-                            height: 38,
-                            borderRadius: 19,
+                            width: 42,
+                            height: 42,
+                            borderRadius: 21,
                             padding: EdgeInsets.zero,
                             baseColor: GameColors.redHazard,
                             shadowColor: GameColors.redDark,
-                            child: const Icon(Icons.close_rounded, color: Colors.white, size: 20),
+                            child: const Icon(Icons.close_rounded, color: Colors.white, size: 24),
                           ),
                         ],
                       ),
@@ -228,7 +228,7 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                         'ROOM CODE',
                         style: TextStyle(
                           color: Color(0xFF78350F),
-                          fontSize: 13,
+                          fontSize: 16,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.0,
                         ),
@@ -241,7 +241,7 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                             roomCode.length >= 3 ? roomCode.substring(0, 3) : roomCode,
                             style: const TextStyle(
                               color: Color(0xFFC2410C),
-                              fontSize: 28,
+                              fontSize: 38,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 2.0,
                             ),
@@ -251,7 +251,7 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                               roomCode.substring(3),
                               style: const TextStyle(
                                 color: Color(0xFF0284C7),
-                                fontSize: 28,
+                                fontSize: 38,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 2.0,
                               ),
@@ -267,13 +267,13 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                 // 3D Blue Dice Button (Reroll code)
                 TactileButton(
                   onTap: _generateCode,
-                  width: 54,
-                  height: 54,
+                  width: 58,
+                  height: 58,
                   borderRadius: 14,
                   baseColor: const Color(0xFF0284C7),
                   shadowColor: const Color(0xFF075985),
                   child: const Center(
-                    child: Icon(Icons.casino_rounded, color: Colors.white, size: 32),
+                    child: Icon(Icons.casino_rounded, color: Colors.white, size: 36),
                   ),
                 ),
               ],
@@ -293,13 +293,13 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                     },
                     baseColor: const Color(0xFF0284C7),
                     shadowColor: const Color(0xFF075985),
-                    height: 50,
+                    height: 54,
                     borderRadius: 14,
                     child: const Text(
                       'CREATE LOBBY',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: 18,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.8,
                       ),
@@ -315,13 +315,13 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                     },
                     baseColor: const Color(0xFF16A34A),
                     shadowColor: const Color(0xFF14532D),
-                    height: 50,
+                    height: 54,
                     borderRadius: 14,
                     child: const Text(
                       'JOIN ROOM',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: 18,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.8,
                       ),
@@ -373,7 +373,7 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                fontSize: 16,
                               ),
                             ),
                             TextSpan(
@@ -381,7 +381,7 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                               style: TextStyle(
                                 color: Color(0xFF86EFAC),
                                 fontWeight: FontWeight.w900,
-                                fontSize: 13,
+                                fontSize: 16,
                               ),
                             ),
                           ],
@@ -404,7 +404,7 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
               },
               baseColor: const Color(0xFFFBBF24),
               shadowColor: const Color(0xFFB45309),
-              height: 58,
+              height: 62,
               borderRadius: 18,
               width: double.infinity,
               child: const Stack(
@@ -413,19 +413,19 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 24),
+                      Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 26),
                       SizedBox(width: 8),
                       Text(
                         'QUICK MATCH',
                         style: TextStyle(
                           color: Color(0xFF451A03),
-                          fontSize: 18,
+                          fontSize: 22,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.2,
                         ),
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.gavel_rounded, color: Color(0xFF78350F), size: 22),
+                      Icon(Icons.gavel_rounded, color: Color(0xFF78350F), size: 24),
                     ],
                   ),
                   Text(
@@ -480,13 +480,13 @@ class _LocalPartyModalState extends State<LocalPartyModal> {
                     },
                     baseColor: activeTab == 0 ? const Color(0xFF16A34A) : const Color(0xFFE2D6BE),
                     shadowColor: activeTab == 0 ? const Color(0xFF14532D) : const Color(0xFF94836B),
-                    height: 44,
+                    height: 48,
                     borderRadius: 14,
                     child: Text(
                       'HOST HOTSPOT',
                       style: TextStyle(
                         color: activeTab == 0 ? Colors.white : const Color(0xFF5A3114),
-                        fontSize: 13,
+                        fontSize: 16,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 0.6,
                       ),
@@ -502,7 +502,7 @@ class _LocalPartyModalState extends State<LocalPartyModal> {
                     },
                     baseColor: activeTab == 1 ? const Color(0xFF0284C7) : const Color(0xFFE2D6BE),
                     shadowColor: activeTab == 1 ? const Color(0xFF075985) : const Color(0xFF94836B),
-                    height: 44,
+                    height: 48,
                     borderRadius: 14,
                     child: Stack(
                       alignment: Alignment.center,
@@ -511,7 +511,7 @@ class _LocalPartyModalState extends State<LocalPartyModal> {
                           'SEARCH LAN',
                           style: TextStyle(
                             color: activeTab == 1 ? Colors.white : const Color(0xFF5A3114),
-                            fontSize: 13,
+                            fontSize: 16,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 0.6,
                           ),
@@ -573,25 +573,25 @@ class _LocalPartyModalState extends State<LocalPartyModal> {
                                   text: 'HOTSPOT PIN: ',
                                   style: TextStyle(
                                     color: Color(0xFF78350F),
-                                    fontSize: 14,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w900,
                                   ),
                                 ),
                                 TextSpan(
                                   text: '4',
-                                  style: TextStyle(color: Color(0xFF0284C7), fontSize: 18, fontWeight: FontWeight.w900),
+                                  style: TextStyle(color: Color(0xFF0284C7), fontSize: 26, fontWeight: FontWeight.w900),
                                 ),
                                 TextSpan(
                                   text: '8',
-                                  style: TextStyle(color: Color(0xFFDC2626), fontSize: 18, fontWeight: FontWeight.w900),
+                                  style: TextStyle(color: Color(0xFFDC2626), fontSize: 26, fontWeight: FontWeight.w900),
                                 ),
                                 TextSpan(
                                   text: '2',
-                                  style: TextStyle(color: Color(0xFF16A34A), fontSize: 18, fontWeight: FontWeight.w900),
+                                  style: TextStyle(color: Color(0xFF16A34A), fontSize: 26, fontWeight: FontWeight.w900),
                                 ),
                                 TextSpan(
                                   text: '9',
-                                  style: TextStyle(color: Color(0xFFD97706), fontSize: 18, fontWeight: FontWeight.w900),
+                                  style: TextStyle(color: Color(0xFFD97706), fontSize: 26, fontWeight: FontWeight.w900),
                                 ),
                               ],
                             ),
@@ -661,7 +661,7 @@ class _LocalPartyModalState extends State<LocalPartyModal> {
               },
               baseColor: const Color(0xFFFBBF24),
               shadowColor: const Color(0xFFB45309),
-              height: 58,
+              height: 62,
               width: double.infinity,
               borderRadius: 18,
               child: const Stack(
@@ -670,19 +670,19 @@ class _LocalPartyModalState extends State<LocalPartyModal> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 24),
+                      Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 26),
                       SizedBox(width: 8),
                       Text(
                         'HOST HOTSPOT ROOM',
                         style: TextStyle(
                           color: Color(0xFF451A03),
-                          fontSize: 18,
+                          fontSize: 22,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.2,
                         ),
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.wifi_rounded, color: Color(0xFF0284C7), size: 24),
+                      Icon(Icons.wifi_rounded, color: Color(0xFF0284C7), size: 26),
                     ],
                   ),
                   Text(
@@ -782,7 +782,7 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
               'PLAYER COUNT',
               style: TextStyle(
                 color: Color(0xFF78350F),
-                fontSize: 14,
+                fontSize: 18,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 0.8,
               ),
@@ -801,21 +801,21 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
                           setState(() => playerCount--);
                         }
                       : null,
-                  width: 44,
-                  height: 44,
+                  width: 48,
+                  height: 48,
                   borderRadius: 12,
                   padding: EdgeInsets.zero,
                   baseColor: const Color(0xFFEF4444),
                   shadowColor: const Color(0xFFB91C1C),
                   child: const Center(
-                    child: Icon(Icons.remove_rounded, color: Colors.white, size: 28),
+                    child: Icon(Icons.remove_rounded, color: Colors.white, size: 30),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 12),
                 // Wood Pill
                 Container(
-                  width: 150,
-                  height: 44,
+                  width: 170,
+                  height: 48,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: const Color(0xFF78350F),
@@ -829,13 +829,13 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
                     '$playerCount PLAYERS',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 17,
+                      fontSize: 22,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.0,
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 12),
                 // Green [+]
                 TactileButton(
                   onTap: playerCount < 5
@@ -844,14 +844,14 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
                           setState(() => playerCount++);
                         }
                       : null,
-                  width: 44,
-                  height: 44,
+                  width: 48,
+                  height: 48,
                   borderRadius: 12,
                   padding: EdgeInsets.zero,
                   baseColor: const Color(0xFF22C55E),
                   shadowColor: const Color(0xFF15803D),
                   child: const Center(
-                    child: Icon(Icons.add_rounded, color: Colors.white, size: 28),
+                    child: Icon(Icons.add_rounded, color: Colors.white, size: 30),
                   ),
                 ),
               ],
@@ -864,7 +864,7 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
               'BOT AI DIFFICULTY',
               style: TextStyle(
                 color: Color(0xFF78350F),
-                fontSize: 14,
+                fontSize: 18,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 0.8,
               ),
@@ -918,7 +918,7 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
                 diffTitle,
                 style: const TextStyle(
                   color: Color(0xFF78350F),
-                  fontSize: 12,
+                  fontSize: 16,
                   fontWeight: FontWeight.w900,
                 ),
               ),
@@ -935,25 +935,25 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
               },
               baseColor: const Color(0xFF22C55E),
               shadowColor: const Color(0xFF15803D),
-              height: 56,
+              height: 62,
               borderRadius: 18,
               width: double.infinity,
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 22),
+                  Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 24),
                   SizedBox(width: 8),
                   Text(
                     'START ARENA MATCH',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 18,
+                      fontSize: 22,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.2,
                     ),
                   ),
                   SizedBox(width: 8),
-                  Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 22),
+                  Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 24),
                 ],
               ),
             ),
@@ -1012,7 +1012,7 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
                 title,
                 style: TextStyle(
                   color: borderCol,
-                  fontSize: 14,
+                  fontSize: 18,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.8,
                 ),
@@ -1021,7 +1021,7 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
               Icon(
                 iconData,
                 color: borderCol,
-                size: 38,
+                size: 42,
               ),
             ],
           ),
@@ -1140,7 +1140,7 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
                           child: Text(
                             '#$rankNum',
                             style: const TextStyle(
-                              fontSize: 13,
+                              fontSize: 16,
                               fontWeight: FontWeight.w900,
                               color: GameColors.inkBorder,
                             ),
@@ -1150,7 +1150,7 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
                         const SizedBox(width: 12),
 
                         // Avatar
-                        CartoonAvatarWidget(avatarKey: item['avatar'], radius: 20),
+                        CartoonAvatarWidget(avatarKey: item['avatar'], radius: 24),
 
                         const SizedBox(width: 12),
 
@@ -1161,22 +1161,22 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
                             Text(
                               item['name'],
                               style: TextStyle(
-                                fontSize: 14.5,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w900,
                                 color: isUser ? GameColors.redDark : GameColors.inkBorder,
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
                                 color: isUser ? GameColors.redHazard : const Color(0xFF0284C7),
-                                borderRadius: BorderRadius.circular(4),
+                                borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
                                 item['badge'],
                                 style: const TextStyle(
                                   color: Colors.white,
-                                  fontSize: 8.5,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
@@ -1191,12 +1191,12 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                               decoration: GameTheme.greenMoneyPillDeco,
                               child: Text(
                                 'NET WORTH: ${item['worth']}',
                                 style: const TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white,
                                 ),
@@ -1206,7 +1206,7 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
                             Text(
                               '🔥 ${item['streak']}',
                               style: const TextStyle(
-                                fontSize: 11,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 color: GameColors.oakDark,
                               ),
@@ -1239,7 +1239,7 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
                   'YOUR STANDING: #5 • TOP 5% ELITE AUCTIONEER',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 12,
+                    fontSize: 15,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.6,
                   ),
@@ -1249,7 +1249,7 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
                   'NEXT REWARD AT RANK #3 (+500 GEMS)',
                   style: TextStyle(
                     color: GameColors.goldBright,
-                    fontSize: 11,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -1284,7 +1284,7 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
             children: [
               Icon(
                 icon,
-                size: 16,
+                size: 20,
                 color: isSelected ? GameColors.inkBorder : Colors.white70,
               ),
               const SizedBox(width: 6),
@@ -1292,7 +1292,7 @@ class _LeaderboardModalState extends State<LeaderboardModal> {
                 label,
                 style: TextStyle(
                   color: isSelected ? GameColors.inkBorder : Colors.white70,
-                  fontSize: 11.5,
+                  fontSize: 15,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.6,
                 ),
@@ -1388,13 +1388,13 @@ class _GameSettingsModalState extends State<GameSettingsModal> {
                           'LANDSCAPE HD MOBILE EDITION',
                           style: TextStyle(
                             color: GameColors.goldBright,
-                            fontSize: 12,
+                            fontSize: 16,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
                         Text(
                           '1280x720 Native • Cel-Shaded AAA Graphics • Zero Scroll',
-                          style: TextStyle(color: Colors.white70, fontSize: 10.5),
+                          style: TextStyle(color: Colors.white70, fontSize: 13),
                         ),
                       ],
                     ),
@@ -1410,14 +1410,14 @@ class _GameSettingsModalState extends State<GameSettingsModal> {
               onTap: () => Navigator.of(context).pop(),
               baseColor: GameColors.goldBright,
               shadowColor: GameColors.brassShadow,
-              height: 48,
+              height: 54,
               width: double.infinity,
               borderRadius: 16,
               child: const Text(
                 'SAVE & CLOSE SETTINGS',
                 style: TextStyle(
                   color: GameColors.inkBorder,
-                  fontSize: 14,
+                  fontSize: 18,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.0,
                 ),
@@ -1432,13 +1432,13 @@ class _GameSettingsModalState extends State<GameSettingsModal> {
   Widget _buildSectionHeader(String title, IconData icon) {
     return Row(
       children: [
-        Icon(icon, color: GameColors.goldBright, size: 18),
-        const SizedBox(width: 6),
+        Icon(icon, color: GameColors.goldBright, size: 22),
+        const SizedBox(width: 8),
         Text(
           title,
           style: const TextStyle(
             color: GameColors.oakDark,
-            fontSize: 12,
+            fontSize: 16,
             fontWeight: FontWeight.w900,
             letterSpacing: 0.8,
           ),
@@ -1465,7 +1465,7 @@ class _GameSettingsModalState extends State<GameSettingsModal> {
                   title,
                   style: const TextStyle(
                     color: GameColors.inkBorder,
-                    fontSize: 13,
+                    fontSize: 16,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -1473,7 +1473,7 @@ class _GameSettingsModalState extends State<GameSettingsModal> {
                   subtitle,
                   style: const TextStyle(
                     color: Colors.black54,
-                    fontSize: 10,
+                    fontSize: 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -1624,7 +1624,7 @@ class _CardCompendiumModalState extends State<CardCompendiumModal> {
                         Text(
                           'ID: ${inspectedCard!.id}  •  ${inspectedCard!.tag}',
                           style: const TextStyle(
-                            fontSize: 12,
+                            fontSize: 16,
                             fontWeight: FontWeight.w900,
                             color: GameColors.oakDark,
                           ),
@@ -1634,18 +1634,18 @@ class _CardCompendiumModalState extends State<CardCompendiumModal> {
                           onTap: () => CardShowcaseModal.show(context, inspectedCard!),
                           baseColor: GameColors.goldBright,
                           shadowColor: GameColors.brassShadow,
-                          height: 38,
-                          padding: const EdgeInsets.symmetric(horizontal: 14),
+                          height: 44,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.fullscreen_rounded, color: GameColors.inkBorder, size: 20),
-                              SizedBox(width: 4),
+                              Icon(Icons.fullscreen_rounded, color: GameColors.inkBorder, size: 22),
+                              SizedBox(width: 6),
                               Text(
                                 'FULL SCREEN SHOWCASE',
                                 style: TextStyle(
                                   color: GameColors.inkBorder,
-                                  fontSize: 11,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
@@ -1691,7 +1691,7 @@ class _CardCompendiumModalState extends State<CardCompendiumModal> {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: isSelected ? Colors.white : GameColors.inkBorder,
-              fontSize: 11,
+              fontSize: 15,
               fontWeight: FontWeight.w900,
             ),
           ),

@@ -79,12 +79,12 @@ class BottomPlayerDock extends StatelessWidget {
 
   Widget _buildPlayerProfile() {
     return Container(
-      width: 245,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      width: 255,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: const Color(0xFF1E1005),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: GameColors.goldBright, width: 2.0),
+        border: Border.all(color: GameColors.goldBright, width: 2.2),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -94,7 +94,7 @@ class BottomPlayerDock extends StatelessWidget {
             children: [
               const CartoonAvatarWidget(
                 avatarKey: 'you',
-                radius: 20,
+                radius: 22,
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -103,7 +103,7 @@ class BottomPlayerDock extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
                         color: GameColors.goldBright,
                         borderRadius: BorderRadius.circular(6),
@@ -113,7 +113,7 @@ class BottomPlayerDock extends StatelessWidget {
                         'YOU',
                         style: TextStyle(
                           color: GameColors.inkBorder,
-                          fontSize: 10,
+                          fontSize: 15,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.0,
                         ),
@@ -124,7 +124,7 @@ class BottomPlayerDock extends StatelessWidget {
                       player.name,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: 19,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
@@ -140,7 +140,7 @@ class BottomPlayerDock extends StatelessWidget {
               // Metric Pill 1: BID MONEY: $X,XXX
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: GameTheme.greenMoneyPillDeco,
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
@@ -148,7 +148,7 @@ class BottomPlayerDock extends StatelessWidget {
                       'BID MONEY: \$${player.bidMoney}',
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 11,
+                        fontSize: 18,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
@@ -165,7 +165,7 @@ class BottomPlayerDock extends StatelessWidget {
                   child: GestureDetector(
                     onTap: onOpenStashVault,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: GameTheme.goldMoneyPillDeco,
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
@@ -173,7 +173,7 @@ class BottomPlayerDock extends StatelessWidget {
                           'ITEM MONEY: +\$${player.itemMoney}',
                           style: const TextStyle(
                             color: GameColors.inkBorder,
-                            fontSize: 11,
+                            fontSize: 18,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -202,7 +202,7 @@ class BottomPlayerDock extends StatelessWidget {
         onTap: onOpenStashVault,
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
             color: const Color(0xFF2E1508),
             borderRadius: BorderRadius.circular(10),
@@ -216,13 +216,13 @@ class BottomPlayerDock extends StatelessWidget {
                   fit: BoxFit.scaleDown,
                   child: Row(
                     children: [
-                      Icon(Icons.inventory_2_rounded, size: 12, color: GameColors.goldBright),
-                      SizedBox(width: 3),
+                      Icon(Icons.inventory_2_rounded, size: 18, color: GameColors.goldBright),
+                      SizedBox(width: 4),
                       Text(
                         'PAWN SHOP: 50% CASH',
                         style: TextStyle(
                           color: GameColors.goldBright,
-                          fontSize: 9.5,
+                          fontSize: 15,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.5,
                         ),
@@ -239,8 +239,8 @@ class BottomPlayerDock extends StatelessWidget {
                     child: Text(
                       'STASH EMPTY (\$0)',
                       style: TextStyle(
-                        color: Colors.white54,
-                        fontSize: 9.5,
+                        color: Colors.white70,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -248,14 +248,14 @@ class BottomPlayerDock extends StatelessWidget {
                 )
               else
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                   decoration: BoxDecoration(
                     color: GameColors.greenMoney,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
                     'PAWN +\$${pawnable.first.pawnValue}',
-                    style: const TextStyle(color: Colors.white, fontSize: 8.5, fontWeight: FontWeight.w900),
+                    style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w900),
                   ),
                 ),
             ],
@@ -278,24 +278,34 @@ class BottomPlayerDock extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.style_rounded, color: GameColors.blueOps, size: 16),
+              const Icon(Icons.style_rounded, color: GameColors.blueOps, size: 18),
               const SizedBox(width: 6),
-              Text(
-                'SPECIAL OPS CARD TRAY (${player.opsHand.length} / 6)',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0.8,
-                ),
-              ),
-              const Spacer(),
-              const Text(
-                'TAP CARD TO INSPECT & ACTIVATE',
-                style: TextStyle(
-                  color: GameColors.goldBright,
-                  fontSize: 9.5,
-                  fontWeight: FontWeight.w900,
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: [
+                      Text(
+                        'SPECIAL OPS CARD TRAY (${player.opsHand.length} / 6)',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      const Text(
+                        'TAP CARD TO INSPECT & ACTIVATE',
+                        style: TextStyle(
+                          color: GameColors.goldBright,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -315,8 +325,8 @@ class BottomPlayerDock extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 10),
                           child: AuctionCardWidget(
                             card: c,
-                            width: 128,
-                            height: 168,
+                            width: 132,
+                            height: 170,
                             onTap: () {
                               CardShowcaseModal.show(
                                 context,
@@ -335,7 +345,7 @@ class BottomPlayerDock extends StatelessWidget {
                 : const Center(
                     child: Text(
                       'No Special Ops cards in dock. Buy cards from the shop!',
-                      style: TextStyle(color: Colors.white54, fontSize: 12, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.white54, fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
           ),
@@ -346,7 +356,7 @@ class BottomPlayerDock extends StatelessWidget {
 
   Widget _buildQuickTurnConsole() {
     return Container(
-      width: 250,
+      width: 260,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
         color: const Color(0xFF1E1005),
@@ -378,7 +388,7 @@ class BottomPlayerDock extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 10.5,
+                fontSize: 15,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 0.5,
               ),
@@ -393,20 +403,20 @@ class BottomPlayerDock extends StatelessWidget {
                   onTap: isUserTurn ? onRaise200 : null,
                   baseColor: GameColors.greenMoney,
                   shadowColor: GameColors.greenDark,
-                  height: 38,
+                  height: 44,
                   borderRadius: 12,
                   enabled: isUserTurn,
                   padding: EdgeInsets.zero,
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.trending_up_rounded, color: Colors.white, size: 15),
+                      Icon(Icons.trending_up_rounded, color: Colors.white, size: 18),
                       SizedBox(width: 4),
                       Text(
                         'RAISE +\$200',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 11.5,
+                          fontSize: 17,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.5,
                         ),
@@ -421,20 +431,20 @@ class BottomPlayerDock extends StatelessWidget {
                   onTap: isUserTurn ? onRaise500 : null,
                   baseColor: GameColors.greenMoney,
                   shadowColor: GameColors.greenDark,
-                  height: 38,
+                  height: 44,
                   borderRadius: 12,
                   enabled: isUserTurn,
                   padding: EdgeInsets.zero,
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.rocket_launch_rounded, color: Colors.white, size: 15),
+                      Icon(Icons.rocket_launch_rounded, color: Colors.white, size: 18),
                       SizedBox(width: 4),
                       Text(
                         'RAISE +\$500',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 11.5,
+                          fontSize: 17,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.5,
                         ),
@@ -451,7 +461,7 @@ class BottomPlayerDock extends StatelessWidget {
             onTap: isUserTurn ? onPassFold : null,
             baseColor: GameColors.redHazard,
             shadowColor: GameColors.redDark,
-            height: 36,
+            height: 42,
             width: double.infinity,
             borderRadius: 12,
             enabled: isUserTurn,
@@ -459,13 +469,13 @@ class BottomPlayerDock extends StatelessWidget {
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.flag_rounded, color: Colors.white, size: 16),
+                Icon(Icons.flag_rounded, color: Colors.white, size: 18),
                 SizedBox(width: 6),
                 Text(
                   'PASS / FOLD',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 12.5,
+                    fontSize: 18,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.8,
                   ),

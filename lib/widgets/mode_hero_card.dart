@@ -195,7 +195,7 @@ class _ModeHeroCardState extends State<ModeHeroCard>
                         tagBadge,
                         style: const TextStyle(
                           color: GameColors.goldBright,
-                          fontSize: 10,
+                          fontSize: 14,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.6,
                         ),
@@ -229,7 +229,7 @@ class _ModeHeroCardState extends State<ModeHeroCard>
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 24,
+                                fontSize: 28,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 1.4,
                                 shadows: [
@@ -250,7 +250,7 @@ class _ModeHeroCardState extends State<ModeHeroCard>
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                             decoration: BoxDecoration(
                               color: Colors.black.withValues(alpha: 0.60),
                               borderRadius: BorderRadius.circular(10),
@@ -261,7 +261,7 @@ class _ModeHeroCardState extends State<ModeHeroCard>
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 10.5,
+                                fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.4,
                               ),
@@ -277,7 +277,7 @@ class _ModeHeroCardState extends State<ModeHeroCard>
                           onTap: widget.onTap,
                           baseColor: GameColors.goldBright,
                           shadowColor: GameColors.brassShadow,
-                          height: 48,
+                          height: 54,
                           borderRadius: 20,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
@@ -293,14 +293,14 @@ class _ModeHeroCardState extends State<ModeHeroCard>
                                             ? Icons.wifi_tethering_rounded
                                             : Icons.sports_kabaddi_rounded,
                                     color: GameColors.inkBorder,
-                                    size: 22,
+                                    size: 24,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
                                     buttonText,
                                     style: const TextStyle(
                                       color: GameColors.inkBorder,
-                                      fontSize: 15,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.w900,
                                       letterSpacing: 1.1,
                                     ),

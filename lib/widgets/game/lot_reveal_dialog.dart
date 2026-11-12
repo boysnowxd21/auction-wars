@@ -91,14 +91,14 @@ class LotRevealDialog extends StatelessWidget {
                         'LOT #${lot.round} UNPACK CEREMONY!',
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 24,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.5,
                         ),
                       ),
                       const Spacer(),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                         decoration: BoxDecoration(
                           color: winner.isUser ? GameColors.greenMoney : GameColors.redHazard,
                           borderRadius: BorderRadius.circular(12),
@@ -108,7 +108,7 @@ class LotRevealDialog extends StatelessWidget {
                           'WON BY ${winner.name.toUpperCase()} FOR \$$winningBid',
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 12,
+                            fontSize: 16,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -219,7 +219,7 @@ class LotRevealDialog extends StatelessWidget {
             '$label: ',
             style: const TextStyle(
               color: GameColors.oakDark,
-              fontSize: 11,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -227,7 +227,7 @@ class LotRevealDialog extends StatelessWidget {
             value,
             style: TextStyle(
               color: color,
-              fontSize: 13,
+              fontSize: 18,
               fontWeight: FontWeight.w900,
             ),
           ),

@@ -119,7 +119,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 24,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.2,
                               shadows: [
@@ -135,11 +135,11 @@ class _StashVaultModalState extends State<StashVaultModal> {
                           },
                           baseColor: GameColors.redHazard,
                           shadowColor: GameColors.redDark,
-                          height: 38,
-                          width: 38,
+                          height: 42,
+                          width: 42,
                           borderRadius: 12,
                           padding: EdgeInsets.zero,
-                          child: const Icon(Icons.close_rounded, color: Colors.white, size: 22),
+                          child: const Icon(Icons.close_rounded, color: Colors.white, size: 24),
                         ),
                       ],
                     ),
@@ -163,21 +163,21 @@ class _StashVaultModalState extends State<StashVaultModal> {
                           totalFaceValue >= 0 ? GameColors.goldBright : GameColors.redHazard,
                           Icons.account_balance_rounded,
                         ),
-                        Container(width: 1.5, height: 28, color: Colors.white24),
+                        Container(width: 1.5, height: 32, color: Colors.white24),
                         _buildSummaryItem(
                           'ASSETS WON',
                           '${positiveItems.length} Lots',
                           GameColors.greenMoney,
                           Icons.stars_rounded,
                         ),
-                        Container(width: 1.5, height: 28, color: Colors.white24),
+                        Container(width: 1.5, height: 32, color: Colors.white24),
                         _buildSummaryItem(
                           'JUNK / HAZARDS',
                           '${junkItems.length} Items',
                           junkItems.isEmpty ? Colors.white70 : GameColors.redHazard,
                           Icons.warning_amber_rounded,
                         ),
-                        Container(width: 1.5, height: 28, color: Colors.white24),
+                        Container(width: 1.5, height: 32, color: Colors.white24),
                         _buildSummaryItem(
                           'PAWN VALUE (50% CASH)',
                           '+\$$totalPawnAvailable',
@@ -207,8 +207,8 @@ class _StashVaultModalState extends State<StashVaultModal> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: valueColor, size: 18),
-        const SizedBox(width: 6),
+        Icon(icon, color: valueColor, size: 22),
+        const SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -217,7 +217,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
               label,
               style: const TextStyle(
                 color: Colors.white70,
-                fontSize: 9.5,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 0.5,
               ),
@@ -226,7 +226,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
               value,
               style: TextStyle(
                 color: valueColor,
-                fontSize: 14,
+                fontSize: 18,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 0.5,
               ),
@@ -343,7 +343,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
           // Valuation Badge
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 2.5),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             decoration: BoxDecoration(
               color: card.isPositive ? GameColors.greenDark : GameColors.redDark,
               borderRadius: BorderRadius.circular(6),
@@ -353,7 +353,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 10.5,
+                fontSize: 15,
                 fontWeight: FontWeight.w900,
               ),
             ),
@@ -372,7 +372,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
                   : null,
               baseColor: GameColors.greenMoney,
               shadowColor: GameColors.greenDark,
-              height: 28,
+              height: 36,
               borderRadius: 8,
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: FittedBox(
@@ -381,7 +381,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
                   'PAWN +\$${card.pawnValue}',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 10,
+                    fontSize: 15,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -389,7 +389,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
             )
           else
             Container(
-              height: 28,
+              height: 36,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: Colors.black38,
@@ -399,7 +399,7 @@ class _StashVaultModalState extends State<StashVaultModal> {
                 'CANNOT PAWN',
                 style: TextStyle(
                   color: Colors.white54,
-                  fontSize: 9.5,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),

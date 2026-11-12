@@ -163,7 +163,7 @@ class GameTheme {
 
   static TextStyle headerTitleStyle = const TextStyle(
     color: Color(0xFFFFFBEB),
-    fontSize: 22,
+    fontSize: 28,
     fontWeight: FontWeight.w900,
     letterSpacing: 1.2,
     shadows: [
@@ -174,7 +174,7 @@ class GameTheme {
 
   static TextStyle badgeTextStyle = const TextStyle(
     color: Colors.white,
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: FontWeight.w900,
     letterSpacing: 0.8,
     shadows: [

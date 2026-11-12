@@ -103,7 +103,7 @@ class _BottomVaultBannerState extends State<BottomVaultBanner> {
                               'VAULT & CARD COMPENDIUM (111 CARDS)',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 17,
+                                fontSize: 22,
                                 fontWeight: FontWeight.w900,
                                 letterSpacing: 1.4,
                                 shadows: [
@@ -122,7 +122,7 @@ class _BottomVaultBannerState extends State<BottomVaultBanner> {
                         'TAP TO INSPECT HIGH-VALUE ASSETS • TOXIC HAZARDS • SPECIAL OPS',
                         style: TextStyle(
                           color: Colors.amber.shade200,
-                          fontSize: 10,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.8,
                         ),

@@ -138,7 +138,7 @@ class CardShowcaseModal extends StatelessWidget {
                                 card.name.toUpperCase(),
                                 style: const TextStyle(
                                   color: GameColors.goldBright,
-                                  fontSize: 20,
+                                  fontSize: 26,
                                   fontWeight: FontWeight.w900,
                                   letterSpacing: 1.2,
                                   shadows: [
@@ -150,7 +150,7 @@ class CardShowcaseModal extends StatelessWidget {
                                 '$typeLabel • ${card.tag}',
                                 style: TextStyle(
                                   color: Colors.white.withValues(alpha: 0.8),
-                                  fontSize: 11,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 0.8,
                                 ),
@@ -289,7 +289,7 @@ class CardShowcaseModal extends StatelessWidget {
                                               'SPECIAL RULES & APPRAISAL',
                                               style: TextStyle(
                                                 color: GameColors.oakDark,
-                                                fontSize: 12,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w900,
                                                 letterSpacing: 0.8,
                                               ),
@@ -307,7 +307,7 @@ class CardShowcaseModal extends StatelessWidget {
                                                 card.description,
                                                 style: const TextStyle(
                                                   color: Color(0xFF451A03),
-                                                  fontSize: 12,
+                                                  fontSize: 16,
                                                   fontWeight: FontWeight.bold,
                                                   height: 1.3,
                                                 ),
@@ -321,7 +321,7 @@ class CardShowcaseModal extends StatelessWidget {
                                               'AUCTION WAR TACTICS',
                                               style: TextStyle(
                                                 color: GameColors.oakDark,
-                                                fontSize: 12,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w900,
                                                 letterSpacing: 0.8,
                                               ),
@@ -338,7 +338,7 @@ class CardShowcaseModal extends StatelessWidget {
                                               child: Row(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  const Icon(Icons.lightbulb_rounded, color: GameColors.goldBright, size: 18),
+                                                  const Icon(Icons.lightbulb_rounded, color: GameColors.goldBright, size: 22),
                                                   const SizedBox(width: 6),
                                                   Expanded(
                                                     child: Text(
@@ -349,7 +349,7 @@ class CardShowcaseModal extends StatelessWidget {
                                                               : 'Watch out! Junk assets cost you money if won. Use Special Ops or fold early when crate hint tags look suspicious.',
                                                       style: const TextStyle(
                                                         color: Colors.black87,
-                                                        fontSize: 11,
+                                                        fontSize: 15,
                                                         fontWeight: FontWeight.w600,
                                                         height: 1.25,
                                                       ),
@@ -377,13 +377,13 @@ class CardShowcaseModal extends StatelessWidget {
                                             },
                                             baseColor: GameColors.blueOps,
                                             shadowColor: GameColors.blueDark,
-                                            height: 40,
-                                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                                            height: 44,
+                                            padding: const EdgeInsets.symmetric(horizontal: 16),
                                             child: Text(
                                               playActionLabel ?? 'PLAY THIS CARD',
                                               style: const TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 12,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w900,
                                               ),
                                             ),
@@ -398,13 +398,13 @@ class CardShowcaseModal extends StatelessWidget {
                                             },
                                             baseColor: GameColors.greenMoney,
                                             shadowColor: GameColors.greenDark,
-                                            height: 40,
-                                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                                            height: 44,
+                                            padding: const EdgeInsets.symmetric(horizontal: 16),
                                             child: Text(
                                               'PAWN FOR +\$${card.pawnValue}',
                                               style: const TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 12,
+                                                fontSize: 16,
                                                 fontWeight: FontWeight.w900,
                                               ),
                                             ),
@@ -415,13 +415,13 @@ class CardShowcaseModal extends StatelessWidget {
                                           onTap: () => Navigator.of(context).pop(),
                                           baseColor: GameColors.goldBright,
                                           shadowColor: GameColors.brassShadow,
-                                          height: 40,
-                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                          height: 44,
+                                          padding: const EdgeInsets.symmetric(horizontal: 18),
                                           child: const Text(
                                             'CLOSE SHOWCASE',
                                             style: TextStyle(
                                               color: GameColors.inkBorder,
-                                              fontSize: 12,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.w900,
                                             ),
                                           ),
@@ -462,8 +462,8 @@ class CardShowcaseModal extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: Colors.white, size: 16),
-            const SizedBox(width: 6),
+            Icon(icon, color: Colors.white, size: 20),
+            const SizedBox(width: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -472,7 +472,7 @@ class CardShowcaseModal extends StatelessWidget {
                   title,
                   style: const TextStyle(
                     color: Colors.white70,
-                    fontSize: 8.5,
+                    fontSize: 14,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.6,
                   ),
@@ -481,7 +481,7 @@ class CardShowcaseModal extends StatelessWidget {
                   value,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 13,
+                    fontSize: 18,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 0.5,
                   ),

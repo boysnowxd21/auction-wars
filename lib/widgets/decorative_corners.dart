@@ -172,7 +172,7 @@ class DecorativeCorners extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 7.5,
+                fontSize: 12,
                 fontWeight: FontWeight.w900,
               ),
             ),
@@ -198,13 +198,13 @@ class DecorativeCorners extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.confirmation_number_rounded, color: GameColors.inkBorder, size: 14),
+          const Icon(Icons.confirmation_number_rounded, color: GameColors.inkBorder, size: 16),
           const SizedBox(width: 4),
           Text(
             ticketNo,
             style: const TextStyle(
               color: GameColors.inkBorder,
-              fontSize: 11,
+              fontSize: 14,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.5,
             ),

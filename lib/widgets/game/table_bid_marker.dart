@@ -24,7 +24,7 @@ class TableBidMarker extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isFolded) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
         decoration: BoxDecoration(
           color: const Color(0xDD374151),
           borderRadius: BorderRadius.circular(10),
@@ -37,7 +37,7 @@ class TableBidMarker extends StatelessWidget {
           '$playerName: FOLDED',
           style: const TextStyle(
             color: Color(0xFFFCA5A5),
-            fontSize: 10,
+            fontSize: 16,
             fontWeight: FontWeight.w900,
             letterSpacing: 0.5,
           ),
@@ -48,7 +48,7 @@ class TableBidMarker extends StatelessWidget {
     if (bidAmount == null || bidAmount! <= 0) {
       if (isCurrentTurn) {
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
           decoration: BoxDecoration(
             color: const Color(0xDD0284C7),
             borderRadius: BorderRadius.circular(10),
@@ -60,13 +60,13 @@ class TableBidMarker extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.timer_outlined, color: Colors.white, size: 14),
-              const SizedBox(width: 4),
+              const Icon(Icons.timer_outlined, color: Colors.white, size: 18),
+              const SizedBox(width: 6),
               Text(
                 isUser ? 'YOUR TURN TO BID' : '$playerName BIDDING...',
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 10,
+                  fontSize: 16,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.5,
                 ),
@@ -80,7 +80,7 @@ class TableBidMarker extends StatelessWidget {
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
         color: isHighestBidder ? const Color(0xFF15803D) : const Color(0xFF1E293B),
         borderRadius: BorderRadius.circular(12),
@@ -110,16 +110,16 @@ class TableBidMarker extends StatelessWidget {
           Icon(
             isHighestBidder ? Icons.stars_rounded : Icons.monetization_on_rounded,
             color: isHighestBidder ? GameColors.goldBright : const Color(0xFF38BDF8),
-            size: 15,
+            size: 19,
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 6),
           Text(
             isHighestBidder
                 ? (isUser ? 'YOUR HIGH BID: \$$bidAmount' : '$playerName HIGH: \$$bidAmount')
                 : (isUser ? 'YOUR BID: \$$bidAmount' : '$playerName: \$$bidAmount'),
             style: TextStyle(
               color: isHighestBidder ? Colors.white : const Color(0xFFF1F5F9),
-              fontSize: 11,
+              fontSize: 18,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.5,
               shadows: const [

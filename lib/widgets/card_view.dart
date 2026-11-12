@@ -73,7 +73,7 @@ class AuctionCardWidget extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontWeight: FontWeight.w900,
-                              fontSize: 10,
+                              fontSize: 15,
                               color: Color(0xFF451A03),
                             ),
                           ),

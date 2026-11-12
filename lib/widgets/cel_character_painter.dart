@@ -318,7 +318,7 @@ class _CheerfulBiddersPainter extends CustomPainter {
         text: '#1',
         style: TextStyle(
           color: Colors.white,
-          fontSize: 14,
+          fontSize: 16,
           fontWeight: FontWeight.w900,
         ),
       ),
@@ -404,7 +404,7 @@ class _CheerfulBiddersPainter extends CustomPainter {
           text: '\$100',
           style: TextStyle(
             color: Color(0xFF14532D),
-            fontSize: 9,
+            fontSize: 13,
             fontWeight: FontWeight.w900,
           ),
         ),

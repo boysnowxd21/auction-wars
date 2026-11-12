@@ -365,7 +365,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
               '${winner.name.toUpperCase()} IS THE AUCTION KINGPIN!',
               style: const TextStyle(
                 color: GameColors.goldOrange,
-                fontSize: 20,
+                fontSize: 26,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.5,
               ),
@@ -378,7 +378,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 itemBuilder: (context, i) {
                   final p = players[i];
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
                       color: p.isUser ? const Color(0xFFFEF08A) : Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -386,13 +386,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     ),
                     child: Row(
                       children: [
-                        Text('#${i + 1}', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
-                        const SizedBox(width: 12),
-                        Text(p.name, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
+                        Text('#${i + 1}', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 20)),
+                        const SizedBox(width: 14),
+                        Text(p.name, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
                         const Spacer(),
                         Text(
                           'NET WORTH: \$${p.netWorth}',
-                          style: const TextStyle(fontWeight: FontWeight.w900, color: GameColors.greenDark, fontSize: 14),
+                          style: const TextStyle(fontWeight: FontWeight.w900, color: GameColors.greenDark, fontSize: 18),
                         ),
                       ],
                     ),
@@ -405,9 +405,9 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
               onTap: widget.onExitToMenu,
               baseColor: GameColors.goldBright,
               shadowColor: GameColors.brassShadow,
-              height: 50,
+              height: 56,
               width: double.infinity,
-              child: const Text('RETURN TO MAIN MENU', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15)),
+              child: const Text('RETURN TO MAIN MENU', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
             ),
           ],
         ),
