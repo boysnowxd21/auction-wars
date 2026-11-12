@@ -16,7 +16,7 @@ class WoodenPlaqueModal extends StatelessWidget {
   final double width;
   final double height;
   final VoidCallback onClose;
-  final String? topBannerAsset;
+  final Color headerColor;
 
   const WoodenPlaqueModal({
     super.key,
@@ -25,7 +25,7 @@ class WoodenPlaqueModal extends StatelessWidget {
     required this.onClose,
     this.width = 680,
     this.height = 490,
-    this.topBannerAsset,
+    this.headerColor = GameColors.oakMedium,
   });
 
   @override
@@ -75,67 +75,60 @@ class WoodenPlaqueModal extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    if (topBannerAsset == null)
-                      // Standard Header
-                      Container(
-                        height: 58,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: const BoxDecoration(
-                          color: GameColors.oakMedium,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16),
-                          ),
-                          border: Border(
-                            bottom: BorderSide(color: GameColors.oakBorder, width: 3.5),
-                          ),
+                    // Arched Custom Theme Ribbon Header (Cel-Shaded Vector, No raster images)
+                    Container(
+                      height: 56,
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      decoration: BoxDecoration(
+                        color: headerColor,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
                         ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.stars_rounded, color: GameColors.goldBright, size: 24),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                title,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 1.2,
-                                  shadows: [
-                                    Shadow(color: GameColors.inkBorder, offset: Offset(2, 2)),
-                                  ],
-                                ),
+                        border: const Border(
+                          bottom: BorderSide(color: GameColors.oakBorder, width: 3.5),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.stars_rounded, color: GameColors.goldBright, size: 24),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              title,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.2,
+                                shadows: [
+                                  Shadow(color: GameColors.inkBorder, offset: Offset(2, 2)),
+                                ],
                               ),
                             ),
-                            const SizedBox(width: 10),
-                            TactileButton(
-                              onTap: onClose,
-                              width: 38,
-                              height: 38,
-                              borderRadius: 19,
-                              padding: EdgeInsets.zero,
-                              baseColor: GameColors.redHazard,
-                              shadowColor: GameColors.redDark,
-                              child: const Icon(Icons.close_rounded, color: Colors.white, size: 20),
-                            ),
-                          ],
-                        ),
-                      )
-                    else
-                      SizedBox(
-                        height: 48,
-                        child: Center(
-                          child: Text(
-                            title,
-                            style: const TextStyle(
-                              fontSize: 1,
-                              color: Colors.transparent,
-                            ),
                           ),
-                        ),
+                          const SizedBox(width: 10),
+                          TactileButton(
+                            onTap: onClose,
+                            width: 38,
+                            height: 38,
+                            borderRadius: 19,
+                            padding: EdgeInsets.zero,
+                            baseColor: GameColors.redHazard,
+                            shadowColor: GameColors.redDark,
+                            child: const Icon(Icons.close_rounded, color: Colors.white, size: 20),
+                          ),
+                        ],
                       ),
+                    ),
 
                     // Modal Content
                     Expanded(
@@ -150,55 +143,26 @@ class WoodenPlaqueModal extends StatelessWidget {
             ),
           ),
 
-          // Custom Ribbon & Characters Top Banner (Exact match to Reference Images)
-          if (topBannerAsset != null)
-            Positioned(
-              top: -48,
-              child: Image.asset(
-                topBannerAsset!,
-                height: 100,
-                fit: BoxFit.contain,
-              ),
-            ),
+          // 4 Golden Corner Rivets
+          Positioned(top: 8, left: 8, child: _buildGoldenRivet()),
+          Positioned(top: 8, right: 8, child: _buildGoldenRivet()),
+          Positioned(bottom: 8, left: 8, child: _buildGoldenRivet()),
+          Positioned(bottom: 8, right: 8, child: _buildGoldenRivet()),
+        ],
+      ),
+    );
+  }
 
-          // Red Circular Close Button
-          if (topBannerAsset != null)
-            Positioned(
-              top: -12,
-              right: 6,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    SoundService.instance.playClick();
-                    onClose();
-                  },
-                  child: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEF4444),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: GameColors.inkBorder, width: 3.5),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black45,
-                          blurRadius: 6,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.close_rounded,
-                      color: Colors.white,
-                      size: 26,
-                      weight: 900,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+  static Widget _buildGoldenRivet() {
+    return Container(
+      width: 12,
+      height: 12,
+      decoration: BoxDecoration(
+        color: const Color(0xFFFBBF24),
+        shape: BoxShape.circle,
+        border: Border.all(color: const Color(0xFF78350F), width: 1.5),
+        boxShadow: const [
+          BoxShadow(color: Colors.black45, blurRadius: 2, offset: Offset(1, 1)),
         ],
       ),
     );
@@ -232,7 +196,7 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
   Widget build(BuildContext context) {
     return WoodenPlaqueModal(
       title: 'ONLINE PLAY SETUP',
-      topBannerAsset: 'assets/extracted_modals/online_top_header.png',
+      headerColor: const Color(0xFF0284C7),
       width: 580,
       height: 470,
       onClose: () => Navigator.of(context).pop(),
@@ -495,7 +459,7 @@ class _LocalPartyModalState extends State<LocalPartyModal> {
   Widget build(BuildContext context) {
     return WoodenPlaqueModal(
       title: 'LOCAL PARTY (WI-FI & LAN)',
-      topBannerAsset: 'assets/extracted_modals/party_top_header.png',
+      headerColor: const Color(0xFF16A34A),
       width: 580,
       height: 470,
       onClose: () => Navigator.of(context).pop(),
@@ -803,7 +767,7 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
 
     return WoodenPlaqueModal(
       title: 'VS BOTS ARENA SETUP',
-      topBannerAsset: 'assets/extracted_modals/bots_top_header.png',
+      headerColor: const Color(0xFFDC2626),
       width: 580,
       height: 480,
       onClose: () => Navigator.of(context).pop(),
@@ -1620,7 +1584,7 @@ class _CardCompendiumModalState extends State<CardCompendiumModal> {
                               borderRadius: BorderRadius.circular(8),
                               child: Image.asset(
                                 c.imagePath,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ),

@@ -182,11 +182,11 @@ class CardShowcaseModal extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // Left: Big Card View
+                            // Left: Big Full-Bleed Card View
                             Container(
-                              width: 250,
+                              width: 310,
                               alignment: Alignment.center,
-                              padding: const EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
                                 color: Colors.black.withValues(alpha: 0.35),
                                 borderRadius: BorderRadius.circular(20),
@@ -194,8 +194,8 @@ class CardShowcaseModal extends StatelessWidget {
                               ),
                               child: AuctionCardWidget(
                                 card: card,
-                                width: 220,
-                                height: 320,
+                                width: 295,
+                                height: 395,
                                 isSelected: true,
                               ),
                             ),

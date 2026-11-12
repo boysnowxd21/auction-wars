@@ -457,11 +457,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       color: const Color(0xFF140A05),
       child: Stack(
         children: [
-          // 1. Exact 1:1 Cel-Shaded Game Screen Artwork from Reference Image
+          // 1. Native Cel-Shaded Sage-Green Poker Felt Canvas (No raster images)
           Positioned.fill(
-            child: Image.asset(
-              'assets/reference/ref_game.jpg',
-              fit: BoxFit.fill,
+            child: CustomPaint(
+              painter: _PokerFeltTablePainter(
+                glowAnimation: _glowController,
+                turnDirection: turnDirection,
+              ),
             ),
           ),
 
@@ -586,4 +588,116 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       ),
     );
   }
+}
+
+/// Native Cel-Shaded Poker Felt Table Painter (Zero raster screenshot)
+class _PokerFeltTablePainter extends CustomPainter {
+  final Animation<double> glowAnimation;
+  final String turnDirection;
+
+  _PokerFeltTablePainter({
+    required this.glowAnimation,
+    required this.turnDirection,
+  }) : super(repaint: glowAnimation);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // 1. Dark warm wooden room background
+    final bgPaint = Paint()..color = const Color(0xFF140A05);
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), bgPaint);
+
+    // Subtle wooden plank seams
+    final plankPaint = Paint()
+      ..color = const Color(0xFF1E0E06)
+      ..strokeWidth = 2;
+    for (double y = 45; y < size.height; y += 50) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), plankPaint);
+    }
+
+    // 2. The Poker Felt Table Ellipse (Offset slightly left to balance right sidebar)
+    final center = Offset(size.width * 0.45, size.height * 0.48);
+    final tableWidth = size.width * 0.45;
+    final tableHeight = size.height * 0.40;
+
+    // Outer drop shadow under bumper
+    final shadowPaint = Paint()
+      ..color = const Color(0xAA000000)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 20);
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: center + const Offset(0, 12),
+        width: tableWidth * 2,
+        height: tableHeight * 2,
+      ),
+      shadowPaint,
+    );
+
+    // Mahogany Bumper Rim (Deep cel-shaded cartoon wood)
+    final bumperRect = Rect.fromCenter(center: center, width: tableWidth * 2, height: tableHeight * 2);
+    final bumperPaint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [Color(0xFF5A2A12), Color(0xFF38180A), Color(0xFF220D04)],
+      ).createShader(bumperRect);
+    canvas.drawOval(bumperRect, bumperPaint);
+
+    // Mahogany Ink Border
+    final inkBorderPaint = Paint()
+      ..color = const Color(0xFF190902)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4.5;
+    canvas.drawOval(bumperRect, inkBorderPaint);
+
+    // Inner Gold Inlay Rim
+    final goldInlayRect = Rect.fromCenter(
+      center: center,
+      width: (tableWidth - 14) * 2,
+      height: (tableHeight - 14) * 2,
+    );
+    final goldInlayPaint = Paint()
+      ..color = const Color(0xFFD97706)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.5;
+    canvas.drawOval(goldInlayRect, goldInlayPaint);
+
+    // 3. Sage-Green Poker Felt
+    final feltRect = Rect.fromCenter(
+      center: center,
+      width: (tableWidth - 18) * 2,
+      height: (tableHeight - 18) * 2,
+    );
+    final feltPaint = Paint()
+      ..shader = RadialGradient(
+        center: const Alignment(0, -0.15),
+        radius: 0.85,
+        colors: [
+          const Color(0xFF2E7D52), // Sunlit center sage
+          const Color(0xFF1B5336), // Deep felt body
+          const Color(0xFF0F3520), // Dark rim shadow
+        ],
+      ).createShader(feltRect);
+    canvas.drawOval(feltRect, feltPaint);
+
+    // Inner rim stroke
+    final feltInnerStroke = Paint()
+      ..color = const Color(0x44000000)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 6;
+    canvas.drawOval(feltRect, feltInnerStroke);
+
+    // 4. Center Glowing Golden Turn Ring
+    final ringW = tableWidth * 0.85;
+    final ringH = tableHeight * 0.70;
+    final ringRect = Rect.fromCenter(center: center + const Offset(0, 16), width: ringW, height: ringH);
+    final glow = (0.3 + (glowAnimation.value * 0.35)).clamp(0.0, 1.0);
+    final turnRingPaint = Paint()
+      ..color = Color.fromRGBO(251, 191, 36, glow)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.5;
+    canvas.drawOval(ringRect, turnRingPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _PokerFeltTablePainter oldDelegate) => true;
 }

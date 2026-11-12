@@ -21,7 +21,7 @@ class BottomPlayerDock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 196,
+      height: 200,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -248,8 +248,8 @@ class BottomPlayerDock extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 12),
                           child: AuctionCardWidget(
                             card: c,
-                            width: 125,
-                            height: 148,
+                            width: 124,
+                            height: 160,
                             onTap: () {
                               CardShowcaseModal.show(
                                 context,

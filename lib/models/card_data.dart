@@ -1191,7 +1191,7 @@ class CardDatabase {
       actionWindow: 'Window 2: Mid-Bid',
       tag: 'TAG: OPS (Window 2: Mid-Bid)',
       description: "Forces next rival to increase the current bid by +\$500.",
-      imagePath: 'assets/cards/Force Raise +\$500.png',
+      imagePath: r'assets/cards/Force Raise +$500.png',
     ),
     AuctionCard(
       id: 'OPS_DISCOUNT',
@@ -1257,7 +1257,7 @@ class CardDatabase {
       actionWindow: 'Window 4: Post-Lot',
       tag: 'TAG: OPS (Window 4: Post-Lot)',
       description: "IRS audit triggers! All players lose 25% stash value or debt increases.",
-      imagePath: 'assets/cards/IRS RAID: FINAL LIQUIDATION!.png',
+      imagePath: 'assets/cards/IRS Raid Final Liquidation.png',
     ),
   ];
 
