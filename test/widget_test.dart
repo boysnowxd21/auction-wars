@@ -373,4 +373,37 @@ void main() {
     // Verify game continues with player folded
     expect(find.textContaining('ROUND: 1'), findsOneWidget);
   });
+
+  testWidgets('Tapping ITEM MONEY opens Stash Vault Modal and shows vault summary',
+      (WidgetTester tester) async {
+    tester.view.physicalSize = const Size(1920, 1080);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(() => tester.view.resetPhysicalSize());
+
+    await tester.pumpWidget(const AuctionWarsApp());
+    await tester.pump(const Duration(milliseconds: 200));
+
+    // Start Arena Match
+    await tester.tap(find.text('CHOOSE BOTS & PLAY'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.text('START ARENA MATCH'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Tap on ITEM MONEY pill
+    await tester.tap(find.textContaining('ITEM MONEY:'));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Verify Stash Vault Modal is opened
+    expect(find.textContaining('MY WON ITEMS & STASH VAULT'), findsOneWidget);
+    expect(find.text('TOTAL STASH WORTH'), findsOneWidget);
+    expect(find.text('PAWN VALUE (50% CASH)'), findsOneWidget);
+    expect(find.text('YOUR VAULT IS CURRENTLY EMPTY'), findsOneWidget);
+
+    // Tap close button on Stash Vault
+    await tester.tap(find.byIcon(Icons.close_rounded));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    // Returned to game screen
+    expect(find.textContaining('ROUND: 1'), findsOneWidget);
+  });
 }

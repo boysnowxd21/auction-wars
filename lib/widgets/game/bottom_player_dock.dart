@@ -16,6 +16,7 @@ class BottomPlayerDock extends StatelessWidget {
   final VoidCallback onPassFold;
   final Function(AuctionCard card)? onPawnCard;
   final Function(AuctionCard card)? onPlayOpsCard;
+  final VoidCallback? onOpenStashVault;
 
   const BottomPlayerDock({
     super.key,
@@ -27,12 +28,13 @@ class BottomPlayerDock extends StatelessWidget {
     required this.onPassFold,
     this.onPawnCard,
     this.onPlayOpsCard,
+    this.onOpenStashVault,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 210,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
@@ -156,19 +158,25 @@ class BottomPlayerDock extends StatelessWidget {
 
               const SizedBox(width: 6),
 
-              // Metric Pill 2: ITEM MONEY: +$X,XXX
+              // Metric Pill 2: ITEM MONEY: +$X,XXX (Tappable to view Stash Vault)
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
-                  decoration: GameTheme.goldMoneyPillDeco,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      'ITEM MONEY: +\$${player.itemMoney}',
-                      style: const TextStyle(
-                        color: GameColors.inkBorder,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w900,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: onOpenStashVault,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
+                      decoration: GameTheme.goldMoneyPillDeco,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'ITEM MONEY: +\$${player.itemMoney}',
+                          style: const TextStyle(
+                            color: GameColors.inkBorder,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -177,7 +185,7 @@ class BottomPlayerDock extends StatelessWidget {
             ],
           ),
 
-          // Row 3: Pawn Shop Section
+          // Row 3: Pawn Shop Section & Stash Vault Trigger
           _buildPawnShopSection(),
         ],
       ),
@@ -187,62 +195,72 @@ class BottomPlayerDock extends StatelessWidget {
   Widget _buildPawnShopSection() {
     final pawnable = player.stash.where((c) => c.value > 0).toList();
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: const Color(0xFF2E1508),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFD97706), width: 1.5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const Flexible(
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                'PAWN SHOP: 50% CASH',
-                style: TextStyle(
-                  color: GameColors.goldBright,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onOpenStashVault,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+          decoration: BoxDecoration(
+            color: const Color(0xFF2E1508),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: const Color(0xFFD97706), width: 1.5),
           ),
-          const SizedBox(width: 4),
-          if (pawnable.isEmpty)
-            const Flexible(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  'STASH EMPTY (\$0)',
-                  style: TextStyle(
-                    color: Colors.white54,
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    children: [
+                      Icon(Icons.inventory_2_rounded, size: 12, color: GameColors.goldBright),
+                      SizedBox(width: 3),
+                      Text(
+                        'PAWN SHOP: 50% CASH',
+                        style: TextStyle(
+                          color: GameColors.goldBright,
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            )
-          else
-            GestureDetector(
-              onTap: onPawnCard != null ? () => onPawnCard!(pawnable.first) : null,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
-                decoration: BoxDecoration(
-                  color: GameColors.greenMoney,
-                  borderRadius: BorderRadius.circular(6),
+              const SizedBox(width: 4),
+              if (pawnable.isEmpty)
+                const Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'STASH EMPTY (\$0)',
+                      style: TextStyle(
+                        color: Colors.white54,
+                        fontSize: 9.5,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+                  decoration: BoxDecoration(
+                    color: GameColors.greenMoney,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    'PAWN +\$${pawnable.first.pawnValue}',
+                    style: const TextStyle(color: Colors.white, fontSize: 8.5, fontWeight: FontWeight.w900),
+                  ),
                 ),
-                child: Text(
-                  'PAWN +\$${pawnable.first.pawnValue}',
-                  style: const TextStyle(color: Colors.white, fontSize: 8.5, fontWeight: FontWeight.w900),
-                ),
-              ),
-            ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -297,8 +315,8 @@ class BottomPlayerDock extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 10),
                           child: AuctionCardWidget(
                             card: c,
-                            width: 124,
-                            height: 155,
+                            width: 128,
+                            height: 168,
                             onTap: () {
                               CardShowcaseModal.show(
                                 context,

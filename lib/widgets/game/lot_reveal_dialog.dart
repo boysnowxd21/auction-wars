@@ -23,6 +23,10 @@ class LotRevealDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final dialogW = screenSize.width * 0.92;
+    final dialogH = screenSize.height * 0.90;
+
     final allWonCards = lot.crates.expand((c) => c.cards).toList();
     final totalValuation = lot.totalLotValue;
     final netProfit = totalValuation - winningBid;
@@ -30,21 +34,23 @@ class LotRevealDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      child: Container(
-        width: 820,
-        height: 530,
-        decoration: BoxDecoration(
-          color: GameColors.oakDark,
-          borderRadius: BorderRadius.circular(28),
-          border: Border.all(color: GameColors.oakBorder, width: 6),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black87,
-              blurRadius: 36,
-              offset: Offset(0, 16),
-            ),
-          ],
-        ),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Center(
+        child: Container(
+          width: dialogW.clamp(560.0, 840.0),
+          height: dialogH.clamp(360.0, 540.0),
+          decoration: BoxDecoration(
+            color: GameColors.oakDark,
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: GameColors.oakBorder, width: 6),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black87,
+                blurRadius: 36,
+                offset: Offset(0, 16),
+              ),
+            ],
+          ),
         child: Padding(
           padding: const EdgeInsets.all(14.0),
           child: Container(
@@ -138,19 +144,24 @@ class LotRevealDialog extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: allWonCards.map((c) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: AuctionCardWidget(
-                            card: c,
-                            width: 155,
-                            height: 235,
-                            onTap: () => CardShowcaseModal.show(context, c),
-                          ),
-                        );
-                      }).toList(),
+                    child: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: allWonCards.map((c) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: AuctionCardWidget(
+                                card: c,
+                                width: 145,
+                                height: 195,
+                                onTap: () => CardShowcaseModal.show(context, c),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -189,6 +200,7 @@ class LotRevealDialog extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 

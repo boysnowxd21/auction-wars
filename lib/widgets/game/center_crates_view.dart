@@ -10,6 +10,7 @@ class CenterCratesView extends StatelessWidget {
   final int hammerCount; // 0=None, 1=Once, 2=Twice, 3=Fair Warning, 4=Sold
   final String turnDirection; // 'Clockwise' or 'Counter-Clockwise'
   final Function(int crateIndex)? onCrateTap;
+  final double openProgress;
 
   const CenterCratesView({
     super.key,
@@ -19,6 +20,7 @@ class CenterCratesView extends StatelessWidget {
     required this.hammerCount,
     required this.turnDirection,
     this.onCrateTap,
+    this.openProgress = 0.0,
   });
 
   @override
@@ -105,7 +107,7 @@ class CenterCratesView extends StatelessWidget {
 
         const SizedBox(height: 3),
 
-        // 2.5D Wooden Crate with Iron Chains & Padlock
+        // 2.5D Wooden Crate with Iron Chains & Padlock (Animated crate opening)
         SizedBox(
           width: 140,
           height: 115,
@@ -114,6 +116,7 @@ class CenterCratesView extends StatelessWidget {
               label: crate.label,
               isRevealed: crate.isRevealed,
               isXRayed: crate.isXRayed,
+              openProgress: crate.isRevealed ? 1.0 : openProgress,
             ),
           ),
         ),
@@ -237,11 +240,13 @@ class _IsometricCratePainter extends CustomPainter {
   final String label;
   final bool isRevealed;
   final bool isXRayed;
+  final double openProgress;
 
   _IsometricCratePainter({
     required this.label,
     required this.isRevealed,
     required this.isXRayed,
+    this.openProgress = 0.0,
   });
 
   @override
@@ -257,7 +262,53 @@ class _IsometricCratePainter extends CustomPainter {
     final w = size.width;
     final h = size.height;
 
-    // Crate Front Face
+    final effectiveOpen = isRevealed ? max(openProgress, 1.0) : openProgress;
+
+    // 1. If crate is opening, draw glowing golden god rays shooting out from inside
+    if (effectiveOpen > 0.25) {
+      final rayProgress = ((effectiveOpen - 0.25) / 0.75).clamp(0.0, 1.0);
+      final rayPaint = Paint()
+        ..color = Color.fromRGBO(254, 240, 138, 0.5 * rayProgress)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.5;
+
+      for (int a = -4; a <= 4; a++) {
+        final angle = (a * 15) * pi / 180;
+        final rayLen = 50.0 * rayProgress;
+        final startP = Offset(w * 0.50, h * 0.25);
+        final endP = Offset(
+          startP.dx + sin(angle) * rayLen,
+          startP.dy - cos(angle) * rayLen,
+        );
+        canvas.drawLine(startP, endP, rayPaint);
+      }
+    }
+
+    // 2. Interior Glow Cavity (visible when crate lid opens)
+    if (effectiveOpen > 0.2) {
+      final cavityProgress = ((effectiveOpen - 0.2) / 0.8).clamp(0.0, 1.0);
+      final cavityPath = Path()
+        ..moveTo(w * 0.14, h * 0.30)
+        ..lineTo(w * 0.28, h * 0.12)
+        ..lineTo(w * 0.98, h * 0.12)
+        ..lineTo(w * 0.86, h * 0.30)
+        ..close();
+
+      final cavityGlow = Paint()
+        ..shader = RadialGradient(
+          center: const Alignment(0, 0),
+          radius: 0.8,
+          colors: [
+            Color.fromRGBO(254, 240, 138, cavityProgress),
+            Color.fromRGBO(245, 158, 11, cavityProgress),
+            const Color(0xFF451A03),
+          ],
+        ).createShader(Rect.fromLTWH(w * 0.14, h * 0.12, w * 0.84, h * 0.20));
+      canvas.drawPath(cavityPath, cavityGlow);
+      canvas.drawPath(cavityPath, stroke);
+    }
+
+    // 3. Crate Front Face
     fill.color = isXRayed ? const Color(0xFF38BDF8) : const Color(0xFFB45309);
     final front = Path()
       ..moveTo(w * 0.12, h * 0.32)
@@ -280,18 +331,7 @@ class _IsometricCratePainter extends CustomPainter {
     canvas.drawLine(Offset(w * 0.12, h * 0.32), Offset(w * 0.88, h * 0.95), slatStroke);
     canvas.drawLine(Offset(w * 0.12, h * 0.95), Offset(w * 0.88, h * 0.32), slatStroke);
 
-    // Crate Top Face (Isometric 2.5D angle)
-    fill.color = isXRayed ? const Color(0xFF7DD3FC) : const Color(0xFFD97706);
-    final top = Path()
-      ..moveTo(w * 0.12, h * 0.32)
-      ..lineTo(w * 0.28, h * 0.10)
-      ..lineTo(w * 1.00, h * 0.10)
-      ..lineTo(w * 0.88, h * 0.32)
-      ..close();
-    canvas.drawPath(top, fill);
-    canvas.drawPath(top, stroke);
-
-    // Crate Right Face
+    // 4. Crate Right Face
     fill.color = isXRayed ? const Color(0xFF0284C7) : const Color(0xFF78350F);
     final rightSide = Path()
       ..moveTo(w * 0.88, h * 0.32)
@@ -302,27 +342,66 @@ class _IsometricCratePainter extends CustomPainter {
     canvas.drawPath(rightSide, fill);
     canvas.drawPath(rightSide, stroke);
 
-    if (!isRevealed) {
+    // 5. Crate Top Lid (Animated opening in 2.5D!)
+    if (effectiveOpen < 0.25) {
+      // Flat Closed Top Lid
+      fill.color = isXRayed ? const Color(0xFF7DD3FC) : const Color(0xFFD97706);
+      final top = Path()
+        ..moveTo(w * 0.12, h * 0.32)
+        ..lineTo(w * 0.28, h * 0.10)
+        ..lineTo(w * 1.00, h * 0.10)
+        ..lineTo(w * 0.88, h * 0.32)
+        ..close();
+      canvas.drawPath(top, fill);
+      canvas.drawPath(top, stroke);
+    } else {
+      // Hinging Opened Top Lid swinging upward!
+      final lidLift = ((effectiveOpen - 0.25) / 0.75).clamp(0.0, 1.0) * (h * 0.35);
+      final openLid = Path()
+        ..moveTo(w * 0.28, h * 0.10)
+        ..lineTo(w * 1.00, h * 0.10)
+        ..lineTo(w * 0.95, h * 0.05 - lidLift)
+        ..lineTo(w * 0.22, h * 0.05 - lidLift)
+        ..close();
+
+      fill.color = const Color(0xFF92400E);
+      canvas.drawPath(openLid, fill);
+      canvas.drawPath(openLid, stroke);
+
+      // Underside slat line on open lid
+      canvas.drawLine(
+        Offset(w * 0.25, h * 0.075 - (lidLift * 0.5)),
+        Offset(w * 0.97, h * 0.075 - (lidLift * 0.5)),
+        slatStroke,
+      );
+    }
+
+    // 6. Chains & Padlock or Floating Treasure Card
+    if (effectiveOpen < 0.35) {
+      final chainAlpha = (1.0 - (effectiveOpen / 0.35)).clamp(0.0, 1.0);
+      final chainDrop = effectiveOpen * 30.0;
+
       // Heavy Iron Chains wrapped diagonally
       final chainPaint = Paint()
-        ..color = const Color(0xFF94A3B8)
+        ..color = Color.fromRGBO(148, 163, 184, chainAlpha)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 5.5
         ..strokeCap = StrokeCap.round;
-      canvas.drawLine(Offset(w * 0.12, h * 0.32), Offset(w * 0.88, h * 0.95), chainPaint);
-      canvas.drawLine(Offset(w * 0.12, h * 0.95), Offset(w * 0.88, h * 0.32), chainPaint);
+      canvas.drawLine(Offset(w * 0.12, h * 0.32 + chainDrop), Offset(w * 0.88, h * 0.95 + chainDrop), chainPaint);
+      canvas.drawLine(Offset(w * 0.12, h * 0.95 + chainDrop), Offset(w * 0.88, h * 0.32 + chainDrop), chainPaint);
 
       // Steel Padlock in Center
+      final lockCenter = Offset(w * 0.50, h * 0.63 + chainDrop);
       final lockRect = RRect.fromRectAndRadius(
-        Rect.fromCenter(center: Offset(w * 0.50, h * 0.63), width: 24, height: 20),
+        Rect.fromCenter(center: lockCenter, width: 24, height: 20),
         const Radius.circular(4),
       );
-      canvas.drawRRect(lockRect, Paint()..color = const Color(0xFFE2E8F0));
+      canvas.drawRRect(lockRect, Paint()..color = Color.fromRGBO(226, 232, 240, chainAlpha));
       canvas.drawRRect(lockRect, stroke..strokeWidth = 2);
 
       // Padlock Shackle
       canvas.drawArc(
-        Rect.fromCenter(center: Offset(w * 0.50, h * 0.53), width: 14, height: 16),
+        Rect.fromCenter(center: Offset(lockCenter.dx, lockCenter.dy - 10), width: 14, height: 16),
         pi,
         pi,
         false,
@@ -330,17 +409,37 @@ class _IsometricCratePainter extends CustomPainter {
       );
 
       // Keyhole
-      canvas.drawCircle(Offset(w * 0.50, h * 0.63), 2.5, Paint()..color = GameColors.inkBorder);
+      canvas.drawCircle(lockCenter, 2.5, Paint()..color = GameColors.inkBorder);
     } else {
-      // Golden Sparkle of Revealed Treasure!
-      final goldPaint = Paint()..color = GameColors.goldBright;
-      canvas.drawCircle(Offset(w * 0.50, h * 0.63), 16, goldPaint);
-      canvas.drawCircle(Offset(w * 0.50, h * 0.63), 16, stroke..strokeWidth = 2);
+      // 7. Treasure Miniature Card Rising from the Crate!
+      final riseProgress = ((effectiveOpen - 0.35) / 0.65).clamp(0.0, 1.0);
+      final cardCenter = Offset(w * 0.50, h * 0.35 - (riseProgress * 28.0));
+
+      // Rising Card Rect
+      final cardRect = RRect.fromRectAndRadius(
+        Rect.fromCenter(center: cardCenter, width: 34, height: 46),
+        const Radius.circular(5),
+      );
+      canvas.drawRRect(cardRect, Paint()..color = GameColors.goldBright);
+      canvas.drawRRect(cardRect, stroke..strokeWidth = 2);
+
+      // Inner card illustration icon / star
+      canvas.drawCircle(cardCenter, 8, Paint()..color = const Color(0xFFF59E0B));
+      canvas.drawCircle(cardCenter, 8, stroke..strokeWidth = 1.2);
+
+      // Sparkles around card
+      final sparklePaint = Paint()..color = Colors.white;
+      canvas.drawCircle(Offset(cardCenter.dx - 18, cardCenter.dy - 12), 2.5, sparklePaint);
+      canvas.drawCircle(Offset(cardCenter.dx + 18, cardCenter.dy + 10), 2.0, sparklePaint);
+      canvas.drawCircle(Offset(cardCenter.dx + 14, cardCenter.dy - 16), 3.0, Paint()..color = GameColors.goldBright);
     }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant _IsometricCratePainter oldDelegate) =>
+      oldDelegate.openProgress != openProgress ||
+      oldDelegate.isRevealed != isRevealed ||
+      oldDelegate.isXRayed != isXRayed;
 }
 
 class _DollarBillsFanPainter extends CustomPainter {

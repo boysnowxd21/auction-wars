@@ -13,6 +13,7 @@ import '../widgets/game/opponent_seat_view.dart';
 import '../widgets/game/table_bid_marker.dart';
 import '../widgets/game/top_nav_strip.dart';
 import '../widgets/modals/setup_modals.dart';
+import '../widgets/modals/stash_vault_modal.dart';
 import '../widgets/tactile_button.dart';
 
 class GameScreen extends StatefulWidget {
@@ -54,6 +55,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   Timer? _hammerTimer;
 
   late AnimationController _glowController;
+  late AnimationController _crateOpenController;
 
   @override
   void initState() {
@@ -62,6 +64,11 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
+
+    _crateOpenController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
 
     _initializeGame();
   }
@@ -104,6 +111,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   void _startNewRound() {
     _aiTimer?.cancel();
     _hammerTimer?.cancel();
+    _crateOpenController.reset();
 
     currentLot = CrateLot.generateRandomLot(currentRound);
     currentBid = 300 + (currentRound * 50);
@@ -309,8 +317,12 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         liveNarrative = '🎉 SOLD TO ${winner.name.toUpperCase()} FOR \$$currentBid!';
       });
 
-      // Show celebratory Unpack Reveal Dialog
-      Future.delayed(const Duration(milliseconds: 600), () {
+      // Play Crate Opening Animation
+      _crateOpenController.forward(from: 0.0);
+      SoundService.instance.playCashRegister();
+
+      // Show celebratory Unpack Reveal Dialog after opening animation
+      Future.delayed(const Duration(milliseconds: 1300), () {
         if (!mounted) return;
         showDialog(
           context: context,
@@ -449,6 +461,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     _aiTimer?.cancel();
     _hammerTimer?.cancel();
     _glowController.dispose();
+    _crateOpenController.dispose();
     super.dispose();
   }
 
@@ -515,9 +528,16 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       SoundService.instance.playCashRegister();
                     },
                     onBlackMarketTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => const CardCompendiumModal(),
+                      StashVaultModal.show(
+                        context,
+                        player: userPlayer,
+                        onPawnCard: (card) {
+                          setState(() {
+                            userPlayer.pawnCard(card);
+                            liveNarrative = 'PAWNED ${card.name} FOR +\$${card.pawnValue}!';
+                          });
+                          SoundService.instance.playCashRegister();
+                        },
                       );
                     },
                     onBuyOpsTap: () {
@@ -619,25 +639,29 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                 left: 190,
                 right: 190,
                 child: Center(
-                  child: CenterCratesView(
-                    crates: currentLot.crates,
-                    currentBid: currentBid,
-                    highestBidderName: highestBidderIndex >= 0 ? players[highestBidderIndex].name : 'Nobody',
-                    hammerCount: hammerCount,
-                    turnDirection: turnDirection,
-                    onCrateTap: (i) {
-                      final xray = userPlayer.opsHand.where((c) => c.id == 'OPS_XRAY').firstOrNull;
-                      if (xray != null && !currentLot.crates[i].isXRayed) {
-                        _playOpsCard(xray);
-                      }
-                    },
+                  child: AnimatedBuilder(
+                    animation: _crateOpenController,
+                    builder: (context, _) => CenterCratesView(
+                      crates: currentLot.crates,
+                      currentBid: currentBid,
+                      highestBidderName: highestBidderIndex >= 0 ? players[highestBidderIndex].name : 'Nobody',
+                      hammerCount: hammerCount,
+                      turnDirection: turnDirection,
+                      openProgress: _crateOpenController.value,
+                      onCrateTap: (i) {
+                        final xray = userPlayer.opsHand.where((c) => c.id == 'OPS_XRAY').firstOrNull;
+                        if (xray != null && !currentLot.crates[i].isXRayed) {
+                          _playOpsCard(xray);
+                        }
+                      },
+                    ),
                   ),
                 ),
               ),
 
               // 5. User Active Table Bid Marker (On the green felt right in front of YOU)
               Positioned(
-                bottom: 206,
+                bottom: 216,
                 left: 0,
                 right: 0,
                 child: Center(
@@ -676,6 +700,19 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       liveNarrative = 'PAWNED ${card.name} FOR +\$${card.pawnValue}!';
                     });
                     SoundService.instance.playCashRegister();
+                  },
+                  onOpenStashVault: () {
+                    StashVaultModal.show(
+                      context,
+                      player: userPlayer,
+                      onPawnCard: (card) {
+                        setState(() {
+                          userPlayer.pawnCard(card);
+                          liveNarrative = 'PAWNED ${card.name} FOR +\$${card.pawnValue}!';
+                        });
+                        SoundService.instance.playCashRegister();
+                      },
+                    );
                   },
                   onPlayOpsCard: _playOpsCard,
                 ),

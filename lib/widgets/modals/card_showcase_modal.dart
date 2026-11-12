@@ -43,8 +43,8 @@ class CardShowcaseModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final modalWidth = (screenSize.width * 0.92).clamp(600.0, 960.0);
-    final modalHeight = (screenSize.height * 0.88).clamp(420.0, 560.0);
+    final modalWidth = (screenSize.width * 0.94).clamp(560.0, 960.0);
+    final modalHeight = (screenSize.height * 0.92).clamp(360.0, 580.0);
 
     Color themeColor;
     String typeLabel;
@@ -182,21 +182,26 @@ class CardShowcaseModal extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            // Left: Big Full-Bleed Card View
-                            Container(
-                              width: 310,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(6),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withValues(alpha: 0.35),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.white12, width: 2),
-                              ),
-                              child: AuctionCardWidget(
-                                card: card,
-                                width: 295,
-                                height: 395,
-                                isSelected: true,
+                            // Left: Big Full-Bleed Card View (Fitted dynamically, zero overflow, no stretch)
+                            Flexible(
+                              flex: 4,
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withValues(alpha: 0.35),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: Colors.white12, width: 2),
+                                ),
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: AuctionCardWidget(
+                                    card: card,
+                                    width: 275,
+                                    height: 365,
+                                    isSelected: true,
+                                  ),
+                                ),
                               ),
                             ),
 
@@ -204,8 +209,9 @@ class CardShowcaseModal extends StatelessWidget {
 
                             // Right: Dossier Stats & Lore Details
                             Expanded(
+                              flex: 5,
                               child: Container(
-                                padding: const EdgeInsets.all(16),
+                                padding: const EdgeInsets.all(14),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFDFBF7),
                                   borderRadius: BorderRadius.circular(20),
@@ -214,208 +220,215 @@ class CardShowcaseModal extends StatelessWidget {
                                     BoxShadow(color: Colors.black38, blurRadius: 8, offset: Offset(0, 4)),
                                   ],
                                 ),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      // 1. Valuation & Financial Badges
-                                      Wrap(
-                                        spacing: 10,
-                                        runSpacing: 8,
-                                        children: [
-                                          if (card.isPositive) ...[
-                                            _buildMetricBadge(
-                                              'FACE VALUATION',
-                                              '+\$${card.value}',
-                                              GameColors.greenMoney,
-                                              GameColors.greenDark,
-                                              Icons.monetization_on_rounded,
-                                            ),
-                                            _buildMetricBadge(
-                                              '50% PAWN PAYOUT',
-                                              '+\$${card.pawnValue}',
-                                              const Color(0xFF0284C7),
-                                              const Color(0xFF0369A1),
-                                              Icons.account_balance_wallet_rounded,
-                                            ),
-                                          ] else if (card.isJunk) ...[
-                                            _buildMetricBadge(
-                                              'DISPOSAL PENALTY',
-                                              '-\$${card.value.abs()}',
-                                              GameColors.redHazard,
-                                              GameColors.redDark,
-                                              Icons.delete_sweep_rounded,
-                                            ),
-                                            _buildMetricBadge(
-                                              'PAWN VALUE',
-                                              '\$0 (SCRAP)',
-                                              Colors.grey.shade600,
-                                              Colors.grey.shade800,
-                                              Icons.do_not_disturb_on_rounded,
-                                            ),
-                                          ] else ...[
-                                            _buildMetricBadge(
-                                              'TRIGGER WINDOW',
-                                              card.actionWindow,
-                                              GameColors.blueOps,
-                                              GameColors.blueDark,
-                                              Icons.timer_rounded,
-                                            ),
-                                            _buildMetricBadge(
-                                              'SHOP PRICE',
-                                              '\$300 BID CASH',
-                                              GameColors.goldOrange,
-                                              GameColors.brassShadow,
-                                              Icons.shopping_cart_rounded,
-                                            ),
-                                          ],
-                                        ],
-                                      ),
-
-                                      const SizedBox(height: 14),
-
-                                      // 2. Full Description Box
-                                      const Text(
-                                        'SPECIAL RULES & APPRAISAL',
-                                        style: TextStyle(
-                                          color: GameColors.oakDark,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w900,
-                                          letterSpacing: 0.8,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 6),
-                                      Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFFEF3C7),
-                                          borderRadius: BorderRadius.circular(12),
-                                          border: Border.all(color: GameColors.goldOrange, width: 2),
-                                        ),
-                                        child: Text(
-                                          card.description,
-                                          style: const TextStyle(
-                                            color: Color(0xFF451A03),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            height: 1.35,
-                                          ),
-                                        ),
-                                      ),
-
-                                      const SizedBox(height: 12),
-
-                                      // 3. Strategic Synergy & Tactical Combo
-                                      const Text(
-                                        'AUCTION WAR TACTICS',
-                                        style: TextStyle(
-                                          color: GameColors.oakDark,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w900,
-                                          letterSpacing: 0.8,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 6),
-                                      Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(12),
-                                          border: Border.all(color: GameColors.inkBorder, width: 1.5),
-                                        ),
-                                        child: Row(
+                                child: Column(
+                                  children: [
+                                    // 1. Scrollable Content (Financial Badges, Lore, Rules)
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            const Icon(Icons.lightbulb_rounded, color: GameColors.goldBright, size: 20),
-                                            const SizedBox(width: 8),
-                                            Expanded(
+                                            // 1. Valuation & Financial Badges
+                                            Wrap(
+                                              spacing: 8,
+                                              runSpacing: 6,
+                                              children: [
+                                                if (card.isPositive) ...[
+                                                  _buildMetricBadge(
+                                                    'FACE VALUATION',
+                                                    '+\$${card.value}',
+                                                    GameColors.greenMoney,
+                                                    GameColors.greenDark,
+                                                    Icons.monetization_on_rounded,
+                                                  ),
+                                                  _buildMetricBadge(
+                                                    '50% PAWN PAYOUT',
+                                                    '+\$${card.pawnValue}',
+                                                    const Color(0xFF0284C7),
+                                                    const Color(0xFF0369A1),
+                                                    Icons.account_balance_wallet_rounded,
+                                                  ),
+                                                ] else if (card.isJunk) ...[
+                                                  _buildMetricBadge(
+                                                    'DISPOSAL PENALTY',
+                                                    '-\$${card.value.abs()}',
+                                                    GameColors.redHazard,
+                                                    GameColors.redDark,
+                                                    Icons.delete_sweep_rounded,
+                                                  ),
+                                                  _buildMetricBadge(
+                                                    'PAWN VALUE',
+                                                    '\$0 (SCRAP)',
+                                                    Colors.grey.shade600,
+                                                    Colors.grey.shade800,
+                                                    Icons.do_not_disturb_on_rounded,
+                                                  ),
+                                                ] else ...[
+                                                  _buildMetricBadge(
+                                                    'TRIGGER WINDOW',
+                                                    card.actionWindow,
+                                                    GameColors.blueOps,
+                                                    GameColors.blueDark,
+                                                    Icons.timer_rounded,
+                                                  ),
+                                                  _buildMetricBadge(
+                                                    'SHOP PRICE',
+                                                    '\$300 BID CASH',
+                                                    GameColors.goldOrange,
+                                                    GameColors.brassShadow,
+                                                    Icons.shopping_cart_rounded,
+                                                  ),
+                                                ],
+                                              ],
+                                            ),
+
+                                            const SizedBox(height: 10),
+
+                                            // 2. Full Description Box
+                                            const Text(
+                                              'SPECIAL RULES & APPRAISAL',
+                                              style: TextStyle(
+                                                color: GameColors.oakDark,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w900,
+                                                letterSpacing: 0.8,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Container(
+                                              width: double.infinity,
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFFFEF3C7),
+                                                borderRadius: BorderRadius.circular(12),
+                                                border: Border.all(color: GameColors.goldOrange, width: 2),
+                                              ),
                                               child: Text(
-                                                card.isSpecialOps
-                                                    ? 'Play during ${card.actionWindow} to disrupt opponent bidding strategies or reveal sealed contents!'
-                                                    : card.isPositive
-                                                        ? 'Keep in vault for highest match net worth, or pawn at the side shop for immediate +50% bid cash if loans run dry.'
-                                                        : 'Watch out! Junk assets cost you money if won. Use Special Ops or fold early when crate hint tags look suspicious.',
+                                                card.description,
                                                 style: const TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 11.5,
-                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xFF451A03),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
                                                   height: 1.3,
                                                 ),
                                               ),
                                             ),
+
+                                            const SizedBox(height: 10),
+
+                                            // 3. Strategic Synergy & Tactical Combo
+                                            const Text(
+                                              'AUCTION WAR TACTICS',
+                                              style: TextStyle(
+                                                color: GameColors.oakDark,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w900,
+                                                letterSpacing: 0.8,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Container(
+                                              width: double.infinity,
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(12),
+                                                border: Border.all(color: GameColors.inkBorder, width: 1.5),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  const Icon(Icons.lightbulb_rounded, color: GameColors.goldBright, size: 18),
+                                                  const SizedBox(width: 6),
+                                                  Expanded(
+                                                    child: Text(
+                                                      card.isSpecialOps
+                                                          ? 'Play during ${card.actionWindow} to disrupt opponent bidding strategies or reveal sealed contents!'
+                                                          : card.isPositive
+                                                              ? 'Keep in vault for highest match net worth, or pawn at the side shop for immediate +50% bid cash if loans run dry.'
+                                                              : 'Watch out! Junk assets cost you money if won. Use Special Ops or fold early when crate hint tags look suspicious.',
+                                                      style: const TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 11,
+                                                        fontWeight: FontWeight.w600,
+                                                        height: 1.25,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
+                                    ),
 
-                                      const SizedBox(height: 16),
+                                    const SizedBox(height: 10),
 
-                                      // 4. Action Buttons
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          if (onPlayAction != null) ...[
-                                            TactileButton(
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                                onPlayAction!();
-                                              },
-                                              baseColor: GameColors.blueOps,
-                                              shadowColor: GameColors.blueDark,
-                                              height: 44,
-                                              padding: const EdgeInsets.symmetric(horizontal: 18),
-                                              child: Text(
-                                                playActionLabel ?? 'PLAY THIS CARD',
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w900,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                          ],
-                                          if (onPawnAction != null) ...[
-                                            TactileButton(
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                                onPawnAction!();
-                                              },
-                                              baseColor: GameColors.greenMoney,
-                                              shadowColor: GameColors.greenDark,
-                                              height: 44,
-                                              padding: const EdgeInsets.symmetric(horizontal: 18),
-                                              child: Text(
-                                                'PAWN FOR +\$${card.pawnValue}',
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w900,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 10),
-                                          ],
+                                    // 2. Pinned Action Buttons (Always on-screen and immediately clickable!)
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        if (onPlayAction != null) ...[
                                           TactileButton(
-                                            onTap: () => Navigator.of(context).pop(),
-                                            baseColor: GameColors.goldBright,
-                                            shadowColor: GameColors.brassShadow,
-                                            height: 44,
-                                            padding: const EdgeInsets.symmetric(horizontal: 22),
-                                            child: const Text(
-                                              'CLOSE SHOWCASE',
-                                              style: TextStyle(
-                                                color: GameColors.inkBorder,
-                                                fontSize: 13,
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                              onPlayAction!();
+                                            },
+                                            baseColor: GameColors.blueOps,
+                                            shadowColor: GameColors.blueDark,
+                                            height: 40,
+                                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                                            child: Text(
+                                              playActionLabel ?? 'PLAY THIS CARD',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
                                                 fontWeight: FontWeight.w900,
                                               ),
                                             ),
                                           ),
+                                          const SizedBox(width: 8),
                                         ],
-                                      ),
-                                    ],
-                                  ),
+                                        if (onPawnAction != null) ...[
+                                          TactileButton(
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                              onPawnAction!();
+                                            },
+                                            baseColor: GameColors.greenMoney,
+                                            shadowColor: GameColors.greenDark,
+                                            height: 40,
+                                            padding: const EdgeInsets.symmetric(horizontal: 14),
+                                            child: Text(
+                                              'PAWN FOR +\$${card.pawnValue}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                        ],
+                                        TactileButton(
+                                          onTap: () => Navigator.of(context).pop(),
+                                          baseColor: GameColors.goldBright,
+                                          shadowColor: GameColors.brassShadow,
+                                          height: 40,
+                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                          child: const Text(
+                                            'CLOSE SHOWCASE',
+                                            style: TextStyle(
+                                              color: GameColors.inkBorder,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w900,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -435,7 +448,7 @@ class CardShowcaseModal extends StatelessWidget {
 
   Widget _buildMetricBadge(String title, String value, Color bg, Color border, IconData icon) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(12),
@@ -444,36 +457,39 @@ class CardShowcaseModal extends StatelessWidget {
           BoxShadow(color: Colors.black26, offset: Offset(0, 2), blurRadius: 3),
         ],
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: Colors.white, size: 16),
-          const SizedBox(width: 6),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 8.5,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0.6,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: Colors.white, size: 16),
+            const SizedBox(width: 6),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 8.5,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.6,
+                  ),
                 ),
-              ),
-              Text(
-                value,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0.5,
+                Text(
+                  value,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.5,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

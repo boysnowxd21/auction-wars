@@ -28,6 +28,7 @@ class AuctionCardWidget extends StatelessWidget {
         width: width,
         height: height,
         decoration: BoxDecoration(
+          color: const Color(0xFF1A0D06),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: isSelected ? const Color(0xFFFBBF24) : const Color(0xFF2B1408),
@@ -48,10 +49,11 @@ class AuctionCardWidget extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              // 1. Full-Bleed Card Artwork from User's authentic cards
+              // 1. Proportional Card Artwork (Zero stretching, strictly authentic aspect ratio)
               Image.asset(
                 card.imagePath,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.medium,
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     color: const Color(0xFFFEF3C7),
