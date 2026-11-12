@@ -93,7 +93,10 @@ class _TactileButtonState extends State<TactileButton> {
                   ],
           ),
           child: Center(
-            child: widget.child,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: widget.child,
+            ),
           ),
         ),
       ),

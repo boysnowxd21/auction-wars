@@ -348,6 +348,14 @@ class _DollarBillsFanPainter extends CustomPainter {
 
   _DollarBillsFanPainter({required this.currentBid});
 
+  static const List<Map<String, dynamic>> _billTypes = [
+    {'color': Color(0xFF86EFAC), 'label': '\$100', 'inner': Color(0xFF4ADE80)},
+    {'color': Color(0xFFFDE047), 'label': '\$250', 'inner': Color(0xFFEAB308)},
+    {'color': Color(0xFFC084FC), 'label': '\$500', 'inner': Color(0xFFA855F7)},
+    {'color': Color(0xFFF87171), 'label': '\$1,000', 'inner': Color(0xFFEF4444)},
+    {'color': Color(0xFF38BDF8), 'label': '\$2,500', 'inner': Color(0xFF0284C7)},
+  ];
+
   @override
   void paint(Canvas canvas, Size size) {
     final cx = size.width / 2;
@@ -358,27 +366,83 @@ class _DollarBillsFanPainter extends CustomPainter {
       ..strokeWidth = 2.0;
 
     // Number of visual bills based on bid amount
-    final billCount = (currentBid / 400).clamp(3, 10).toInt();
-    final billFill = Paint()..color = const Color(0xFF86EFAC);
+    final billCount = (currentBid / 300).clamp(3, 9).toInt();
 
     for (int i = 0; i < billCount; i++) {
-      final angle = -0.6 + (i * 1.2 / (billCount - 1));
+      final billData = _billTypes[i % _billTypes.length];
+      final billFill = Paint()..color = billData['color'] as Color;
+      final innerColor = billData['inner'] as Color;
+      final label = billData['label'] as String;
+
+      final angle = -0.55 + (i * 1.1 / (billCount - 1));
       canvas.save();
-      canvas.translate(cx + (i - billCount / 2) * 24, cy + 12);
+      canvas.translate(cx + (i - billCount / 2) * 28, cy + 10);
       canvas.rotate(angle);
 
       final rrect = RRect.fromRectAndRadius(
-        Rect.fromCenter(center: Offset.zero, width: 62, height: 32),
-        const Radius.circular(4),
+        Rect.fromCenter(center: Offset.zero, width: 66, height: 34),
+        const Radius.circular(5),
       );
       canvas.drawRRect(rrect, billFill);
       canvas.drawRRect(rrect, stroke);
 
-      // Border and $ symbol
-      canvas.drawCircle(Offset.zero, 8, Paint()..color = const Color(0xFF4ADE80));
-      canvas.drawCircle(Offset.zero, 8, stroke..strokeWidth = 1.2);
+      // Inner medallion
+      canvas.drawOval(
+        Rect.fromCenter(center: Offset.zero, width: 22, height: 18),
+        Paint()..color = innerColor,
+      );
+      canvas.drawOval(
+        Rect.fromCenter(center: Offset.zero, width: 22, height: 18),
+        stroke..strokeWidth = 1.2,
+      );
+
+      // Denomination text
+      final textPainter = TextPainter(
+        text: TextSpan(
+          text: label,
+          style: const TextStyle(
+            color: GameColors.inkBorder,
+            fontSize: 9,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      textPainter.paint(
+        canvas,
+        Offset(-textPainter.width / 2, -textPainter.height / 2),
+      );
 
       canvas.restore();
+    }
+
+    // Casino Chips Stack on the Left & Right
+    _drawChipStack(canvas, Offset(cx - 150, cy + 18), const Color(0xFF0284C7), const Color(0xFF38BDF8), 4);
+    _drawChipStack(canvas, Offset(cx + 150, cy + 18), const Color(0xFFDC2626), const Color(0xFFF87171), 5);
+  }
+
+  void _drawChipStack(Canvas canvas, Offset center, Color baseColor, Color rimColor, int count) {
+    final stroke = Paint()
+      ..color = GameColors.inkBorder
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+
+    for (int j = 0; j < count; j++) {
+      final chipRect = Rect.fromCenter(
+        center: Offset(center.dx, center.dy - (j * 4.5)),
+        width: 26,
+        height: 12,
+      );
+      canvas.drawOval(chipRect, Paint()..color = baseColor);
+      canvas.drawOval(chipRect, stroke);
+      canvas.drawOval(
+        Rect.fromCenter(
+          center: Offset(center.dx, center.dy - (j * 4.5)),
+          width: 14,
+          height: 6,
+        ),
+        Paint()..color = rimColor,
+      );
     }
   }
 

@@ -10,7 +10,7 @@ import '../widgets/game/bottom_player_dock.dart';
 import '../widgets/game/center_crates_view.dart';
 import '../widgets/game/lot_reveal_dialog.dart';
 import '../widgets/game/opponent_seat_view.dart';
-import '../widgets/game/sidebar_panel.dart';
+import '../widgets/game/table_bid_marker.dart';
 import '../widgets/game/top_nav_strip.dart';
 import '../widgets/modals/setup_modals.dart';
 import '../widgets/tactile_button.dart';
@@ -48,6 +48,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int hammerCount = 0; // 0=None, 1=Once, 2=Twice, 3=Fair Warning, 4=Sold
   bool isBiddingActive = true;
   String liveNarrative = 'AUCTION READY! OPENING BID: \$400';
+  final Map<int, int> playerBids = {};
 
   Timer? _aiTimer;
   Timer? _hammerTimer;
@@ -109,6 +110,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     highestBidderIndex = -1;
     hammerCount = 0;
     isBiddingActive = true;
+    playerBids.clear();
 
     // Reset player statuses
     for (final p in players) {
@@ -202,6 +204,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     currentBid = newBid;
     highestBidderIndex = playerIndex;
     hammerCount = 0; // reset hammer
+    playerBids[playerIndex] = newBid;
 
     for (final p in players) {
       p.hasHammer = false;
@@ -452,140 +455,235 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final opponentPlayers = players.where((p) => !p.isUser).toList();
+    // 2 on side, 1 on top:
+    // Left: opponentPlayers[0]
+    // Top: opponentPlayers[1] (if exists, else opponentPlayers[0])
+    // Right: opponentPlayers[2] (if exists)
+    final leftOpponent = opponentPlayers.isNotEmpty ? opponentPlayers[0] : null;
+    final topOpponent = opponentPlayers.length > 1
+        ? opponentPlayers[1]
+        : (opponentPlayers.length == 1 ? opponentPlayers[0] : null);
+    final rightOpponent = opponentPlayers.length > 2 ? opponentPlayers[2] : null;
 
-    return Container(
-      color: const Color(0xFF140A05),
-      child: Stack(
-        children: [
-          // 1. Native Cel-Shaded Sage-Green Poker Felt Canvas (No raster images)
-          Positioned.fill(
-            child: CustomPaint(
-              painter: _PokerFeltTablePainter(
-                glowAnimation: _glowController,
-                turnDirection: turnDirection,
-              ),
-            ),
-          ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final w = constraints.maxWidth;
+        final h = constraints.maxHeight;
 
-          // 2. Main Game Screen Layout
-          Column(
+        return Container(
+          width: w,
+          height: h,
+          color: const Color(0xFF140A05),
+          child: Stack(
+            clipBehavior: Clip.none,
             children: [
-              // 2.1 Top Navigation Strip (Wood Finish)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: TopNavStrip(
-                  currentRound: currentRound,
-                  maxRounds: maxRounds,
-                  venueName: currentLot.venueName,
-                  debt: userPlayer.debt,
-                  bidMoney: userPlayer.bidMoney,
-                  onTakeSharkLoan: () {
-                    setState(() {
-                      userPlayer.borrowSharkLoan(1000);
-                      liveNarrative = 'TOOK \$1,000 SHARK LOAN (+25% INTEREST)!';
-                    });
-                    SoundService.instance.playCashRegister();
-                  },
-                  onRepayDebt: () {
-                    setState(() {
-                      userPlayer.repayDebt(userPlayer.debt);
-                      liveNarrative = 'REPAID SHARK LOAN DEBT IN FULL!';
-                    });
-                    SoundService.instance.playCashRegister();
-                  },
-                  onBlackMarketTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => const CardCompendiumModal(),
-                    );
-                  },
-                  onBuyOpsTap: () {
-                    if (userPlayer.bidMoney >= 300 && userPlayer.opsHand.length < 6) {
-                      final pool = CardDatabase.specialOps;
-                      final drawn = pool[Random().nextInt(pool.length)];
+              // 1. Native Cel-Shaded Sage-Green Poker Felt Canvas (Zero raster images)
+              Positioned.fill(
+                child: CustomPaint(
+                  painter: _PokerFeltTablePainter(
+                    glowAnimation: _glowController,
+                    turnDirection: turnDirection,
+                  ),
+                ),
+              ),
+
+              // 2. Top Navigation Strip (Wood Finish)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  child: TopNavStrip(
+                    currentRound: currentRound,
+                    maxRounds: maxRounds,
+                    venueName: currentLot.venueName,
+                    debt: userPlayer.debt,
+                    bidMoney: userPlayer.bidMoney,
+                    onTakeSharkLoan: () {
                       setState(() {
-                        userPlayer.bidMoney -= 300;
-                        userPlayer.opsHand.add(drawn);
-                        liveNarrative = 'BOUGHT ${drawn.name} FOR \$300!';
+                        userPlayer.borrowSharkLoan(1000);
+                        liveNarrative = 'TOOK \$1,000 SHARK LOAN (+25% INTEREST)!';
                       });
-                      SoundService.instance.playClick();
-                    }
+                      SoundService.instance.playCashRegister();
+                    },
+                    onRepayDebt: () {
+                      setState(() {
+                        userPlayer.repayDebt(userPlayer.debt);
+                        liveNarrative = 'REPAID SHARK LOAN DEBT IN FULL!';
+                      });
+                      SoundService.instance.playCashRegister();
+                    },
+                    onBlackMarketTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => const CardCompendiumModal(),
+                      );
+                    },
+                    onBuyOpsTap: () {
+                      if (userPlayer.bidMoney >= 300 && userPlayer.opsHand.length < 6) {
+                        final pool = CardDatabase.specialOps;
+                        final drawn = pool[Random().nextInt(pool.length)];
+                        setState(() {
+                          userPlayer.bidMoney -= 300;
+                          userPlayer.opsHand.add(drawn);
+                          liveNarrative = 'BOUGHT ${drawn.name} FOR \$300!';
+                        });
+                        SoundService.instance.playClick();
+                      }
+                    },
+                    onExitGame: widget.onExitToMenu,
+                  ),
+                ),
+              ),
+
+              // 3. Characters Layout: 1 on TOP, 2 on the SIDES
+              // 3.1 TOP Opponent Seat & Table Bid Marker
+              if (topOpponent != null && topOpponent != leftOpponent)
+                Positioned(
+                  top: 50,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        OpponentSeatWidget(
+                          player: topOpponent,
+                          isCurrentTurn: players.indexOf(topOpponent) == currentTurnIndex && isBiddingActive,
+                        ),
+                        const SizedBox(height: 2),
+                        TableBidMarker(
+                          playerName: topOpponent.name,
+                          bidAmount: playerBids[players.indexOf(topOpponent)],
+                          isFolded: topOpponent.isFolded,
+                          isHighestBidder: highestBidderIndex == players.indexOf(topOpponent),
+                          isCurrentTurn: players.indexOf(topOpponent) == currentTurnIndex && isBiddingActive,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              // 3.2 LEFT Opponent Seat & Table Bid Marker
+              if (leftOpponent != null)
+                Positioned(
+                  left: 14,
+                  top: h * 0.22,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      OpponentSeatWidget(
+                        player: leftOpponent,
+                        isCurrentTurn: players.indexOf(leftOpponent) == currentTurnIndex && isBiddingActive,
+                      ),
+                      const SizedBox(height: 4),
+                      TableBidMarker(
+                        playerName: leftOpponent.name,
+                        bidAmount: playerBids[players.indexOf(leftOpponent)],
+                        isFolded: leftOpponent.isFolded,
+                        isHighestBidder: highestBidderIndex == players.indexOf(leftOpponent),
+                        isCurrentTurn: players.indexOf(leftOpponent) == currentTurnIndex && isBiddingActive,
+                      ),
+                    ],
+                  ),
+                ),
+
+              // 3.3 RIGHT Opponent Seat & Table Bid Marker
+              if (rightOpponent != null)
+                Positioned(
+                  right: 14,
+                  top: h * 0.22,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      OpponentSeatWidget(
+                        player: rightOpponent,
+                        isCurrentTurn: players.indexOf(rightOpponent) == currentTurnIndex && isBiddingActive,
+                      ),
+                      const SizedBox(height: 4),
+                      TableBidMarker(
+                        playerName: rightOpponent.name,
+                        bidAmount: playerBids[players.indexOf(rightOpponent)],
+                        isFolded: rightOpponent.isFolded,
+                        isHighestBidder: highestBidderIndex == players.indexOf(rightOpponent),
+                        isCurrentTurn: players.indexOf(rightOpponent) == currentTurnIndex && isBiddingActive,
+                      ),
+                    ],
+                  ),
+                ),
+
+              // 4. Center Stage: The 3 Mystery Crates & Active Pot Counter
+              Positioned(
+                top: h * 0.24,
+                left: 190,
+                right: 190,
+                child: Center(
+                  child: CenterCratesView(
+                    crates: currentLot.crates,
+                    currentBid: currentBid,
+                    highestBidderName: highestBidderIndex >= 0 ? players[highestBidderIndex].name : 'Nobody',
+                    hammerCount: hammerCount,
+                    turnDirection: turnDirection,
+                    onCrateTap: (i) {
+                      final xray = userPlayer.opsHand.where((c) => c.id == 'OPS_XRAY').firstOrNull;
+                      if (xray != null && !currentLot.crates[i].isXRayed) {
+                        _playOpsCard(xray);
+                      }
+                    },
+                  ),
+                ),
+              ),
+
+              // 5. User Active Table Bid Marker (On the green felt right in front of YOU)
+              Positioned(
+                bottom: 206,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: TableBidMarker(
+                    playerName: 'YOU',
+                    bidAmount: playerBids[players.indexOf(userPlayer)],
+                    isFolded: userPlayer.isFolded,
+                    isHighestBidder: highestBidderIndex == players.indexOf(userPlayer),
+                    isUser: true,
+                    isCurrentTurn: players.indexOf(userPlayer) == currentTurnIndex && isBiddingActive,
+                  ),
+                ),
+              ),
+
+              // 6. Bottom Player Dock (YOU) with Cards Tray & Bidding Console
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: BottomPlayerDock(
+                  player: userPlayer,
+                  liveNarrativeToast: liveNarrative,
+                  isUserTurn: players[currentTurnIndex].isUser && isBiddingActive,
+                  onRaise200: () {
+                    _applyBid(players.indexOf(userPlayer), currentBid + 200);
                   },
-                  onExitGame: widget.onExitToMenu,
+                  onRaise500: () {
+                    _applyBid(players.indexOf(userPlayer), currentBid + 500);
+                  },
+                  onPassFold: () {
+                    _applyPass(players.indexOf(userPlayer));
+                  },
+                  onPawnCard: (card) {
+                    setState(() {
+                      userPlayer.pawnCard(card);
+                      liveNarrative = 'PAWNED ${card.name} FOR +\$${card.pawnValue}!';
+                    });
+                    SoundService.instance.playCashRegister();
+                  },
+                  onPlayOpsCard: _playOpsCard,
                 ),
-              ),
-
-              // 2.2 Upper Arc: Opponent Seats
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: opponentPlayers.map((opp) {
-                    final isTurn = players.indexOf(opp) == currentTurnIndex && isBiddingActive;
-                    return OpponentSeatWidget(
-                      player: opp,
-                      isCurrentTurn: isTurn,
-                    );
-                  }).toList(),
-                ),
-              ),
-
-              const Spacer(),
-
-              // 2.3 Center Stage: The 3 Mystery Crates & Pot Counter
-              CenterCratesView(
-                crates: currentLot.crates,
-                currentBid: currentBid,
-                highestBidderName: highestBidderIndex >= 0 ? players[highestBidderIndex].name : 'Nobody',
-                hammerCount: hammerCount,
-                turnDirection: turnDirection,
-                onCrateTap: (i) {
-                  // If player has X-Ray card, prompt use
-                  final xray = userPlayer.opsHand.where((c) => c.id == 'OPS_XRAY').firstOrNull;
-                  if (xray != null && !currentLot.crates[i].isXRayed) {
-                    _playOpsCard(xray);
-                  }
-                },
-              ),
-
-              const Spacer(),
-
-              // 2.4 Bottom Player Dock (YOU)
-              BottomPlayerDock(
-                player: userPlayer,
-                liveNarrativeToast: liveNarrative,
-                onPlayOpsCard: _playOpsCard,
               ),
             ],
           ),
-
-          // 3. Right-Hand Retractable Sidebar (Pawn Shop & Quick-Turn Controls)
-          Positioned(
-            right: 0,
-            top: 74,
-            bottom: 40,
-            child: SidebarPanel(
-              player: userPlayer,
-              isUserTurn: players[currentTurnIndex].isUser && isBiddingActive,
-              onRaise200: () {
-                _applyBid(players.indexOf(userPlayer), currentBid + 200);
-              },
-              onRaise500: () {
-                _applyBid(players.indexOf(userPlayer), currentBid + 500);
-              },
-              onPassFold: () {
-                _applyPass(players.indexOf(userPlayer));
-              },
-              onPawnCard: (card) {
-                setState(() {
-                  userPlayer.pawnCard(card);
-                  liveNarrative = 'PAWNED ${card.name} FOR +\$${card.pawnValue}!';
-                });
-              },
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -614,10 +712,10 @@ class _PokerFeltTablePainter extends CustomPainter {
       canvas.drawLine(Offset(0, y), Offset(size.width, y), plankPaint);
     }
 
-    // 2. The Poker Felt Table Ellipse (Offset slightly left to balance right sidebar)
-    final center = Offset(size.width * 0.45, size.height * 0.48);
-    final tableWidth = size.width * 0.45;
-    final tableHeight = size.height * 0.40;
+    // 2. The Poker Felt Table Ellipse (Centered on 16:9 canvas)
+    final center = Offset(size.width * 0.50, size.height * 0.44);
+    final tableWidth = size.width * 0.44;
+    final tableHeight = size.height * 0.38;
 
     // Outer drop shadow under bumper
     final shadowPaint = Paint()
