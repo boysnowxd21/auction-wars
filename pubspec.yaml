@@ -65,6 +65,10 @@ flutter:
     - assets/crates/
     - assets/bills/
     - assets/modes/
+    - assets/extracted_home/
+    - assets/extracted_modals/
+    - assets/extracted_game/
+    - assets/reference/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

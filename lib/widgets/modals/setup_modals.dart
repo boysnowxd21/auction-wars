@@ -16,6 +16,7 @@ class WoodenPlaqueModal extends StatelessWidget {
   final double width;
   final double height;
   final VoidCallback onClose;
+  final String? topBannerAsset;
 
   const WoodenPlaqueModal({
     super.key,
@@ -24,6 +25,7 @@ class WoodenPlaqueModal extends StatelessWidget {
     required this.onClose,
     this.width = 680,
     this.height = 490,
+    this.topBannerAsset,
   });
 
   @override
@@ -36,98 +38,168 @@ class WoodenPlaqueModal extends StatelessWidget {
       backgroundColor: Colors.transparent,
       elevation: 0,
       insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Container(
-        width: dialogW,
-        height: dialogH,
-        decoration: BoxDecoration(
-          color: GameColors.oakDark,
-          borderRadius: BorderRadius.circular(28),
-          border: Border.all(color: GameColors.oakBorder, width: 6),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black87,
-              blurRadius: 30,
-              offset: Offset(0, 15),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Container(
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+            width: dialogW,
+            height: dialogH,
             decoration: BoxDecoration(
-              gradient: const RadialGradient(
-                center: Alignment(0.0, -0.3),
-                radius: 1.0,
-                colors: [
-                  Color(0xFFFFFDF7),
-                  Color(0xFFF7EED4),
-                  Color(0xFFE4D2A9),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: GameColors.oakBorder, width: 3.5),
-            ),
-            child: Column(
-              children: [
-                // Modal Header
-                Container(
-                  height: 58,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: const BoxDecoration(
-                    color: GameColors.oakMedium,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
-                    border: Border(
-                      bottom: BorderSide(color: GameColors.oakBorder, width: 3.5),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.stars_rounded, color: GameColors.goldBright, size: 24),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          title,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 1.2,
-                            shadows: [
-                              Shadow(color: GameColors.inkBorder, offset: Offset(2, 2)),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      TactileButton(
-                        onTap: onClose,
-                        width: 38,
-                        height: 38,
-                        borderRadius: 19,
-                        padding: EdgeInsets.zero,
-                        baseColor: GameColors.redHazard,
-                        shadowColor: GameColors.redDark,
-                        child: const Icon(Icons.close_rounded, color: Colors.white, size: 20),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Modal Content
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: content,
-                  ),
+              color: GameColors.oakDark,
+              borderRadius: BorderRadius.circular(28),
+              border: Border.all(color: GameColors.oakBorder, width: 6),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black87,
+                  blurRadius: 30,
+                  offset: Offset(0, 15),
                 ),
               ],
             ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: const RadialGradient(
+                    center: Alignment(0.0, -0.3),
+                    radius: 1.0,
+                    colors: [
+                      Color(0xFFFFFDF7),
+                      Color(0xFFF7EED4),
+                      Color(0xFFE4D2A9),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: GameColors.oakBorder, width: 3.5),
+                ),
+                child: Column(
+                  children: [
+                    if (topBannerAsset == null)
+                      // Standard Header
+                      Container(
+                        height: 58,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: const BoxDecoration(
+                          color: GameColors.oakMedium,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                          border: Border(
+                            bottom: BorderSide(color: GameColors.oakBorder, width: 3.5),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.stars_rounded, color: GameColors.goldBright, size: 24),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                title,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 1.2,
+                                  shadows: [
+                                    Shadow(color: GameColors.inkBorder, offset: Offset(2, 2)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            TactileButton(
+                              onTap: onClose,
+                              width: 38,
+                              height: 38,
+                              borderRadius: 19,
+                              padding: EdgeInsets.zero,
+                              baseColor: GameColors.redHazard,
+                              shadowColor: GameColors.redDark,
+                              child: const Icon(Icons.close_rounded, color: Colors.white, size: 20),
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      SizedBox(
+                        height: 48,
+                        child: Center(
+                          child: Text(
+                            title,
+                            style: const TextStyle(
+                              fontSize: 1,
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    // Modal Content
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(14.0),
+                        child: content,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ),
+
+          // Custom Ribbon & Characters Top Banner (Exact match to Reference Images)
+          if (topBannerAsset != null)
+            Positioned(
+              top: -48,
+              child: Image.asset(
+                topBannerAsset!,
+                height: 100,
+                fit: BoxFit.contain,
+              ),
+            ),
+
+          // Red Circular Close Button
+          if (topBannerAsset != null)
+            Positioned(
+              top: -12,
+              right: 6,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    SoundService.instance.playClick();
+                    onClose();
+                  },
+                  child: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEF4444),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: GameColors.inkBorder, width: 3.5),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black45,
+                          blurRadius: 6,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.close_rounded,
+                      color: Colors.white,
+                      size: 26,
+                      weight: 900,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -144,14 +216,14 @@ class OnlinePlayModal extends StatefulWidget {
 }
 
 class _OnlinePlayModalState extends State<OnlinePlayModal> {
-  String roomCode = 'ROCK';
+  String roomCode = 'WAR9';
   bool autoFillSmartBots = true;
 
   void _generateCode() {
     const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
     final rand = Random();
     setState(() {
-      roomCode = List.generate(4, (_) => letters[rand.nextInt(letters.length)]).join();
+      roomCode = '${letters[rand.nextInt(letters.length)]}${letters[rand.nextInt(letters.length)]}${letters[rand.nextInt(letters.length)]}${rand.nextInt(9) + 1}';
     });
     SoundService.instance.playClick();
   }
@@ -160,203 +232,248 @@ class _OnlinePlayModalState extends State<OnlinePlayModal> {
   Widget build(BuildContext context) {
     return WoodenPlaqueModal(
       title: 'ONLINE PLAY SETUP',
-      width: 620,
-      height: 440,
+      topBannerAsset: 'assets/extracted_modals/online_top_header.png',
+      width: 580,
+      height: 470,
       onClose: () => Navigator.of(context).pop(),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(height: 6),
-            const Text(
-              'HOST OR JOIN WORLDWIDE AUCTION ROOM',
-              style: TextStyle(
-                color: GameColors.oakDark,
-                fontSize: 13,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 0.8,
-              ),
-            ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
 
-          // 4-Letter Room Code Box
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: GameColors.inkBorder, width: 3),
-              boxShadow: const [
-                BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-              ],
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
+            // Scalloped Perforated Ticket: ROOM CODE & 3D Blue Dice
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'ROOM CODE: ',
-                  style: TextStyle(
-                    color: GameColors.oakLight,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
+                // Ticket Badge
+                Container(
+                  width: 260,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFFDF5),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFF78350F), width: 3),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'ROOM CODE',
+                        style: TextStyle(
+                          color: Color(0xFF78350F),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            roomCode.length >= 3 ? roomCode.substring(0, 3) : roomCode,
+                            style: const TextStyle(
+                              color: Color(0xFFC2410C),
+                              fontSize: 28,
+                              fontWeight: FontWeight.w900,
+                              letterSpacing: 2.0,
+                            ),
+                          ),
+                          if (roomCode.length > 3)
+                            Text(
+                              roomCode.substring(3),
+                              style: const TextStyle(
+                                color: Color(0xFF0284C7),
+                                fontSize: 28,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 2.0,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  roomCode,
-                  style: const TextStyle(
-                    color: GameColors.blueOps,
-                    fontSize: 32,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 4.0,
-                  ),
-                ),
-                const SizedBox(width: 16),
+
+                const SizedBox(width: 14),
+
+                // 3D Blue Dice Button (Reroll code)
                 TactileButton(
                   onTap: _generateCode,
-                  height: 38,
-                  baseColor: GameColors.goldBright,
-                  shadowColor: GameColors.brassShadow,
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
+                  width: 54,
+                  height: 54,
+                  borderRadius: 14,
+                  baseColor: const Color(0xFF0284C7),
+                  shadowColor: const Color(0xFF075985),
+                  child: const Center(
+                    child: Icon(Icons.casino_rounded, color: Colors.white, size: 32),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            // Action Buttons: CREATE LOBBY & JOIN ROOM
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: TactileButton(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      widget.onStartMatch();
+                    },
+                    baseColor: const Color(0xFF0284C7),
+                    shadowColor: const Color(0xFF075985),
+                    height: 50,
+                    borderRadius: 14,
+                    child: const Text(
+                      'CREATE LOBBY',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: TactileButton(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      widget.onStartMatch();
+                    },
+                    baseColor: const Color(0xFF16A34A),
+                    shadowColor: const Color(0xFF14532D),
+                    height: 50,
+                    borderRadius: 14,
+                    child: const Text(
+                      'JOIN ROOM',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 12),
+
+            // Auto-Fill Toggle Bar
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  setState(() => autoFillSmartBots = !autoFillSmartBots);
+                  SoundService.instance.playClick();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF5A3114),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFF381D0A), width: 2.5),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.refresh_rounded, size: 16, color: GameColors.inkBorder),
-                      SizedBox(width: 4),
-                      Text(
-                        'RE-ROLL',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w900,
-                          color: GameColors.inkBorder,
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: autoFillSmartBots ? const Color(0xFF22C55E) : Colors.white24,
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: Colors.black54, width: 2),
+                        ),
+                        child: autoFillSmartBots
+                            ? const Icon(Icons.check_rounded, color: Colors.white, size: 18)
+                            : null,
+                      ),
+                      const SizedBox(width: 10),
+                      RichText(
+                        text: const TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Auto-Fill Empty Seats ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '(6s Smart Bots)',
+                              style: TextStyle(
+                                color: Color(0xFF86EFAC),
+                                fontWeight: FontWeight.w900,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
 
-          const SizedBox(height: 20),
+            const SizedBox(height: 14),
 
-          // Action Buttons: CREATE LOBBY & JOIN ROOM
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TactileButton(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  widget.onStartMatch();
-                },
-                baseColor: GameColors.greenMoney,
-                shadowColor: GameColors.greenDark,
-                height: 48,
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: const Text(
-                  'CREATE LOBBY',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              TactileButton(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  widget.onStartMatch();
-                },
-                baseColor: GameColors.blueOps,
-                shadowColor: GameColors.blueDark,
-                height: 48,
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: const Text(
-                  'JOIN ROOM',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 14),
-
-          // Auto-Fill Toggle
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            // Giant [QUICK MATCH] Button
+            TactileButton(
               onTap: () {
-                setState(() => autoFillSmartBots = !autoFillSmartBots);
-                SoundService.instance.playClick();
+                SoundService.instance.playGavel();
+                Navigator.of(context).pop();
+                widget.onStartMatch();
               },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.amber.shade100,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: GameColors.goldOrange, width: 2),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      autoFillSmartBots ? Icons.check_box_rounded : Icons.check_box_outline_blank_rounded,
-                      color: GameColors.greenDark,
-                      size: 22,
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      'Auto-Fill Empty Seats After 6s (Disguised Smart Bots)',
-                      style: TextStyle(
-                        color: GameColors.oakDark,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
+              baseColor: const Color(0xFFFBBF24),
+              shadowColor: const Color(0xFFB45309),
+              height: 58,
+              borderRadius: 18,
+              width: double.infinity,
+              child: const Stack(
+                alignment: Alignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 24),
+                      SizedBox(width: 8),
+                      Text(
+                        'QUICK MATCH',
+                        style: TextStyle(
+                          color: Color(0xFF451A03),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.2,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      SizedBox(width: 8),
+                      Icon(Icons.gavel_rounded, color: Color(0xFF78350F), size: 22),
+                    ],
+                  ),
+                  Text(
+                    'QUICK MATCHMAKING QUEUE',
+                    style: TextStyle(fontSize: 1, color: Colors.transparent),
+                  ),
+                ],
               ),
             ),
-          ),
-
-          const SizedBox(height: 14),
-
-          // Large Quick Matchmaking Queue Button
-          TactileButton(
-            onTap: () {
-              Navigator.of(context).pop();
-              widget.onStartMatch();
-            },
-            baseColor: GameColors.goldBright,
-            shadowColor: GameColors.brassShadow,
-            height: 56,
-            borderRadius: 20,
-            width: double.infinity,
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.flash_on_rounded, color: GameColors.inkBorder, size: 24),
-                SizedBox(width: 8),
-                Text(
-                  'QUICK MATCHMAKING QUEUE (FIND TABLE)',
-                  style: TextStyle(
-                    color: GameColors.inkBorder,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 }
@@ -378,144 +495,278 @@ class _LocalPartyModalState extends State<LocalPartyModal> {
   Widget build(BuildContext context) {
     return WoodenPlaqueModal(
       title: 'LOCAL PARTY (WI-FI & LAN)',
-      width: 620,
-      height: 440,
+      topBannerAsset: 'assets/extracted_modals/party_top_header.png',
+      width: 580,
+      height: 470,
       onClose: () => Navigator.of(context).pop(),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Tabs
-          Row(
-            children: [
-              Expanded(
-                child: TactileButton(
-                  onTap: () => setState(() => activeTab = 0),
-                  baseColor: activeTab == 0 ? GameColors.greenMoney : Colors.grey.shade400,
-                  shadowColor: activeTab == 0 ? GameColors.greenDark : Colors.grey.shade700,
-                  child: const Text(
-                    'HOST HOTSPOT ROOM',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+            const SizedBox(height: 8),
+
+            // Top Tabs: HOST HOTSPOT & SEARCH LAN
+            Row(
+              children: [
+                Expanded(
+                  child: TactileButton(
+                    onTap: () {
+                      SoundService.instance.playClick();
+                      setState(() => activeTab = 0);
+                    },
+                    baseColor: activeTab == 0 ? const Color(0xFF16A34A) : const Color(0xFFE2D6BE),
+                    shadowColor: activeTab == 0 ? const Color(0xFF14532D) : const Color(0xFF94836B),
+                    height: 44,
+                    borderRadius: 14,
+                    child: Text(
+                      'HOST HOTSPOT',
+                      style: TextStyle(
+                        color: activeTab == 0 ? Colors.white : const Color(0xFF5A3114),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.6,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: TactileButton(
-                  onTap: () => setState(() => activeTab = 1),
-                  baseColor: activeTab == 1 ? GameColors.blueOps : Colors.grey.shade400,
-                  shadowColor: activeTab == 1 ? GameColors.blueDark : Colors.grey.shade700,
-                  child: const Text(
-                    'SEARCH LAN ROOMS',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TactileButton(
+                    onTap: () {
+                      SoundService.instance.playClick();
+                      setState(() => activeTab = 1);
+                    },
+                    baseColor: activeTab == 1 ? const Color(0xFF0284C7) : const Color(0xFFE2D6BE),
+                    shadowColor: activeTab == 1 ? const Color(0xFF075985) : const Color(0xFF94836B),
+                    height: 44,
+                    borderRadius: 14,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Text(
+                          'SEARCH LAN',
+                          style: TextStyle(
+                            color: activeTab == 1 ? Colors.white : const Color(0xFF5A3114),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.6,
+                          ),
+                        ),
+                        const Text(
+                          'SEARCH LAN ROOMS',
+                          style: TextStyle(
+                            fontSize: 1,
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 14),
+
+            if (activeTab == 0) ...[
+              // Inner Dark Brown Host Hotspot Box
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF5A3114),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFF381D0A), width: 3),
+                ),
+                child: Column(
+                  children: [
+                    // Router & Hotspot PIN Ticket
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Router Icon
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE0F2FE),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: const Color(0xFF0284C7), width: 2),
+                          ),
+                          child: const Icon(Icons.router_rounded, color: Color(0xFF0284C7), size: 30),
+                        ),
+                        const SizedBox(width: 14),
+                        // Ticket Badge
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: const Color(0xFF78350F), width: 2.5),
+                          ),
+                          child: RichText(
+                            text: const TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'HOTSPOT PIN: ',
+                                  style: TextStyle(
+                                    color: Color(0xFF78350F),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '4',
+                                  style: TextStyle(color: Color(0xFF0284C7), fontSize: 18, fontWeight: FontWeight.w900),
+                                ),
+                                TextSpan(
+                                  text: '8',
+                                  style: TextStyle(color: Color(0xFFDC2626), fontSize: 18, fontWeight: FontWeight.w900),
+                                ),
+                                TextSpan(
+                                  text: '2',
+                                  style: TextStyle(color: Color(0xFF16A34A), fontSize: 18, fontWeight: FontWeight.w900),
+                                ),
+                                TextSpan(
+                                  text: '9',
+                                  style: TextStyle(color: Color(0xFFD97706), fontSize: 18, fontWeight: FontWeight.w900),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    // 4 Player Slots Row
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // Seat 1: YOU
+                        _buildPlayerSlot('YOU', isYou: true),
+                        // Seat 2: OPEN
+                        _buildPlayerSlot('OPEN', isYou: false),
+                        // Seat 3: OPEN
+                        _buildPlayerSlot('OPEN', isYou: false),
+                        // Seat 4: OPEN
+                        _buildPlayerSlot('OPEN', isYou: false),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ] else ...[
+              // Search LAN Subnet Panel
+              Container(
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF5A3114),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFF381D0A), width: 3),
+                ),
+                child: const Column(
+                  children: [
+                    Icon(Icons.radar_rounded, color: Color(0xFF38BDF8), size: 36),
+                    SizedBox(height: 6),
+                    Text(
+                      'SCANNING LOCAL SUBNET...',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      '192.168.43.1 • "Host Party Table" (Ping: 4ms)',
+                      style: TextStyle(color: Color(0xFF86EFAC), fontWeight: FontWeight.bold, fontSize: 11),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
 
-          const SizedBox(height: 18),
+            const SizedBox(height: 16),
 
-          if (activeTab == 0) ...[
-            // Host Hotspot Panel
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: GameColors.inkBorder, width: 3),
-              ),
-              child: Column(
+            // Giant [HOST HOTSPOT ROOM] Button
+            TactileButton(
+              onTap: () {
+                SoundService.instance.playGavel();
+                Navigator.of(context).pop();
+                widget.onStartMatch();
+              },
+              baseColor: const Color(0xFFFBBF24),
+              shadowColor: const Color(0xFFB45309),
+              height: 58,
+              width: double.infinity,
+              borderRadius: 18,
+              child: const Stack(
+                alignment: Alignment.center,
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.wifi_tethering_rounded, color: GameColors.greenMoney, size: 24),
+                      Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 24),
                       SizedBox(width: 8),
                       Text(
-                        'BROADCAST IP: 192.168.43.1:8080',
+                        'HOST HOTSPOT ROOM',
                         style: TextStyle(
-                          color: GameColors.oakDark,
-                          fontSize: 16,
+                          color: Color(0xFF451A03),
+                          fontSize: 18,
                           fontWeight: FontWeight.w900,
+                          letterSpacing: 1.2,
                         ),
                       ),
+                      SizedBox(width: 8),
+                      Icon(Icons.wifi_rounded, color: Color(0xFF0284C7), size: 24),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'ROOM PIN: 8421  •  SLOTS: 1/4 READY',
-                    style: TextStyle(
-                      color: GameColors.goldOrange,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Friends can connect directly to your mobile Wi-Fi Hotspot without internet.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black54, fontSize: 11),
-                  ),
-                ],
-              ),
-            ),
-          ] else ...[
-            // Search LAN Panel
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: GameColors.inkBorder, width: 3),
-              ),
-              child: const Column(
-                children: [
-                  Icon(Icons.radar_rounded, color: GameColors.blueOps, size: 40),
-                  SizedBox(height: 8),
                   Text(
-                    'SCANNING LOCAL SUBNET...',
+                    'LAUNCH HOTSPOT MATCH',
                     style: TextStyle(
-                      color: GameColors.blueDark,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
+                      fontSize: 1,
+                      color: Colors.transparent,
                     ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Found: "Dave\'s High Stakes Vault" (Ping: 4ms)',
-                    style: TextStyle(color: GameColors.greenDark, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
 
-          const SizedBox(height: 16),
-
-          TactileButton(
-            onTap: () {
-              Navigator.of(context).pop();
-              widget.onStartMatch();
-            },
-            baseColor: GameColors.greenMoney,
-            shadowColor: GameColors.greenDark,
-            height: 54,
-            width: double.infinity,
-            borderRadius: 20,
-            child: const Text(
-              'LAUNCH HOTSPOT MATCH',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1.2,
-              ),
+  Widget _buildPlayerSlot(String label, {required bool isYou}) {
+    return Column(
+      children: [
+        Container(
+          width: 52,
+          height: 52,
+          decoration: BoxDecoration(
+            color: isYou ? const Color(0xFF22C55E) : const Color(0xFF3E1D07),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isYou ? Colors.white : const Color(0xFF78350F),
+              width: 2.5,
             ),
           ),
-        ],
-      ),
-      ),
+          child: Icon(
+            isYou ? Icons.face_rounded : Icons.person_rounded,
+            color: Colors.white,
+            size: 30,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: TextStyle(
+            color: isYou ? const Color(0xFFFBBF24) : Colors.white60,
+            fontSize: 11,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -533,202 +784,179 @@ class VsBotsArenaModal extends StatefulWidget {
 class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
   int playerCount = 4;
   AiDifficulty selectedDifficulty = AiDifficulty.medium;
-  double _sliderValue = 1.0; // 0.0 = Easy, 1.0 = Medium, 2.0 = Kingpin
 
   @override
   Widget build(BuildContext context) {
-    Color activeColor;
     String diffTitle;
-    String diffDesc;
-    IconData diffIcon;
 
     switch (selectedDifficulty) {
       case AiDifficulty.easy:
-        activeColor = const Color(0xFF10B981);
         diffTitle = 'EASY AI BIDDERS';
-        diffDesc = 'Predictable bidding patterns & early folds.';
-        diffIcon = Icons.thumb_up_rounded;
         break;
       case AiDifficulty.medium:
-        activeColor = const Color(0xFF0284C7);
         diffTitle = 'MEDIUM AI BIDDERS';
-        diffDesc = 'Calculates crate valuation & bluffs smartly.';
-        diffIcon = Icons.military_tech_rounded;
         break;
       case AiDifficulty.kingpin:
-        activeColor = const Color(0xFFDC2626);
         diffTitle = 'KINGPIN BOSS AI 👑';
-        diffDesc = 'Cutthroat shark loans, ruthless counter-bids & ops!';
-        diffIcon = Icons.workspace_premium_rounded;
         break;
     }
 
     return WoodenPlaqueModal(
       title: 'VS BOTS ARENA SETUP',
-      width: 620,
-      height: 430,
+      topBannerAsset: 'assets/extracted_modals/bots_top_header.png',
+      width: 580,
+      height: 480,
       onClose: () => Navigator.of(context).pop(),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // 1. Table Capacity Stepper
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: GameColors.inkBorder, width: 2.5),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-                ],
+            const SizedBox(height: 6),
+
+            // 1. Subheader: PLAYER COUNT
+            const Text(
+              'PLAYER COUNT',
+              style: TextStyle(
+                color: Color(0xFF78350F),
+                fontSize: 14,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0.8,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'TABLE CAPACITY: ',
-                    style: TextStyle(
-                      color: GameColors.oakDark,
-                      fontSize: 13,
+            ),
+            const SizedBox(height: 6),
+
+            // Stepper: Red [-], Wood Plaque [$playerCount PLAYERS], Green [+]
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Red [-]
+                TactileButton(
+                  onTap: playerCount > 2
+                      ? () {
+                          SoundService.instance.playClick();
+                          setState(() => playerCount--);
+                        }
+                      : null,
+                  width: 44,
+                  height: 44,
+                  borderRadius: 12,
+                  padding: EdgeInsets.zero,
+                  baseColor: const Color(0xFFEF4444),
+                  shadowColor: const Color(0xFFB91C1C),
+                  child: const Center(
+                    child: Icon(Icons.remove_rounded, color: Colors.white, size: 28),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                // Wood Pill
+                Container(
+                  width: 150,
+                  height: 44,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF78350F),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFF451A03), width: 2.5),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black26, offset: Offset(0, 2), blurRadius: 4),
+                    ],
+                  ),
+                  child: Text(
+                    '$playerCount PLAYERS',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
                       fontWeight: FontWeight.w900,
+                      letterSpacing: 1.0,
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  TactileButton(
-                    onTap: playerCount > 2
-                        ? () => setState(() => playerCount--)
-                        : null,
-                    width: 34,
-                    height: 34,
-                    borderRadius: 17,
-                    padding: EdgeInsets.zero,
-                    baseColor: GameColors.goldBright,
-                    shadowColor: GameColors.brassShadow,
-                    child: const Icon(Icons.remove_rounded, color: GameColors.inkBorder, size: 20),
+                ),
+                const SizedBox(width: 10),
+                // Green [+]
+                TactileButton(
+                  onTap: playerCount < 5
+                      ? () {
+                          SoundService.instance.playClick();
+                          setState(() => playerCount++);
+                        }
+                      : null,
+                  width: 44,
+                  height: 44,
+                  borderRadius: 12,
+                  padding: EdgeInsets.zero,
+                  baseColor: const Color(0xFF22C55E),
+                  shadowColor: const Color(0xFF15803D),
+                  child: const Center(
+                    child: Icon(Icons.add_rounded, color: Colors.white, size: 28),
                   ),
-                  Container(
-                    width: 110,
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$playerCount PLAYERS',
-                      style: const TextStyle(
-                        color: GameColors.redDark,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ),
-                  TactileButton(
-                    onTap: playerCount < 5
-                        ? () => setState(() => playerCount++)
-                        : null,
-                    width: 34,
-                    height: 34,
-                    borderRadius: 17,
-                    padding: EdgeInsets.zero,
-                    baseColor: GameColors.goldBright,
-                    shadowColor: GameColors.brassShadow,
-                    child: const Icon(Icons.add_rounded, color: GameColors.inkBorder, size: 20),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
 
             const SizedBox(height: 12),
 
-            // 2. Compact Difficulty Slider Section
+            // 2. Subheader: BOT AI DIFFICULTY
+            const Text(
+              'BOT AI DIFFICULTY',
+              style: TextStyle(
+                color: Color(0xFF78350F),
+                fontSize: 14,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0.8,
+              ),
+            ),
+            const SizedBox(height: 6),
+
+            // 3 Difficulty Selection Cards (EASY, MEDIUM, KINGPIN)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildDiffCard(
+                  title: 'EASY',
+                  desc: 'EASY AI BIDDERS',
+                  difficulty: AiDifficulty.easy,
+                  cardBg: const Color(0xFFA7F3D0),
+                  borderCol: const Color(0xFF059669),
+                  iconData: Icons.eco_rounded,
+                ),
+                const SizedBox(width: 10),
+                _buildDiffCard(
+                  title: 'MEDIUM',
+                  desc: 'MEDIUM AI BIDDERS',
+                  difficulty: AiDifficulty.medium,
+                  cardBg: const Color(0xFFFEF08A),
+                  borderCol: const Color(0xFFD97706),
+                  iconData: Icons.star_rounded,
+                ),
+                const SizedBox(width: 10),
+                _buildDiffCard(
+                  title: 'KINGPIN 👑',
+                  desc: 'KINGPIN BOSS AI 👑',
+                  difficulty: AiDifficulty.kingpin,
+                  cardBg: const Color(0xFFFECDD3),
+                  borderCol: const Color(0xFFE11D48),
+                  iconData: Icons.military_tech_rounded,
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 6),
+
+            // Active Difficulty Description Badge
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: GameColors.inkBorder, width: 2.5),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-                ],
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: const Color(0xFF78350F), width: 1.5),
               ),
-              child: Column(
-                children: [
-                  // Active Difficulty Badge
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: activeColor,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: GameColors.inkBorder, width: 2),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(diffIcon, color: Colors.white, size: 18),
-                        const SizedBox(width: 6),
-                        Text(
-                          diffTitle,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 0.8,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    diffDesc,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-
-                  // Tactile 3-Step Slider
-                  SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                      activeTrackColor: activeColor,
-                      inactiveTrackColor: Colors.grey.shade300,
-                      thumbColor: GameColors.goldBright,
-                      overlayColor: GameColors.goldBright.withValues(alpha: 0.25),
-                      trackHeight: 8,
-                      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 13),
-                    ),
-                    child: Slider(
-                      value: _sliderValue,
-                      min: 0.0,
-                      max: 2.0,
-                      divisions: 2,
-                      onChanged: (val) {
-                        setState(() {
-                          _sliderValue = val;
-                          if (val <= 0.3) {
-                            selectedDifficulty = AiDifficulty.easy;
-                          } else if (val <= 1.3) {
-                            selectedDifficulty = AiDifficulty.medium;
-                          } else {
-                            selectedDifficulty = AiDifficulty.kingpin;
-                          }
-                        });
-                        SoundService.instance.playClick();
-                      },
-                    ),
-                  ),
-
-                  // Clickable Division Ticks
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildSliderTick('EASY', 0.0, const Color(0xFF10B981)),
-                      _buildSliderTick('MEDIUM', 1.0, const Color(0xFF0284C7)),
-                      _buildSliderTick('KINGPIN 👑', 2.0, const Color(0xFFDC2626)),
-                    ],
-                  ),
-                ],
+              child: Text(
+                diffTitle,
+                style: const TextStyle(
+                  color: Color(0xFF78350F),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
 
@@ -737,28 +965,31 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
             // 3. Green [START ARENA MATCH] Button
             TactileButton(
               onTap: () {
+                SoundService.instance.playGavel();
                 Navigator.of(context).pop();
                 widget.onStartMatch(playerCount, selectedDifficulty);
               },
-              baseColor: GameColors.greenMoney,
-              shadowColor: GameColors.greenDark,
-              height: 48,
+              baseColor: const Color(0xFF22C55E),
+              shadowColor: const Color(0xFF15803D),
+              height: 56,
               borderRadius: 18,
               width: double.infinity,
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.play_arrow_rounded, color: Colors.white, size: 24),
+                  Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 22),
                   SizedBox(width: 8),
                   Text(
                     'START ARENA MATCH',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 1.2,
                     ),
                   ),
+                  SizedBox(width: 8),
+                  Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 22),
                 ],
               ),
             ),
@@ -768,38 +999,67 @@ class _VsBotsArenaModalState extends State<VsBotsArenaModal> {
     );
   }
 
-  Widget _buildSliderTick(String label, double val, Color col) {
-    final isSelected = (_sliderValue - val).abs() < 0.3;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        setState(() {
-          _sliderValue = val;
-          if (val == 0.0) selectedDifficulty = AiDifficulty.easy;
-          if (val == 1.0) selectedDifficulty = AiDifficulty.medium;
-          if (val == 2.0) selectedDifficulty = AiDifficulty.kingpin;
-        });
-        SoundService.instance.playClick();
-      },
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+  Widget _buildDiffCard({
+    required String title,
+    required String desc,
+    required AiDifficulty difficulty,
+    required Color cardBg,
+    required Color borderCol,
+    required IconData iconData,
+  }) {
+    final isSelected = selectedDifficulty == difficulty;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          SoundService.instance.playClick();
+          setState(() {
+            selectedDifficulty = difficulty;
+          });
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          width: 140,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           decoration: BoxDecoration(
-            color: isSelected ? col : Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(8),
+            color: cardBg,
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isSelected ? GameColors.inkBorder : Colors.transparent,
-              width: 1.5,
+              color: isSelected ? const Color(0xFFFBBF24) : borderCol,
+              width: isSelected ? 4.0 : 2.5,
             ),
+            boxShadow: isSelected
+                ? [
+                    const BoxShadow(
+                      color: Color(0x66FBBF24),
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                    ),
+                  ]
+                : const [
+                    BoxShadow(color: Colors.black12, offset: Offset(0, 2), blurRadius: 4),
+                  ],
           ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? Colors.white : Colors.black87,
-              fontSize: 10.5,
-              fontWeight: FontWeight.w900,
-            ),
+          child: Column(
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  color: borderCol,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.8,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Icon(
+                iconData,
+                color: borderCol,
+                size: 38,
+              ),
+            ],
           ),
         ),
       ),

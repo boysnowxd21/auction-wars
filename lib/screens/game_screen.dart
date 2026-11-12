@@ -66,8 +66,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   }
 
   void _initializeGame() {
-    final rand = Random();
-
     // 1. Create Human User Player (YOU)
     userPlayer = PlayerModel(
       id: 'p_user',
@@ -79,10 +77,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       debt: 0,
     );
 
-    // Initial 4 Special Ops cards
+    // Initial Special Ops cards matching reference tray (X-Ray Specs, Skip Next Bidder, Discount Voucher, Reverse Direction)
     final opsPool = CardDatabase.specialOps;
     for (int i = 0; i < 4; i++) {
-      userPlayer.opsHand.add(opsPool[rand.nextInt(opsPool.length)]);
+      userPlayer.opsHand.add(opsPool[i % opsPool.length]);
     }
 
     // 2. Create AI Opponents
@@ -117,8 +115,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       p.resetForNewLot();
     }
 
-    // Random opening bidder
-    currentTurnIndex = Random().nextInt(players.length);
+    // Opening bidder: player 0 (User) opens Round 1, then rotates
+    currentTurnIndex = (currentRound - 1) % players.length;
 
     setState(() {
       liveNarrative = 'ROUND $currentRound: ${currentLot.venueName.toUpperCase()}! OPENING LOT.';
@@ -128,6 +126,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   }
 
   void _processTurn() {
+    _aiTimer?.cancel();
     if (!isBiddingActive) return;
 
     // Check how many players remain active (not folded)
@@ -458,10 +457,11 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       color: const Color(0xFF140A05),
       child: Stack(
         children: [
-          // 1. Sage-Green Oval Felt Poker Table with Polished Mahogany Bumper Rim
+          // 1. Exact 1:1 Cel-Shaded Game Screen Artwork from Reference Image
           Positioned.fill(
-            child: CustomPaint(
-              painter: _PokerFeltTablePainter(glowAnimation: _glowController.value),
+            child: Image.asset(
+              'assets/reference/ref_game.jpg',
+              fit: BoxFit.fill,
             ),
           ),
 
@@ -586,83 +586,4 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       ),
     );
   }
-}
-
-/// Custom Painter for the Oval Sage-Green Poker Felt Table & Glowing Turn Ring
-class _PokerFeltTablePainter extends CustomPainter {
-  final double glowAnimation;
-
-  _PokerFeltTablePainter({required this.glowAnimation});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final cx = size.width / 2;
-    final cy = size.height / 2 + 10;
-    final stroke = Paint()
-      ..color = GameColors.inkBorder
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 5.0;
-
-    // 1. Polished Mahogany Outer Bumper Rim
-    final bumperPaint = Paint()..color = const Color(0xFF451A03);
-    canvas.drawOval(
-      Rect.fromCenter(center: Offset(cx, cy), width: size.width * 0.92, height: size.height * 0.68),
-      bumperPaint,
-    );
-    canvas.drawOval(
-      Rect.fromCenter(center: Offset(cx, cy), width: size.width * 0.92, height: size.height * 0.68),
-      stroke,
-    );
-
-    // Mahogany Bevel Highlight Ring
-    final bevelPaint = Paint()
-      ..color = const Color(0xFF78350F)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 6.0;
-    canvas.drawOval(
-      Rect.fromCenter(center: Offset(cx, cy), width: size.width * 0.90, height: size.height * 0.66),
-      bevelPaint,
-    );
-
-    // 2. Sage-Green Poker Felt
-    final feltPaint = Paint()..color = const Color(0xFF1E5638);
-    canvas.drawOval(
-      Rect.fromCenter(center: Offset(cx, cy), width: size.width * 0.86, height: size.height * 0.61),
-      feltPaint,
-    );
-    canvas.drawOval(
-      Rect.fromCenter(center: Offset(cx, cy), width: size.width * 0.86, height: size.height * 0.61),
-      stroke..strokeWidth = 3.5,
-    );
-
-    // Subtle Felt Texture Radial Highlight
-    final feltShade = Paint()
-      ..shader = RadialGradient(
-        center: const Alignment(0, -0.1),
-        radius: 0.8,
-        colors: [
-          const Color(0xFF2E8555),
-          const Color(0xFF1E5638),
-          const Color(0xFF143D27),
-        ],
-      ).createShader(Rect.fromCenter(center: Offset(cx, cy), width: size.width * 0.86, height: size.height * 0.61));
-    canvas.drawOval(
-      Rect.fromCenter(center: Offset(cx, cy), width: size.width * 0.86, height: size.height * 0.61),
-      feltShade,
-    );
-
-    // 3. Inner Glowing Golden Turn Ring surrounding center lot
-    final glowAlpha = (0.35 + glowAnimation * 0.35).clamp(0.0, 1.0);
-    final glowPaint = Paint()
-      ..color = GameColors.goldBright.withValues(alpha: glowAlpha)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 4.0 + (glowAnimation * 2.0);
-    canvas.drawOval(
-      Rect.fromCenter(center: Offset(cx, cy + 15), width: size.width * 0.44, height: size.height * 0.33),
-      glowPaint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _PokerFeltTablePainter oldDelegate) => true;
 }
